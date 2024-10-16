@@ -5,7 +5,6 @@ using UnityEngine;
 public class Vehicle : MonoBehaviour
 {
     public poweredWheel[] wheels;
-    public freeWheel[] freeWheels;
     public GameObject wheelPrefab;
     [HideInInspector]
     public GameObject[] wheelObjects;
@@ -41,6 +40,7 @@ public class Vehicle : MonoBehaviour
         float turn = Input.GetAxis("Horizontal");
 
         for (int i = 0; i < wheels.Length; i++) {
+            int free = wheels[i].freeWheel == true ? 0 : 1; // If freeWheel is enabled, free = 0, else free = 1
             var wheel = wheels[i];
             GameObject wheelObj = wheelObjects[i]; // This is the parent GameObject
             Transform wheelVisual = wheelObj.transform.GetChild(0); // Assuming the visual component is the first child
@@ -74,7 +74,7 @@ public class Vehicle : MonoBehaviour
                 wheel.inContact = true;
                 float damp = Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, 0, 1);
                 wheel.suspensionForceDirection = transform.up * (wheel.size * 2 - hit.distance + damp * 4f) * wheel.suspensionForce;
-                rb.AddForceAtPosition(wheel.suspensionForceDirection + wheel.worldSlipDirection, wheel.wheelWorldPosition);
+                rb.AddForceAtPosition(wheel.suspensionForceDirection + wheel.worldSlipDirection * free, wheel.wheelWorldPosition);
                 wheelObj.transform.position = hit.point + transform.up * wheel.size;
             } else {
                 wheel.inContact = false;
@@ -103,13 +103,6 @@ public class Vehicle : MonoBehaviour
                 Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.suspensionForceDirection);
                 Gizmos.color = Color.red; // Red for slip direction
                 Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.worldSlipDirection);
-            }
-        }
-
-        if (freeWheels != null) {
-            foreach (var wheel in freeWheels) {
-                Gizmos.color = Color.red; // Red for free wheels
-                Gizmos.DrawSphere(transform.position + wheel.localPosition, wheel.size);
             }
         }
     }
