@@ -4,16 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public class poweredWheel
 {
-    [HideInInspector]
-    public bool inContact = false;
-    public bool freeWheel = false; // enabling will make the wheel free to rotate and move in any direction
-    // Attributes for the powered wheel
+    public int wheelState = 1; // 0 = fully free, 1 = powered, 2 = free rolling
+    public float biDirectional = 0; // If the wheel can go in reverse to turn the vehicle
     public Vector3 localPosition;
     public float power = 8.0f;
     public float size = 0.3f;
     public float suspensionForce = 90.0f;
     public float grip = 6.0f;
-    public bool turnable = false;
     public float turnAngle = 45.0f;
     public float maxGrip = 400.0f;
     [HideInInspector]
@@ -28,4 +25,6 @@ public class poweredWheel
     public Vector3 suspensionForceDirection;
     [HideInInspector]
     public Vector3 wheelWorldPosition;
+    [HideInInspector]
+    public float wheelCircumference;
 }

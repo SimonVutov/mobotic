@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Vehicle : MonoBehaviour
 {
     public poweredWheel[] wheels;
     public GameObject wheelPrefab;
-    [HideInInspector]
-    public GameObject[] wheelObjects;
-    [HideInInspector]
-    float throttle = 0.0f;
+    GameObject[] wheelObjects;
     Rigidbody rb;
+    Vector2 input = Vector2.zero;
 
-    // Start is called before the first frame update
     void Start()
     {
         // Create wheel objects
@@ -23,34 +21,33 @@ public class Vehicle : MonoBehaviour
                 wheelObjects[i].transform.localPosition = wheels[i].localPosition;
                 // scale the wheel object based on the size of the wheel
                 wheelObjects[i].transform.localScale = 2 * new Vector3(wheels[i].size, wheels[i].size, wheels[i].size);
+
+                wheels[i].wheelCircumference = 2 * Mathf.PI * wheels[i].size;
             }
         }
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is used only for capturing input to avoid any missed inputs
     void Update() {
-        float inputThrottle = Input.GetKey(KeyCode.W) ? 1.0f : 0.0f;
-        inputThrottle -= Input.GetKey(KeyCode.S) ? 1.0f : 0.0f;
-        throttle = inputThrottle;
+        input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
     }
 
     // FixedUpdate is used for physics calculations
     void FixedUpdate() {
-        float turn = Input.GetAxis("Horizontal");
-
+        float dragCoefficient = 0.3f; // Adjust based on the vehicle type
+        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized;
+        rb.AddForce(dragForce);
         for (int i = 0; i < wheels.Length; i++) {
-            int free = wheels[i].freeWheel == true ? 0 : 1; // If freeWheel is enabled, free = 0, else free = 1
             var wheel = wheels[i];
             GameObject wheelObj = wheelObjects[i]; // This is the parent GameObject
             Transform wheelVisual = wheelObj.transform.GetChild(0); // Assuming the visual component is the first child
+            int ws01 = wheel.wheelState == 1 ? 1 : 0;
 
             // Update wheel rotations per second
-            wheel.rotationsPerSecond += throttle * Time.fixedDeltaTime * wheel.power / (2 * Mathf.PI * wheel.size);
-            wheel.rotationsPerSecond *= (1/(1+rb.velocity.magnitude * 0.05f));  // Damping to simulate friction losses
+            wheel.rotationsPerSecond += Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * Time.fixedDeltaTime * wheel.power / wheels[i].wheelCircumference;
+            wheel.rotationsPerSecond *= 1 / (1.1f - Mathf.Clamp(rb.velocity.magnitude * 0.05f, 0, 0.1f) + Mathf.Abs(wheel.rotationsPerSecond) * 0.005f);
 
-            // Calculate turn angle
-            float turnAngle = wheel.turnable ? turn * wheel.turnAngle : 0;
+            float turnAngle = input.x * wheel.turnAngle;
 
             // Update wheel world position
             wheel.wheelWorldPosition = transform.TransformPoint(wheel.localPosition);
@@ -58,46 +55,50 @@ public class Vehicle : MonoBehaviour
             // Calculate slip direction based on local velocity
             Vector3 localVelocity = transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
             wheel.localSlipDirection = wheel.grip * new Vector3(
-                -localVelocity.x + wheel.rotationsPerSecond * wheel.size * Mathf.PI * 2 * Mathf.Sin(turnAngle * Mathf.Deg2Rad),
+                -localVelocity.x * ((wheel.wheelState == 1 || wheel.wheelState == 2) ? 1 : 0) + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Sin(turnAngle * Mathf.Deg2Rad) * ws01,
                 0,
-                -localVelocity.z + wheel.rotationsPerSecond * wheel.size * Mathf.PI * 2 * Mathf.Cos(turnAngle * Mathf.Deg2Rad)
+                -localVelocity.z * ws01 + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Cos(turnAngle * Mathf.Deg2Rad) * ws01
             );
-            wheel.worldSlipDirection = transform.rotation * wheel.localSlipDirection;
-
-            // Limit slip direction force
-            if (wheel.worldSlipDirection.magnitude > wheel.maxGrip)
-                wheel.worldSlipDirection = wheel.worldSlipDirection.normalized * wheel.maxGrip;
+            wheel.worldSlipDirection = Vector3.ClampMagnitude(transform.rotation * wheel.localSlipDirection, wheel.maxGrip);
 
             // Raycast to check wheel contact and apply forces
             RaycastHit hit;
-            if (Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2)) {
-                wheel.inContact = true;
-                float damp = Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, 0, 1);
-                wheel.suspensionForceDirection = transform.up * (wheel.size * 2 - hit.distance + damp * 4f) * wheel.suspensionForce;
-                rb.AddForceAtPosition(wheel.suspensionForceDirection + wheel.worldSlipDirection * free, wheel.wheelWorldPosition);
+            Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2);
+            if (hit.collider != null) {
+                wheel.suspensionForceDirection = transform.up * (wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, 0, 1) * 4.5f) * wheel.suspensionForce;
+                rb.AddForceAtPosition(wheel.suspensionForceDirection + wheel.worldSlipDirection, wheel.wheelWorldPosition);
                 wheelObj.transform.position = hit.point + transform.up * wheel.size;
-            } else {
-                wheel.inContact = false;
-                wheelObj.transform.position = wheel.wheelWorldPosition - transform.up * wheel.size;
-            }
+            } else wheelObj.transform.position = wheel.wheelWorldPosition - transform.up * wheel.size;
             wheel.lastSuspensionLength = hit.distance;
 
             // Rotate the wheel visual for spinning motion
-            wheelVisual.Rotate(Vector3.forward, wheel.rotationsPerSecond * 360 * Time.fixedDeltaTime, Space.Self);
+            // Calculate the wheel's local rotation speed based on its frame of reference
+            Vector3 forwardInWheelSpace = wheelObj.transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
+
+            float wheelRotationSpeed = (wheel.wheelState == 1) ? 
+                        wheel.rotationsPerSecond * 360 : (wheel.wheelState == 1) ?
+                        Mathf.Abs(forwardInWheelSpace.z) * 360 / wheel.wheelCircumference :
+                        forwardInWheelSpace.z * 360 / wheel.wheelCircumference;
+                        
+            // Apply the rotation to the visual wheel
+            wheelVisual.Rotate(Vector3.forward, wheelRotationSpeed * Time.fixedDeltaTime, Space.Self);
 
             // Adjust steering rotation smoothly
-            if (wheel.turnable) {
+            if (wheel.wheelState == 1) {
                 Quaternion targetRotation = Quaternion.Euler(0, turnAngle, 0);
-                wheelObj.transform.localRotation = Quaternion.Lerp(wheelObj.transform.localRotation, targetRotation, Time.fixedDeltaTime * 5);
+                wheelObj.transform.localRotation = Quaternion.Lerp(wheelObj.transform.localRotation, targetRotation, Time.fixedDeltaTime * 100);
+            } else if (wheel.wheelState == 0 && rb.velocity.magnitude > 0.04f) {
+                // make wheel point in the direction of motion
+                Quaternion targetRotation = Quaternion.LookRotation(rb.GetPointVelocity(wheel.wheelWorldPosition), transform.up);
+                wheelObj.transform.rotation = Quaternion.Lerp(wheelObj.transform.rotation, targetRotation, Time.fixedDeltaTime * 100);
             }
         }
     }
 
-    // Visualization using Gizmos
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos() { // Visualization using Gizmos
         if (wheels != null) {
             foreach (var wheel in wheels) {
-                Gizmos.color = Color.green; // Green for powered wheels
+                Gizmos.color = Color.green;
                 Gizmos.DrawSphere(wheel.wheelWorldPosition, 0.1f);
                 Gizmos.color = Color.blue; // Blue for suspension force
                 Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.suspensionForceDirection);
