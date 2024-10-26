@@ -6,6 +6,7 @@ public class poweredWheel
 {
     public int wheelState = 1; // 0 = fully free, 1 = powered, 2 = free rolling
     public float biDirectional = 0; // If the wheel can go in reverse to turn the vehicle
+    public float frictionCo = 1f; // Adjust this value as needed
     public Vector3 localPosition;
     public float power = 8.0f;
     public float size = 0.3f;

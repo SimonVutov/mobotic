@@ -44,8 +44,21 @@ public class Vehicle : MonoBehaviour
             int ws01 = wheel.wheelState == 1 ? 1 : 0;
 
             // Update wheel rotations per second
-            wheel.rotationsPerSecond += Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * Time.fixedDeltaTime * wheel.power / wheels[i].wheelCircumference;
-            wheel.rotationsPerSecond *= 1 / (1.1f - Mathf.Clamp(rb.velocity.magnitude * 0.05f, 0, 0.1f) + Mathf.Abs(wheel.rotationsPerSecond) * 0.005f);
+            // Update wheel rotations per second due to input
+            float inputTorque = Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * wheel.power;
+            wheel.rotationsPerSecond += inputTorque * Time.fixedDeltaTime / wheel.wheelCircumference;
+
+            // Apply friction to decrease wheel rotations per second
+            float frictionDeceleration = wheel.frictionCo * Mathf.Abs(wheel.rotationsPerSecond * wheel.rotationsPerSecond);
+            if (wheel.rotationsPerSecond > 0)
+            {
+                wheel.rotationsPerSecond = Mathf.Max(wheel.rotationsPerSecond - frictionDeceleration * Time.fixedDeltaTime, 0);
+            }
+            else if (wheel.rotationsPerSecond < 0)
+            {
+                wheel.rotationsPerSecond = Mathf.Min(wheel.rotationsPerSecond + frictionDeceleration * Time.fixedDeltaTime, 0);
+            }
+            wheel.rotationsPerSecond -= wheel.localSlipDirection.z * 0.001f;
 
             float turnAngle = input.x * wheel.turnAngle;
 
