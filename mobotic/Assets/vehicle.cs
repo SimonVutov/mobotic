@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class Vehicle : MonoBehaviour
 {
-    public poweredWheel[] wheels;
+    public float massInKg = 100.0f;
+    public wheel[] wheels;
     public GameObject wheelPrefab;
-    GameObject[] wheelObjects;
+    [HideInInspector] public GameObject[] wheelObjects;
     Rigidbody rb;
     Vector2 input = Vector2.zero;
     private float suspensionForceClamp = 200f;
@@ -24,9 +25,10 @@ public class Vehicle : MonoBehaviour
             if (wheel.size == 0) wheel.size = 0.3f;
             if (wheel.power == 0) wheel.power = 4.0f;
             if (wheel.suspensionForce == 0) wheel.suspensionForce = 90.0f;
-            if (wheel.grip == 0) wheel.grip = 6.0f;
+            if (wheel.grip == 0) wheel.grip = 24.0f;
             if (wheel.maxGrip == 0) wheel.maxGrip = 400.0f;
             if (wheel.frictionCo == 0) wheel.frictionCo = 1f;
+            if (wheel.maxTorque == 0) wheel.maxTorque = 300.0f;
         }
     }
 
@@ -77,7 +79,10 @@ public class Vehicle : MonoBehaviour
             {
                 wheel.rotationsPerSecond = Mathf.Min(wheel.rotationsPerSecond + frictionDeceleration * Time.fixedDeltaTime, 0);
             }
-            wheel.rotationsPerSecond -= wheel.localSlipDirection.z * 0.001f;
+
+            float multiplier = 1.0f;
+            if (wheel.torque > wheel.maxTorque) multiplier = 10f;
+            wheel.rotationsPerSecond -= wheel.localSlipDirection.z * 0.001f * multiplier * (wheel.torque / wheel.maxTorque);
 
             float turnAngle = input.x * wheel.turnAngle;
 
@@ -120,6 +125,10 @@ public class Vehicle : MonoBehaviour
             if (wheel.wheelState == 1) {
                 Quaternion targetRotation = Quaternion.Euler(0, turnAngle, 0);
                 wheelObj.transform.localRotation = Quaternion.Lerp(wheelObj.transform.localRotation, targetRotation, Time.fixedDeltaTime * 100);
+            
+                // Calculate torqueL Transform the world slip direction into the wheel's local space
+                Vector3 localSlipDirection = wheelObj.transform.InverseTransformDirection(wheel.worldSlipDirection);
+                wheel.torque = Mathf.Abs(localSlipDirection.z) * wheel.size * massInKg;
             } else if (wheel.wheelState == 0 && rb.velocity.magnitude > 0.04f) {
                 // make wheel point in the direction of motion
                 Quaternion targetRotation = Quaternion.LookRotation(rb.GetPointVelocity(wheel.wheelWorldPosition), transform.up);
