@@ -97,7 +97,7 @@ public class Vehicle : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2);
             if (hit.collider != null) {
-                wheel.suspensionForceDirection = transform.up * (wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, 0, 1) * dampAmount) * wheel.suspensionForce;
+                wheel.suspensionForceDirection = transform.up * Mathf.Clamp(wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, -1, 1) * dampAmount, 0, Mathf.Infinity) * wheel.suspensionForce;
                 wheel.suspensionForceDirection = Vector3.ClampMagnitude(wheel.suspensionForceDirection, suspensionForceClamp);
                 rb.AddForceAtPosition(wheel.suspensionForceDirection + wheel.worldSlipDirection, wheel.wheelWorldPosition);
                 wheelObj.transform.position = hit.point + transform.up * wheel.size;
@@ -128,32 +128,27 @@ public class Vehicle : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-{
-    if (wheels != null)
-    {
-        foreach (var wheel in wheels)
-        {
-            // Calculate the world position from the local position
-            Vector3 worldPosition = transform.TransformPoint(wheel.localPosition);
-            
-            // Draw a green sphere at the wheel's world position
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(worldPosition, 0.1f);
+    private void OnDrawGizmos() {
+        if (wheels != null) {
+            foreach (var wheel in wheels) {
+                // Calculate the world position from the local position
+                Vector3 worldPosition = transform.TransformPoint(wheel.localPosition);
+                
+                // Draw a green sphere at the wheel's world position
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(worldPosition, 0.1f);
 
-            // Draw the suspension and slip direction based on their world positions
-            if (wheel.suspensionForceDirection != Vector3.zero)
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(worldPosition, worldPosition + wheel.suspensionForceDirection);
-            }
+                // Draw the suspension and slip direction based on their world positions
+                if (wheel.suspensionForceDirection != Vector3.zero) {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawLine(worldPosition, worldPosition + wheel.suspensionForceDirection);
+                }
 
-            if (wheel.worldSlipDirection != Vector3.zero)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(worldPosition, worldPosition + wheel.worldSlipDirection);
+                if (wheel.worldSlipDirection != Vector3.zero) {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawLine(worldPosition, worldPosition + wheel.worldSlipDirection);
+                }
             }
         }
     }
-}
 }
