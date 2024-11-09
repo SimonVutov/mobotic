@@ -8,11 +8,11 @@ public class poweredWheel
     public float biDirectional = 0; // If the wheel can go in reverse to turn the vehicle
     public float frictionCo = 1f; // Adjust this value as needed
     public Vector3 localPosition;
-    public float power = 8.0f;
+    public float power = 4.0f;
     public float size = 0.3f;
     public float suspensionForce = 90.0f;
     public float grip = 6.0f;
-    public float turnAngle = 45.0f;
+    public float turnAngle = 0.0f;
     public float maxGrip = 400.0f;
     [HideInInspector]
     public float lastSuspensionLength = 0.0f;

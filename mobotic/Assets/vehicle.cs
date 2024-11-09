@@ -10,6 +10,25 @@ public class Vehicle : MonoBehaviour
     GameObject[] wheelObjects;
     Rigidbody rb;
     Vector2 input = Vector2.zero;
+    private float suspensionForceClamp = 200f;
+    private float dampAmount = 2.5f;
+
+    private void OnValidate()
+    {
+        if (wheels == null) return;
+
+        foreach (var wheel in wheels)
+        {
+            if (wheel == null || wheel.size != 0.0) continue;
+
+            if (wheel.size == 0) wheel.size = 0.3f;
+            if (wheel.power == 0) wheel.power = 4.0f;
+            if (wheel.suspensionForce == 0) wheel.suspensionForce = 90.0f;
+            if (wheel.grip == 0) wheel.grip = 6.0f;
+            if (wheel.maxGrip == 0) wheel.maxGrip = 400.0f;
+            if (wheel.frictionCo == 0) wheel.frictionCo = 1f;
+        }
+    }
 
     void Start()
     {
@@ -78,7 +97,8 @@ public class Vehicle : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2);
             if (hit.collider != null) {
-                wheel.suspensionForceDirection = transform.up * (wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, 0, 1) * 4.5f) * wheel.suspensionForce;
+                wheel.suspensionForceDirection = transform.up * (wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, 0, 1) * dampAmount) * wheel.suspensionForce;
+                wheel.suspensionForceDirection = Vector3.ClampMagnitude(wheel.suspensionForceDirection, suspensionForceClamp);
                 rb.AddForceAtPosition(wheel.suspensionForceDirection + wheel.worldSlipDirection, wheel.wheelWorldPosition);
                 wheelObj.transform.position = hit.point + transform.up * wheel.size;
             } else wheelObj.transform.position = wheel.wheelWorldPosition - transform.up * wheel.size;
@@ -108,16 +128,32 @@ public class Vehicle : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos() { // Visualization using Gizmos
-        if (wheels != null) {
-            foreach (var wheel in wheels) {
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(wheel.wheelWorldPosition, 0.1f);
-                Gizmos.color = Color.blue; // Blue for suspension force
-                Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.suspensionForceDirection);
-                Gizmos.color = Color.red; // Red for slip direction
-                Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.worldSlipDirection);
+    private void OnDrawGizmos()
+{
+    if (wheels != null)
+    {
+        foreach (var wheel in wheels)
+        {
+            // Calculate the world position from the local position
+            Vector3 worldPosition = transform.TransformPoint(wheel.localPosition);
+            
+            // Draw a green sphere at the wheel's world position
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(worldPosition, 0.1f);
+
+            // Draw the suspension and slip direction based on their world positions
+            if (wheel.suspensionForceDirection != Vector3.zero)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(worldPosition, worldPosition + wheel.suspensionForceDirection);
+            }
+
+            if (wheel.worldSlipDirection != Vector3.zero)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(worldPosition, worldPosition + wheel.worldSlipDirection);
             }
         }
     }
+}
 }
