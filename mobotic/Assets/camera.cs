@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
 
     private float currentX = 0.0f; // Current X rotation angle
     private float currentY = 20.0f; // Current Y rotation angle
+    private bool isFreeCam = false; // Toggle between free cam and follow cam
 
     void Start()
     {
@@ -30,7 +31,50 @@ public class CameraController : MonoBehaviour
         Cursor.visible = false;
     }
 
+    void Update()
+    {
+        // Toggle between free cam and follow cam on pressing 'C'
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isFreeCam = !isFreeCam;
+            Cursor.lockState = isFreeCam ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = isFreeCam;
+        }
+    }
+
     void LateUpdate()
+    {
+        if (isFreeCam)
+        {
+            FreeCamMode();
+        }
+        else
+        {
+            FollowCamMode();
+        }
+    }
+
+    void FreeCamMode()
+    {
+        // Free cam movement controls (Arrow keys for movement, right mouse button for looking around)
+        float moveSpeed = 10.0f * Time.deltaTime;
+        if (Input.GetKey(KeyCode.UpArrow)) transform.position += transform.forward * moveSpeed;
+        if (Input.GetKey(KeyCode.DownArrow)) transform.position -= transform.forward * moveSpeed;
+        if (Input.GetKey(KeyCode.LeftArrow)) transform.position -= transform.right * moveSpeed;
+        if (Input.GetKey(KeyCode.RightArrow)) transform.position += transform.right * moveSpeed;
+
+        // Look around with the mouse when the right mouse button is held
+        if (Input.GetMouseButton(1))
+        {
+            currentX += Input.GetAxis("Mouse X") * rotationSpeedX * Time.deltaTime;
+            currentY -= Input.GetAxis("Mouse Y") * rotationSpeedY * Time.deltaTime;
+            currentY = Mathf.Clamp(currentY, minYAngle, maxYAngle);
+
+            transform.rotation = Quaternion.Euler(currentY, currentX, 0);
+        }
+    }
+
+    void FollowCamMode()
     {
         if (target == null) return;
 

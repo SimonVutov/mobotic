@@ -29,5 +29,5 @@ public class wheel
     [HideInInspector]
     public float wheelCircumference;
     [HideInInspector] public float torque = 0.0f;
-    public float maxTorque = 300.0f;
+    public float maxTorque = 30.0f;
 }
