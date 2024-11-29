@@ -22,7 +22,7 @@ MonoBehaviour:
   - __PanelContainer__rootVisualContainer__inspector-window-main-scroll-view__unity-list-vehicles__UnityEngine.UIElements.ListView
   - __PanelContainer__rootVisualContainer__inspector-window-main-scroll-view__unity-list-vehicles__unity-vertical-collection-scroll-view__Slider__UnityEngine.UIElements.Scroller+ScrollerSlider
   m_Values:
-  - '{"m_ShowAlternatingRowBackgrounds":0,"serializedVirtualizationData":{"scrollOffset":{"x":0.0,"y":141.10000610351563},"firstVisibleIndex":0,"contentPadding":0.0,"contentHeight":786.0,"anchoredItemIndex":0,"anchorOffset":141.10000610351563}}'
+  - '{"m_ShowAlternatingRowBackgrounds":0,"serializedVirtualizationData":{"scrollOffset":{"x":0.0,"y":133.0},"firstVisibleIndex":2,"contentPadding":44.0,"contentHeight":606.0,"anchoredItemIndex":2,"anchorOffset":89.0}}'
   - '{"m_Value":0.0,"m_LowValue":0.0,"m_HighValue":0.0}'
   - '{}'
   - '{}'

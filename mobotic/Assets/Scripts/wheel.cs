@@ -32,5 +32,8 @@ public class wheel
     [HideInInspector]
     public float torque = 0.0f;
     public float maxTorque = 300.0f;
+    public GameObject parent;
+    [HideInInspector]
     public Rigidbody parentRigidbody; // New attribute to hold reference to the parent Rigidbody
+    public bool flipX = false;
 }

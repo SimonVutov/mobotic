@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     {
         if (target == null)
         {
-            Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
+            //Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
             enabled = false;
             return;
         }
@@ -108,11 +108,23 @@ public class CameraController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Linecast(target.position, desiredPosition, out hit))
         {
-            // Check if the root parent's name starts with "Vehicle"
-            Transform rootParent = hit.collider.transform.root;
-            if (!rootParent.name.StartsWith("Vehicle"))
+            // Check if any parent of the hit object has a Vehicle component
+            Transform currentTransform = hit.collider.transform;
+            bool isVehiclePart = false;
+
+            while (currentTransform != null)
             {
-                // Adjust the camera position to avoid clipping through objects
+                if (currentTransform.GetComponent<Vehicle>() != null)
+                {
+                    isVehiclePart = true;
+                    break;
+                }
+                currentTransform = currentTransform.parent;
+            }
+
+            // Adjust camera position if the hit object is not part of a vehicle
+            if (!isVehiclePart)
+            {
                 desiredPosition = hit.point + hit.normal * 0.5f;
             }
         }
