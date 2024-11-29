@@ -50,6 +50,10 @@ public class TorqueDisplay : MonoBehaviour
         {
             for (int i = 0; i < vehicle.wheels.Length; i++)
             {
+                if (vehicle.wheels[i] == null || vehicle.wheelObjects[i] == null)
+                {
+                    continue;
+                }
                 var wheel = vehicle.wheels[i];
                 var wheelObj = vehicle.wheelObjects[i];
 
@@ -57,7 +61,6 @@ public class TorqueDisplay : MonoBehaviour
                 string displayText;
                 if (wheel.wheelState == 0 || wheel.wheelState == 2)
                 {
-                    // Display a dash for unpowered wheels
                     displayText = "-";
                 }
                 else
@@ -71,10 +74,11 @@ public class TorqueDisplay : MonoBehaviour
                 }
 
                 // Convert the world position of the wheel to screen space
-                Vector3 screenPosition = mainCamera.WorldToScreenPoint(wheelObj.transform.position + Vector3.up * 0.5f);
+                Vector3 targetScreenPosition = mainCamera.WorldToScreenPoint(wheelObj.transform.position + Vector3.up * 0.5f);
 
-                // Position the text object on the screen at the screenPosition
-                torqueTextObjects[textIndex].transform.position = screenPosition;
+                // Smoothly lerp the text object's position toward the target screen position
+                RectTransform textRectTransform = torqueTextObjects[textIndex].GetComponent<RectTransform>();
+                textRectTransform.position = Vector3.Lerp(textRectTransform.position, targetScreenPosition, Time.deltaTime * lerpSpeed);
 
                 // Update the text component with the display text
                 Text textComponent = torqueTextObjects[textIndex].GetComponent<Text>();

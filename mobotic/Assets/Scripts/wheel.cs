@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [System.Serializable]
 public class wheel
 {
@@ -28,7 +29,8 @@ public class wheel
     public Vector3 wheelWorldPosition;
     [HideInInspector]
     public float wheelCircumference;
-    [HideInInspector] public float torque = 0.0f;
-    public float maxTorque = 30.0f;
-    public bool flipWheel = false; // to have a left and right wheel
+    [HideInInspector]
+    public float torque = 0.0f;
+    public float maxTorque = 300.0f;
+    public Rigidbody parentRigidbody; // New attribute to hold reference to the parent Rigidbody
 }

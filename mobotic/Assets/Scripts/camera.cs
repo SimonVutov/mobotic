@@ -3,10 +3,9 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform target; // The target GameObject to follow
-    public float distance = 5.0f; // Default distance from the target
-    public float zoomSpeed = 2.0f; // Speed of zooming in/out
-    public float minDistance = 2.0f; // Minimum camera distance
-    public float maxDistance = 15.0f; // Maximum camera distance
+    public float zoomSpeed = 10.0f; // Speed of zooming in/out
+    public float minFOV = 20.0f; // Minimum field of view
+    public float maxFOV = 90.0f; // Maximum field of view
 
     public float rotationSpeedX = 250.0f; // Speed of rotation around X-axis
     public float rotationSpeedY = 120.0f; // Speed of rotation around Y-axis
@@ -17,11 +16,21 @@ public class CameraController : MonoBehaviour
     private float currentY = 20.0f; // Current Y rotation angle
     private bool isFreeCam = false; // Toggle between free cam and follow cam
 
+    private Camera cam; // Reference to the Camera component
+
     void Start()
     {
         if (target == null)
         {
             Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
+            enabled = false;
+            return;
+        }
+
+        cam = GetComponent<Camera>();
+        if (cam == null)
+        {
+            Debug.LogError("CameraController requires a Camera component on the same GameObject.");
             enabled = false;
             return;
         }
@@ -39,6 +48,14 @@ public class CameraController : MonoBehaviour
             isFreeCam = !isFreeCam;
             Cursor.lockState = isFreeCam ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = isFreeCam;
+        }
+
+        // Adjust camera FOV with scroll wheel
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        if (Mathf.Abs(scrollInput) > 0.01f)
+        {
+            cam.fieldOfView -= scrollInput * zoomSpeed;
+            cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, minFOV, maxFOV);
         }
     }
 
@@ -83,14 +100,9 @@ public class CameraController : MonoBehaviour
         currentY -= Input.GetAxis("Mouse Y") * rotationSpeedY * Time.deltaTime;
         currentY = Mathf.Clamp(currentY, minYAngle, maxYAngle);
 
-        // Scroll wheel input for zooming
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-        distance -= scrollInput * zoomSpeed;
-        distance = Mathf.Clamp(distance, minDistance, maxDistance);
-
         // Calculate the desired position and rotation
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        Vector3 desiredPosition = target.position - rotation * Vector3.forward * distance;
+        Vector3 desiredPosition = target.position - rotation * Vector3.forward * 5.0f;
 
         // Raycast to detect obstacles between the camera and the target
         RaycastHit hit;
