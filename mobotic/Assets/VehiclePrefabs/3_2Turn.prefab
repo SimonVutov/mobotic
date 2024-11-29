@@ -148,6 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   massInKg: 100
+  poweredWheelPrefab: {fileID: 8055236365701192538, guid: d11998354e82e47ad8a0814328c0f3b3, type: 3}
+  freeWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
+  rollingWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
   wheels:
   - wheelState: 1
     biDirectional: 0
@@ -170,6 +173,7 @@ MonoBehaviour:
     maxTorque: 30
     parent: {fileID: 0}
     parentRigidbody: {fileID: 4114997763312244091}
+    flipX: 0
   - wheelState: 1
     biDirectional: 0
     frictionCo: 1
@@ -191,6 +195,7 @@ MonoBehaviour:
     maxTorque: 30
     parent: {fileID: 0}
     parentRigidbody: {fileID: 4114997763312244091}
+    flipX: 0
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
@@ -212,6 +217,7 @@ MonoBehaviour:
     maxTorque: 30
     parent: {fileID: 0}
     parentRigidbody: {fileID: 4114997763312244091}
+    flipX: 0
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
@@ -233,9 +239,7 @@ MonoBehaviour:
     maxTorque: 30
     parent: {fileID: 0}
     parentRigidbody: {fileID: 4114997763312244091}
-  poweredWheelPrefab: {fileID: 5154799321757970300, guid: 9b0ef58dee0714e6fb8cdca8e09989f7, type: 3}
-  freeWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
-  rollingWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
+    flipX: 0
   wheelObjects: []
 --- !u!1 &7300775297742404271
 GameObject:

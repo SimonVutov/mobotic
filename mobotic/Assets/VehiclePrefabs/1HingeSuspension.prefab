@@ -160,10 +160,10 @@ MonoBehaviour:
   - wheelState: 1
     biDirectional: -1
     frictionCo: 1
-    localPosition: {x: 0.36, y: -0.05, z: 0}
+    localPosition: {x: 0.36, y: -0.01, z: -0.01}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 360
     grip: 8
     turnAngle: 0
     maxGrip: 400
@@ -182,10 +182,10 @@ MonoBehaviour:
   - wheelState: 1
     biDirectional: 1
     frictionCo: 1
-    localPosition: {x: -0.36, y: -0.05, z: 0}
+    localPosition: {x: -0.36, y: -0.01, z: -0.01}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 360
     grip: 8
     turnAngle: 0
     maxGrip: 400
@@ -200,14 +200,14 @@ MonoBehaviour:
     maxTorque: 30
     parent: {fileID: 6990775460170583630}
     parentRigidbody: {fileID: 8952975086963579480}
-    flipX: 0
+    flipX: 1
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0.3, y: -0.02, z: -0.48}
+    localPosition: {x: 0.3, y: -0.06, z: -0.48}
     power: 4
-    size: 0.09
-    suspensionForce: 90
+    size: 0.065
+    suspensionForce: 360
     grip: 8
     turnAngle: 0
     maxGrip: 400
@@ -226,10 +226,10 @@ MonoBehaviour:
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: -0.3, y: -0.02, z: -0.48}
+    localPosition: {x: -0.3, y: -0.06, z: -0.48}
     power: 4
-    size: 0.09
-    suspensionForce: 90
+    size: 0.065
+    suspensionForce: 360
     grip: 8
     turnAngle: 0
     maxGrip: 400
@@ -248,10 +248,10 @@ MonoBehaviour:
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: -0.27, y: -0.02, z: 0.36}
+    localPosition: {x: -0.27, y: -0.06, z: 0.36}
     power: 4
-    size: 0.09
-    suspensionForce: 90
+    size: 0.065
+    suspensionForce: 360
     grip: 8
     turnAngle: 0
     maxGrip: 400
@@ -270,10 +270,10 @@ MonoBehaviour:
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0.27, y: -0.02, z: 0.36}
+    localPosition: {x: 0.27, y: -0.06, z: 0.36}
     power: 4
-    size: 0.09
-    suspensionForce: 90
+    size: 0.065
+    suspensionForce: 360
     grip: 8
     turnAngle: 0
     maxGrip: 400

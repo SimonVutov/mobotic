@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   massInKg: 100
-  poweredWheelPrefab: {fileID: 8055236365701192538, guid: bd7185d31c9814c059a1f7a0f4425b1b, type: 3}
+  poweredWheelPrefab: {fileID: 8055236365701192538, guid: d11998354e82e47ad8a0814328c0f3b3, type: 3}
   freeWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
   rollingWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
   wheels:
@@ -158,7 +158,7 @@ MonoBehaviour:
     localPosition: {x: 0, y: 0.01, z: -0.24}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 180
     grip: 16
     turnAngle: -45
     maxGrip: 400
@@ -177,10 +177,10 @@ MonoBehaviour:
   - wheelState: 2
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0.09, y: 0.01, z: 0.24}
+    localPosition: {x: 0.09, y: -0.06, z: 0.24}
     power: 4
-    size: 0.09
-    suspensionForce: 90
+    size: 0.04
+    suspensionForce: 180
     grip: 16
     turnAngle: 0
     maxGrip: 400
@@ -199,10 +199,10 @@ MonoBehaviour:
   - wheelState: 2
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: -0.09, y: 0.01, z: 0.24}
+    localPosition: {x: -0.09, y: -0.06, z: 0.24}
     power: 4
-    size: 0.09
-    suspensionForce: 90
+    size: 0.04
+    suspensionForce: 180
     grip: 16
     turnAngle: 0
     maxGrip: 400

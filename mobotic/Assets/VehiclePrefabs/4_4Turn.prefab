@@ -260,10 +260,10 @@ MonoBehaviour:
   - wheelState: 1
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0.25, y: 0.035, z: 0.5}
+    localPosition: {x: 0.25, y: -0.035, z: 0.5}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 180
     grip: 4
     turnAngle: 45
     maxGrip: 400
@@ -282,10 +282,10 @@ MonoBehaviour:
   - wheelState: 1
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: -0.25, y: 0.035, z: -0.5}
+    localPosition: {x: -0.25, y: -0.035, z: -0.5}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 180
     grip: 4
     turnAngle: -45
     maxGrip: 400
@@ -304,10 +304,10 @@ MonoBehaviour:
   - wheelState: 1
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0.25, y: 0.035, z: -0.5}
+    localPosition: {x: 0.25, y: -0.035, z: -0.5}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 180
     grip: 4
     turnAngle: -45
     maxGrip: 400
@@ -326,10 +326,10 @@ MonoBehaviour:
   - wheelState: 1
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: -0.25, y: 0.035, z: 0.5}
+    localPosition: {x: -0.25, y: -0.035, z: 0.5}
     power: 4
     size: 0.09
-    suspensionForce: 90
+    suspensionForce: 180
     grip: 4
     turnAngle: 45
     maxGrip: 400
