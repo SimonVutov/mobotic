@@ -20,6 +20,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        //adjust camera near clipping
+        Camera.main.nearClipPlane = 0.01f;
         if (target == null)
         {
             //Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
@@ -114,7 +116,7 @@ public class CameraController : MonoBehaviour
 
             while (currentTransform != null)
             {
-                if (currentTransform.GetComponent<Vehicle>() != null)
+                if (currentTransform.GetComponent<wheel>() != null)
                 {
                     isVehiclePart = true;
                     break;
@@ -125,7 +127,7 @@ public class CameraController : MonoBehaviour
             // Adjust camera position if the hit object is not part of a vehicle
             if (!isVehiclePart)
             {
-                desiredPosition = hit.point + hit.normal * 0.5f;
+                desiredPosition = hit.point + hit.normal * 0.05f;
             }
         }
 

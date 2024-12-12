@@ -1,101 +1,121 @@
 using UnityEngine;
-using UnityEngine.UI; // Include if using standard UI Text
-using TMPro; // Include if using TextMeshPro
+using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 
 public class TorqueDisplay : MonoBehaviour
 {
-    public Vehicle[] vehicles; // Array of Vehicle scripts
-    public GameObject torqueTextPrefab; // Assign a Text prefab in the Inspector
+    public vehicleController[] vehicles; // Array of vehicleController scripts
+    public GameObject torqueTextPrefab; // Assign a Text or TextMeshPro prefab in the Inspector
     public Canvas canvas; // Reference to the canvas in the scene
     public float lerpSpeed = 5.0f; // Speed of the lerp for smooth torque display
 
+    private List<Wheel> allWheels = new List<Wheel>();      // Flattened list of all wheels
     private List<GameObject> torqueTextObjects = new List<GameObject>();
-    private List<float> displayedTorques = new List<float>(); // Store displayed torque values for each wheel
+    private List<float> displayedTorques = new List<float>();
 
     void Start()
     {
         if (vehicles == null || vehicles.Length == 0)
         {
-            Debug.LogError("Vehicle script references are missing.");
+            Debug.LogError("VehicleController script references are missing.");
             return;
         }
 
         if (canvas == null)
         {
-            Debug.LogError("Canvas reference is missing.");
-            return;
+            canvas = FindObjectOfType<Canvas>();
+            if (canvas == null)
+            {
+                // Create a new canvas if none exists in the scene
+                GameObject canvasObj = new GameObject("Canvas");
+                canvas = canvasObj.AddComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            }
         }
 
-        // Instantiate torque text objects for each wheel in each Vehicle
+        // Flatten all wheels into a single list
         foreach (var vehicle in vehicles)
         {
-            foreach (var wheel in vehicle.wheels)
+            foreach (var wheel in vehicle.wheels) // These are likely "wheel" controllers that contain multiple Wheel objects
             {
-                // Create a new text object for each wheel and initialize displayed torque
-                GameObject torqueTextObj = Instantiate(torqueTextPrefab, canvas.transform);
-                torqueTextObjects.Add(torqueTextObj);
-                displayedTorques.Add(0f);
+                foreach (var w in wheel.wheels) // w is the actual Wheel object
+                {
+                    if (w != null)
+                        allWheels.Add(w);
+                }
             }
+        }
+
+        // Create text objects for all wheels
+        foreach (var w in allWheels)
+        {
+            GameObject torqueTextObj = Instantiate(torqueTextPrefab, canvas.transform);
+            torqueTextObjects.Add(torqueTextObj);
+            displayedTorques.Add(0f);
         }
     }
 
     void Update()
     {
-        Camera mainCamera = Camera.main; // Reference to the main camera
-        int textIndex = 0; // Track the index for torqueTextObjects and displayedTorques
-
-        // Loop through each vehicle and each wheel in that vehicle
-        foreach (var vehicle in vehicles)
+        Camera mainCamera = Camera.main;
+        if (mainCamera == null)
         {
-            for (int i = 0; i < vehicle.wheels.Length; i++)
+            Debug.LogError("No main camera found.");
+            return;
+        }
+
+        int textIndex = 0;
+        for (int i = 0; i < allWheels.Count; i++)
+        {
+            Wheel w = allWheels[i];
+            if (w == null)
             {
-                if (vehicle.wheels[i] == null || vehicle.wheelObjects[i] == null)
-                {
-                    continue;
-                }
-                var wheel = vehicle.wheels[i];
-                var wheelObj = vehicle.wheelObjects[i];
-
-                // Check if the wheel is unpowered (wheelState is 0 or 2)
-                string displayText;
-                if (wheel.wheelState == 0 || wheel.wheelState == 2)
-                {
-                    displayText = "-";
-                }
-                else
-                {
-                    // Smoothly lerp the displayed torque value toward the actual torque value
-                    displayedTorques[textIndex] = Mathf.Lerp(displayedTorques[textIndex], wheel.torque, Time.deltaTime * lerpSpeed);
-
-                    // Round to the nearest integer for display
-                    int roundedTorque = Mathf.RoundToInt(displayedTorques[textIndex]);
-                    displayText = $"Torque: {roundedTorque} Nm";
-                }
-
-                // Convert the world position of the wheel to screen space
-                Vector3 targetScreenPosition = mainCamera.WorldToScreenPoint(wheelObj.transform.position + Vector3.up * 0.5f);
-
-                // Smoothly lerp the text object's position toward the target screen position
-                RectTransform textRectTransform = torqueTextObjects[textIndex].GetComponent<RectTransform>();
-                textRectTransform.position = Vector3.Lerp(textRectTransform.position, targetScreenPosition, Time.deltaTime * lerpSpeed);
-
-                // Update the text component with the display text
-                Text textComponent = torqueTextObjects[textIndex].GetComponent<Text>();
-                if (textComponent != null)
-                {
-                    textComponent.text = displayText;
-                }
-
-                // If using TextMeshPro, update TMP_Text component
-                TMP_Text tmpTextComponent = torqueTextObjects[textIndex].GetComponent<TMP_Text>();
-                if (tmpTextComponent != null)
-                {
-                    tmpTextComponent.text = displayText;
-                }
-
-                textIndex++; // Move to the next text object and displayed torque value
+                continue;
             }
+
+            string displayText;
+            if (w.wheelState == 0 || w.wheelState == 2)
+            {
+                displayText = "-";
+            }
+            else
+            {
+                // Smoothly lerp the displayed torque value toward the actual torque value
+                displayedTorques[textIndex] = Mathf.Lerp(displayedTorques[textIndex], w.torque, Time.deltaTime * lerpSpeed);
+
+                int roundedTorque = Mathf.RoundToInt(displayedTorques[textIndex]);
+                displayText = $"Torque: {roundedTorque} Nm";
+            }
+
+            // Convert the wheel's world position to screen space
+            // Adjust as needed if you have a reference to the wheel's transform.
+            // ... Other code unchanged ...
+
+            // Convert the wheel's world position to screen space using the wheelObject transform
+            Vector3 wheelWorldPos = w.wheelObject.transform.position;
+            Vector3 targetScreenPosition = mainCamera.WorldToScreenPoint(wheelWorldPos + Vector3.up * 0.5f);
+
+            // Lerp the text object's position
+            RectTransform textRectTransform = torqueTextObjects[textIndex].GetComponent<RectTransform>();
+            textRectTransform.position = Vector3.Lerp(textRectTransform.position, targetScreenPosition, Time.deltaTime * lerpSpeed);
+
+            // ... Rest of the code ...
+
+            // Update the UI text
+            Text textComponent = torqueTextObjects[textIndex].GetComponent<Text>();
+            if (textComponent != null)
+            {
+                textComponent.text = displayText;
+            }
+
+            TMP_Text tmpTextComponent = torqueTextObjects[textIndex].GetComponent<TMP_Text>();
+            if (tmpTextComponent != null)
+            {
+                tmpTextComponent.text = displayText;
+            }
+
+            textIndex++;
         }
     }
 }
