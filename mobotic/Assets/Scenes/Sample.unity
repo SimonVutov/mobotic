@@ -7771,7 +7771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &218112965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7784,13 +7784,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680919d16a53e46dab6c3bf04bf8c507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vehicles:
-  - {fileID: 0}
+  rootVehicle: {fileID: 1690827080}
   torqueTextPrefab: {fileID: 5226827609540679048, guid: 6d3e0fdb6c7204ba5bf076ce11f8fd7c, type: 3}
   canvas: {fileID: 1007384495}
   lerpSpeed: 5
-  torqueTextObjects: []
-  displayedTorques: []
 --- !u!4 &218112966
 Transform:
   m_ObjectHideFlags: 0
@@ -60029,6 +60026,11 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1690827080 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 748279459138783538, guid: d457af4be8b2b4d75abcae992d228e7b, type: 3}
+  m_PrefabInstance: {fileID: 1236431831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1694093941
 GameObject:
   m_ObjectHideFlags: 0

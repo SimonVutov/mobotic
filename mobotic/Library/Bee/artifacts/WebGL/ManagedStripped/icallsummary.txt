@@ -419,6 +419,7 @@ UnityEngine.Object::get_hideFlags
 UnityEngine.Object::FindObjectFromInstanceID
 UnityEngine.Object::Internal_CloneSingle
 UnityEngine.Object::Internal_CloneSingleWithParent
+UnityEngine.Object::Internal_InstantiateSingle_Injected
 UnityEngine.Object::FindObjectsOfType
 UnityEngine.ObjectGUIState::Internal_Create
 UnityEngine.ObjectGUIState::Internal_Destroy

@@ -42,7 +42,11 @@ public class wheel : MonoBehaviour
         {
             for (int i = 0; i < wheels.Length; i++)
             {
-                if (wheels[i].parent == null) {
+                if (wheels[i].parent == null && this.GetComponent<Rigidbody>() != null)
+                {
+                    wheels[i].parent = this.gameObject;
+                } else if (wheels[i].parent == null)
+                {
                     //move up parnet until found object with Rigidbody
                     Transform parent = transform;
                     while (parent != null && parent.GetComponent<Rigidbody>() == null)
@@ -99,7 +103,9 @@ public class wheel : MonoBehaviour
         else if (rb == null)
         {
             Debug.LogError("No Rigidbody component found on the GameObject or its parent.");
-        } else {
+        }
+        else
+        {
             rb = GetComponent<Rigidbody>();
         }
     }
@@ -113,7 +119,7 @@ public class wheel : MonoBehaviour
     void FixedUpdate()
     {
         float dragCoefficient = 0.3f; // Adjust based on the vehicle type
-        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized;
+        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
         rb.AddForce(dragForce);
 
         for (int i = 0; i < wheels.Length; i++)
@@ -161,7 +167,7 @@ public class wheel : MonoBehaviour
             Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2);
             if (hit.collider != null)
             {
-                wheel.suspensionForceDirection = transform.up * Mathf.Clamp(wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, -1, 1) * dampAmount, 0, Mathf.Infinity) * wheel.suspensionForce;
+                wheel.suspensionForceDirection = transform.up * Mathf.Clamp(wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, -1, 1) * dampAmount, 0, Mathf.Infinity) * wheel.suspensionForce * Time.fixedDeltaTime * 50;
                 wheel.suspensionForceDirection = Vector3.ClampMagnitude(wheel.suspensionForceDirection, suspensionForceClamp);
 
                 // Apply forces to the parent Rigidbody

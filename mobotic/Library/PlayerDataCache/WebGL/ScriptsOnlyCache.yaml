@@ -4,6 +4,7 @@ ScriptsOnlyBuild:
     - CameraController
     - EscapeKeyListener
     - MainMenu
+    - SpawnVehicle
     - TorqueDisplay
     - vehicleController
     - wheel
@@ -74,30 +75,24 @@ ScriptsOnlyBuild:
   methodsToPreserve:
   - assembly: Assembly-CSharp
     fullTypeName: MainMenu
-    methodName: LoadScene3
-  - assembly: Assembly-CSharp
-    fullTypeName: MainMenu
     methodName: Back
   - assembly: Assembly-CSharp
     fullTypeName: MainMenu
     methodName: QuitGame
   - assembly: Assembly-CSharp
     fullTypeName: MainMenu
-    methodName: LoadScene4
-  - assembly: Assembly-CSharp
-    fullTypeName: MainMenu
     methodName: Options
   - assembly: Assembly-CSharp
     fullTypeName: MainMenu
-    methodName: LoadScene1
+    methodName: Back
   - assembly: Assembly-CSharp
     fullTypeName: MainMenu
-    methodName: LoadScene2
+    methodName: Builder
   - assembly: Assembly-CSharp
     fullTypeName: MainMenu
     methodName: PlayGame
   sceneClasses:
-    Assets/Scenes/1Turn.unity:
+    Assets/Scenes/Menu.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -106,21 +101,11 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 21
       Script: {instanceID: 0}
-    - Class: 23
-      Script: {instanceID: 0}
     - Class: 28
-      Script: {instanceID: 0}
-    - Class: 33
-      Script: {instanceID: 0}
-    - Class: 43
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
-    - Class: 54
-      Script: {instanceID: 0}
-    - Class: 64
-      Script: {instanceID: 0}
-    - Class: 65
+    - Class: 49
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
@@ -131,38 +116,40 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 2730}
+      Script: {instanceID: 1602}
     - Class: 114
-      Script: {instanceID: 2954}
+      Script: {instanceID: 1650}
     - Class: 114
-      Script: {instanceID: 3648}
+      Script: {instanceID: 2286}
     - Class: 114
-      Script: {instanceID: 4240}
+      Script: {instanceID: 2732}
     - Class: 114
-      Script: {instanceID: 4552}
+      Script: {instanceID: 2956}
     - Class: 114
-      Script: {instanceID: 5422}
+      Script: {instanceID: 3280}
     - Class: 114
-      Script: {instanceID: 6032}
+      Script: {instanceID: 4246}
     - Class: 114
-      Script: {instanceID: 6198}
+      Script: {instanceID: 4360}
     - Class: 114
-      Script: {instanceID: 6562}
+      Script: {instanceID: 4644}
     - Class: 114
-      Script: {instanceID: 6846}
+      Script: {instanceID: 5436}
     - Class: 114
-      Script: {instanceID: 136440}
+      Script: {instanceID: 6218}
     - Class: 114
-      Script: {instanceID: 150516}
+      Script: {instanceID: 6586}
+    - Class: 114
+      Script: {instanceID: 7224}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
       Script: {instanceID: 0}
-    - Class: 136
-      Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -170,159 +157,7 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
-    - Class: 850595691
-      Script: {instanceID: 0}
-    Assets/Scenes/2Turn.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 23
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 33
-      Script: {instanceID: 0}
-    - Class: 43
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 54
-      Script: {instanceID: 0}
-    - Class: 64
-      Script: {instanceID: 0}
-    - Class: 65
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 2730}
-    - Class: 114
-      Script: {instanceID: 2954}
-    - Class: 114
-      Script: {instanceID: 3648}
-    - Class: 114
-      Script: {instanceID: 4240}
-    - Class: 114
-      Script: {instanceID: 4552}
-    - Class: 114
-      Script: {instanceID: 5422}
-    - Class: 114
-      Script: {instanceID: 6032}
-    - Class: 114
-      Script: {instanceID: 6198}
-    - Class: 114
-      Script: {instanceID: 6562}
-    - Class: 114
-      Script: {instanceID: 6846}
-    - Class: 114
-      Script: {instanceID: 136440}
-    - Class: 114
-      Script: {instanceID: 150516}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 136
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 850595691
-      Script: {instanceID: 0}
-    Assets/Scenes/4Turn.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 23
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 33
-      Script: {instanceID: 0}
-    - Class: 43
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 54
-      Script: {instanceID: 0}
-    - Class: 64
-      Script: {instanceID: 0}
-    - Class: 65
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 2730}
-    - Class: 114
-      Script: {instanceID: 2954}
-    - Class: 114
-      Script: {instanceID: 3648}
-    - Class: 114
-      Script: {instanceID: 4240}
-    - Class: 114
-      Script: {instanceID: 4552}
-    - Class: 114
-      Script: {instanceID: 5422}
-    - Class: 114
-      Script: {instanceID: 6032}
-    - Class: 114
-      Script: {instanceID: 6198}
-    - Class: 114
-      Script: {instanceID: 6562}
-    - Class: 114
-      Script: {instanceID: 6846}
-    - Class: 114
-      Script: {instanceID: 136440}
-    - Class: 114
-      Script: {instanceID: 150516}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 136
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 850595691
-      Script: {instanceID: 0}
-    Assets/Scenes/HingeJoint.unity:
+    Assets/Scenes/MyGameScene.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -358,29 +193,31 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 2730}
+      Script: {instanceID: 1602}
     - Class: 114
-      Script: {instanceID: 2954}
+      Script: {instanceID: 2732}
     - Class: 114
-      Script: {instanceID: 3648}
+      Script: {instanceID: 2956}
     - Class: 114
-      Script: {instanceID: 4240}
+      Script: {instanceID: 3652}
     - Class: 114
-      Script: {instanceID: 4552}
+      Script: {instanceID: 4246}
     - Class: 114
-      Script: {instanceID: 5422}
+      Script: {instanceID: 4562}
     - Class: 114
-      Script: {instanceID: 6032}
+      Script: {instanceID: 5436}
     - Class: 114
-      Script: {instanceID: 6198}
+      Script: {instanceID: 5876}
     - Class: 114
-      Script: {instanceID: 6562}
+      Script: {instanceID: 6218}
     - Class: 114
-      Script: {instanceID: 6846}
+      Script: {instanceID: 6586}
     - Class: 114
-      Script: {instanceID: 136440}
+      Script: {instanceID: 6870}
     - Class: 114
-      Script: {instanceID: 150516}
+      Script: {instanceID: 7152}
+    - Class: 114
+      Script: {instanceID: 39544}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -399,72 +236,13 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 850595691
       Script: {instanceID: 0}
-    Assets/Scenes/Menu.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 49
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 1648}
-    - Class: 114
-      Script: {instanceID: 2284}
-    - Class: 114
-      Script: {instanceID: 2730}
-    - Class: 114
-      Script: {instanceID: 2954}
-    - Class: 114
-      Script: {instanceID: 3278}
-    - Class: 114
-      Script: {instanceID: 4240}
-    - Class: 114
-      Script: {instanceID: 4354}
-    - Class: 114
-      Script: {instanceID: 4632}
-    - Class: 114
-      Script: {instanceID: 5422}
-    - Class: 114
-      Script: {instanceID: 6032}
-    - Class: 114
-      Script: {instanceID: 6198}
-    - Class: 114
-      Script: {instanceID: 6562}
-    - Class: 114
-      Script: {instanceID: 142046}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 540882762544409cc4530e60db00e951
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: CanvasScaler
   - hash:
       serializedVersion: 2
       Hash: d41ab9b5ea92474f9c0a6937a0607ce1
@@ -1205,16 +983,16 @@ ScriptsOnlyBuild:
     className: StateGraphAsset
   - hash:
       serializedVersion: 2
+      Hash: da3e71c1f8c869de6b20615bf80cb813
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: EscapeKeyListener
+  - hash:
+      serializedVersion: 2
       Hash: 35e0b31791c377513b6fc7b9568c50cd
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
     className: Benchmark02
-  - hash:
-      serializedVersion: 2
-      Hash: 540882762544409cc4530e60db00e951
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: CanvasScaler
   - hash:
       serializedVersion: 2
       Hash: 4166580c620718548959a77fa7b43fc1
@@ -1307,7 +1085,7 @@ ScriptsOnlyBuild:
     className: TriggerBehaviour
   - hash:
       serializedVersion: 2
-      Hash: fc50fe5005c6d29dc5395023229c0c7c
+      Hash: 4bfb6a0d1793c1ae189813b3eee33165
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: TorqueDisplay
@@ -1355,6 +1133,12 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionExitMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 5cb11537275c22d6ced2987b61c23d64
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: vehicleController
+  - hash:
+      serializedVersion: 2
       Hash: d2ecd94550edf1b56aff07b1f4e41c57
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -1371,6 +1155,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: BasicPlayableBehaviour
+  - hash:
+      serializedVersion: 2
+      Hash: 8f887a95c9991a06601555ed939ea5be
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: MainMenu
   - hash:
       serializedVersion: 2
       Hash: e8d390bd9ecacc453a7500b90d0c0292
@@ -1577,27 +1367,12 @@ ScriptsOnlyBuild:
     className: UnityOnSliderValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 5cb11537275c22d6ced2987b61c23d64
+      Hash: 133eb97b61807170308fb2734babde97
     assemblyName: Assembly-CSharp
     namespaceName: 
-    className: vehicleController
-  - hash:
-      serializedVersion: 2
-      Hash: 5f2bf82aa433845baceb2bd51b078973
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: MainMenu
-  - hash:
-      serializedVersion: 2
-      Hash: da3e71c1f8c869de6b20615bf80cb813
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: EscapeKeyListener
+    className: SpawnVehicle
   platform: 20
   scenePathNames:
   - Assets/Scenes/Menu.unity
-  - Assets/Scenes/HingeJoint.unity
-  - Assets/Scenes/4Turn.unity
-  - Assets/Scenes/2Turn.unity
-  - Assets/Scenes/1Turn.unity
-  playerPath: /Users/simonvutov/Documents/Github/mobitic/builds/moboticGame
+  - Assets/Scenes/MyGameScene.unity
+  playerPath: /Users/simonvutov/Documents/Github/mobitic/builds/moboticGame2
