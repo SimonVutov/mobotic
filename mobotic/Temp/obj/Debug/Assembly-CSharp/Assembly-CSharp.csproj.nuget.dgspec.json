@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/simonvutov/Documents/Github/mobitic/mobotic/Assembly-CSharp.csproj": {}
+    "/Users/simonvutov/Documents/mobotic/mobotic/Assembly-CSharp.csproj": {}
   },
   "projects": {
-    "/Users/simonvutov/Documents/Github/mobitic/mobotic/Assembly-CSharp.csproj": {
+    "/Users/simonvutov/Documents/mobotic/mobotic/Assembly-CSharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/simonvutov/Documents/Github/mobitic/mobotic/Assembly-CSharp.csproj",
+        "projectUniqueName": "/Users/simonvutov/Documents/mobotic/mobotic/Assembly-CSharp.csproj",
         "projectName": "Assembly-CSharp",
-        "projectPath": "/Users/simonvutov/Documents/Github/mobitic/mobotic/Assembly-CSharp.csproj",
+        "projectPath": "/Users/simonvutov/Documents/mobotic/mobotic/Assembly-CSharp.csproj",
         "packagesPath": "/Users/simonvutov/.nuget/packages/",
-        "outputPath": "/Users/simonvutov/Documents/Github/mobitic/mobotic/Temp/obj/Debug/Assembly-CSharp/",
+        "outputPath": "/Users/simonvutov/Documents/mobotic/mobotic/Temp/obj/Debug/Assembly-CSharp/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/simonvutov/.nuget/NuGet/NuGet.Config"

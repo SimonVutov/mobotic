@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class wheel : MonoBehaviour
 {
-    public float massInKg = 100.0f;
     public GameObject poweredWheelPrefab;   // Prefab for wheelState = 1 (Powered)
     public GameObject freeWheelPrefab;     // Prefab for wheelState = 0 (Free)
     public GameObject rollingWheelPrefab;  // Prefab for wheelState = 2 (Free rolling)
@@ -16,6 +15,7 @@ public class wheel : MonoBehaviour
     public Vector2 input = Vector2.zero;
     private float suspensionForceClamp = 200f;
     private float dampAmount = 2.5f;
+    vehicleController vc;
 
     private void OnValidate()
     {
@@ -26,9 +26,7 @@ public class wheel : MonoBehaviour
             if (wheel == null || wheel.size != 0.0) continue;
 
             if (wheel.size == 0) wheel.size = 0.3f;
-            if (wheel.power == 0) wheel.power = 4.0f;
             if (wheel.suspensionForce == 0) wheel.suspensionForce = 270.0f;
-            if (wheel.grip == 0) wheel.grip = 24.0f;
             if (wheel.maxGrip == 0) wheel.maxGrip = 400.0f;
             if (wheel.frictionCo == 0) wheel.frictionCo = 1f;
             if (wheel.maxTorque == 0) wheel.maxTorque = 90.0f;
@@ -37,6 +35,7 @@ public class wheel : MonoBehaviour
 
     void Start()
     {
+        vc = transform.root.GetComponent<vehicleController>();
         // Create wheel objects
         if (wheels != null)
         {
@@ -118,7 +117,7 @@ public class wheel : MonoBehaviour
     // FixedUpdate is used for physics calculations
     void FixedUpdate()
     {
-        float dragCoefficient = 0.3f; // Adjust based on the vehicle type
+        float dragCoefficient = 0.0f; // Adjust based on the vehicle type
         Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
         rb.AddForce(dragForce);
 
@@ -130,23 +129,9 @@ public class wheel : MonoBehaviour
             int ws01 = wheel.wheelState == 1 ? 1 : 0;
 
             // Update wheel rotations per second due to input
-            wheel.torque = Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * wheel.power;
-            wheel.rotationsPerSecond += wheel.torque * Time.fixedDeltaTime / wheel.wheelCircumference;
-
-            // Apply friction to decrease wheel rotations per second
-            float frictionDeceleration = wheel.frictionCo * Mathf.Abs(wheel.rotationsPerSecond * wheel.rotationsPerSecond);
-            if (wheel.rotationsPerSecond > 0)
-            {
-                wheel.rotationsPerSecond = Mathf.Max(wheel.rotationsPerSecond - frictionDeceleration * Time.fixedDeltaTime, 0);
-            }
-            else if (wheel.rotationsPerSecond < 0)
-            {
-                wheel.rotationsPerSecond = Mathf.Min(wheel.rotationsPerSecond + frictionDeceleration * Time.fixedDeltaTime, 0);
-            }
-
-            float multiplier = 1.0f;
-            if (wheel.torque > wheel.maxTorque) multiplier = 10f;
-            wheel.rotationsPerSecond -= wheel.localSlipDirection.z * 0.001f * multiplier * (wheel.torque / wheel.maxTorque);
+            wheel.torque = Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * wheel.maxTorque;
+            wheel.hitPointForce = 0.08f * wheel.torque / wheel.size * (vc.sectionCount / vc.massInKg);
+            wheel.rotationsPerSecond += wheel.hitPointForce * Time.fixedDeltaTime / wheel.wheelCircumference;
 
             float turnAngle = input.x * wheel.turnAngle;
 
@@ -155,7 +140,7 @@ public class wheel : MonoBehaviour
 
             // Calculate slip direction based on local velocity
             Vector3 localVelocity = transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
-            wheel.localSlipDirection = wheel.grip * new Vector3(
+            wheel.localSlipDirection = 56f * new Vector3(
                 -localVelocity.x * ((wheel.wheelState == 1 || wheel.wheelState == 2) ? 1 : 0) + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Sin(turnAngle * Mathf.Deg2Rad) * ws01,
                 0,
                 -localVelocity.z * ws01 + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Cos(turnAngle * Mathf.Deg2Rad) * ws01
@@ -167,7 +152,7 @@ public class wheel : MonoBehaviour
             Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2);
             if (hit.collider != null)
             {
-                wheel.suspensionForceDirection = transform.up * Mathf.Clamp(wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, -1, 1) * dampAmount, 0, Mathf.Infinity) * wheel.suspensionForce * Time.fixedDeltaTime * 50;
+                wheel.suspensionForceDirection = hit.normal * Mathf.Clamp(wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, -1, 1) * dampAmount, 0, Mathf.Infinity) * wheel.suspensionForce * Time.fixedDeltaTime * 50;
                 wheel.suspensionForceDirection = Vector3.ClampMagnitude(wheel.suspensionForceDirection, suspensionForceClamp);
 
                 // Apply forces to the parent Rigidbody
@@ -180,6 +165,8 @@ public class wheel : MonoBehaviour
                 wheelObj.transform.position = wheel.wheelWorldPosition - transform.up * wheel.size;
             }
             wheel.lastSuspensionLength = hit.distance;
+
+            Debug.Log(wheel.hitPointForce + " " + wheel.worldSlipDirection + " speed: " + rb.velocity.magnitude);
 
             // Rotate the wheel visual for spinning motion
             Vector3 forwardInWheelSpace = wheelObj.transform.InverseTransformDirection(
@@ -248,12 +235,9 @@ public class Wheel
     public float biDirectional = 0; // If the wheel can go in reverse to turn the vehicle
     public float frictionCo = 1f; // Adjust this value as needed
     public Vector3 localPosition;
-    public float power = 4.0f;
     public float size = 0.3f;
     public float suspensionForce = 90.0f;
-    public float grip = 24.0f;
     public float turnAngle = 0.0f;
-    public float maxGrip = 400.0f;
     [HideInInspector]
     public float lastSuspensionLength = 0.0f;
     [HideInInspector]
@@ -277,4 +261,7 @@ public class Wheel
     public bool flipX = false;
     [HideInInspector]
     public GameObject wheelObject; // The actual wheel GameObject
+    [HideInInspector]
+    public float hitPointForce;
+    public float maxGrip = 250f;
 }

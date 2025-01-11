@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class vehicleController : MonoBehaviour
 {
+    public float massInKg = 100.0f;
+    public int sectionCount = 4;
     public List<wheel> wheels; // Reference to multiple Wheel scripts
     public Vector2 input; // Input for the vehicle (e.g., steering and throttle)
 
