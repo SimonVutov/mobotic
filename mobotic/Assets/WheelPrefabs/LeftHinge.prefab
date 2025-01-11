@@ -311,8 +311,8 @@ HingeJoint:
   m_ExtendedLimits: 0
   m_UseAcceleration: 0
   m_Limits:
-    min: -45
-    max: 45
+    min: -25
+    max: 25
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
@@ -334,7 +334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0758b88fbe30a4cb4881796a32532cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  massInKg: 100
   poweredWheelPrefab: {fileID: 5154799321757970300, guid: 9b0ef58dee0714e6fb8cdca8e09989f7, type: 3}
   freeWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
   rollingWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
@@ -343,12 +342,9 @@ MonoBehaviour:
     biDirectional: 1
     frictionCo: 1
     localPosition: {x: -0.05, y: -0.05, z: 0.15}
-    power: 4
     size: 0.1
     suspensionForce: 270
-    grip: 24
     turnAngle: 0
-    maxGrip: 400
     lastSuspensionLength: 0
     rotationsPerSecond: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
@@ -361,16 +357,16 @@ MonoBehaviour:
     parent: {fileID: 0}
     parentRigidbody: {fileID: 0}
     flipX: 1
+    wheelObject: {fileID: 0}
+    hitPointForce: 0
+    maxGrip: 400
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
     localPosition: {x: 0, y: -0.05, z: -0.27}
-    power: 4
     size: 0.1
     suspensionForce: 270
-    grip: 24
     turnAngle: 0
-    maxGrip: 400
     lastSuspensionLength: 0
     rotationsPerSecond: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
@@ -383,4 +379,7 @@ MonoBehaviour:
     parent: {fileID: 0}
     parentRigidbody: {fileID: 0}
     flipX: 0
-  wheelObjects: []
+    wheelObject: {fileID: 0}
+    hitPointForce: 0
+    maxGrip: 400
+  input: {x: 0, y: 0}

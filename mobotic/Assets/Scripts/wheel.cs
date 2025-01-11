@@ -117,7 +117,7 @@ public class wheel : MonoBehaviour
     // FixedUpdate is used for physics calculations
     void FixedUpdate()
     {
-        float dragCoefficient = 0.0f; // Adjust based on the vehicle type
+        float dragCoefficient = 0.3f; // Adjust based on the vehicle type
         Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
         rb.AddForce(dragForce);
 
@@ -133,6 +133,9 @@ public class wheel : MonoBehaviour
             wheel.hitPointForce = 0.08f * wheel.torque / wheel.size * (vc.sectionCount / vc.massInKg);
             wheel.rotationsPerSecond += wheel.hitPointForce * Time.fixedDeltaTime / wheel.wheelCircumference;
 
+            //Drag to wheels
+            wheel.rotationsPerSecond -= wheel.frictionCo * Math.Sign(wheel.rotationsPerSecond) * Time.fixedDeltaTime;
+
             float turnAngle = input.x * wheel.turnAngle;
 
             // Update wheel world position
@@ -140,7 +143,7 @@ public class wheel : MonoBehaviour
 
             // Calculate slip direction based on local velocity
             Vector3 localVelocity = transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
-            wheel.localSlipDirection = 56f * new Vector3(
+            wheel.localSlipDirection = 26f * new Vector3(
                 -localVelocity.x * ((wheel.wheelState == 1 || wheel.wheelState == 2) ? 1 : 0) + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Sin(turnAngle * Mathf.Deg2Rad) * ws01,
                 0,
                 -localVelocity.z * ws01 + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Cos(turnAngle * Mathf.Deg2Rad) * ws01
