@@ -60,12 +60,7 @@ public class vehicleController : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal"); // Steering
         input.y = Input.GetAxisRaw("Vertical");   // Throttle/Brake
 
-        if (Input.GetKeyDown(KeyCode.Space) || breaking || rb.velocity.magnitude > 5f)
-        {
-            breaking = true;
-
-            if (rb.velocity.magnitude < 0.1f) breaking = false;
-        }
+        
 
         // Set input for each wheel
         foreach (wheel wheel in wheels)
@@ -89,10 +84,19 @@ public class vehicleController : MonoBehaviour
                 wheel.input = Vector2.ClampMagnitude(newInput, 1);
             }
 
-            if (breaking && false) {
+            // Breaking Test ------------------------------
+            rb.constraints = RigidbodyConstraints.FreezeRotationY;
+            if (Input.GetKeyDown(KeyCode.Space) || breaking)
+            {
+                breaking = true;
+                if (rb.velocity.magnitude < 0.1f) breaking = false;
+            }
+            if (breaking && wheel.Forwards) {
                 wheel.input.y = -1;
                 wheel.input.x = 0.5f;
+                rb.constraints = RigidbodyConstraints.None;
             }
+            // --------------------------------------------
 
             if (rb.velocity.magnitude > maxSpeed)
             {
@@ -100,7 +104,14 @@ public class vehicleController : MonoBehaviour
                 else wheel.input.y = Mathf.Clamp(wheel.input.y, 0, 1);
             }
         }
+    }
 
-        
+    void FixedUpdate() { //some basic physics
+        float dragCoefficient = 0.3f;
+        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
+        rb.AddForce(dragForce);
+
+        float rotationalDragCoefficient = 0.9f;
+        rb.angularVelocity *= 1 - rotationalDragCoefficient * Time.fixedDeltaTime;
     }
 }

@@ -538,11 +538,11 @@ PrefabInstance:
       objectReference: {fileID: 8280108324381842716}
     - target: {fileID: 5791463513287850909, guid: ce193603e4b314f63b80491783b98f92, type: 3}
       propertyPath: wheels.Array.data[0].maxTorque
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5791463513287850909, guid: ce193603e4b314f63b80491783b98f92, type: 3}
       propertyPath: wheels.Array.data[1].maxTorque
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6108989095458305495, guid: ce193603e4b314f63b80491783b98f92, type: 3}
       propertyPath: m_ConnectedBody
@@ -600,19 +600,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -620,7 +620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 955066546647959921, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -640,11 +640,11 @@ PrefabInstance:
       objectReference: {fileID: 7059519877764508961}
     - target: {fileID: 7074436912685175020, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: wheels.Array.data[0].maxTorque
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7074436912685175020, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: wheels.Array.data[1].maxTorque
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8004121884999296322, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_Name
@@ -734,11 +734,11 @@ PrefabInstance:
       objectReference: {fileID: 8835690595210949636}
     - target: {fileID: 5307980558706236656, guid: 2990f9a492c804c63976b52e8f86834a, type: 3}
       propertyPath: wheels.Array.data[0].maxTorque
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5307980558706236656, guid: 2990f9a492c804c63976b52e8f86834a, type: 3}
       propertyPath: wheels.Array.data[1].maxTorque
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6547039466487554279, guid: 2990f9a492c804c63976b52e8f86834a, type: 3}
       propertyPath: m_ConnectedBody

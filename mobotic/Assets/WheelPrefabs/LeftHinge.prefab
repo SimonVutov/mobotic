@@ -346,20 +346,20 @@ MonoBehaviour:
     suspensionForce: 270
     turnAngle: 0
     lastSuspensionLength: 0
-    rotationsPerSecond: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
     suspensionForceDirection: {x: 0, y: 0, z: 0}
     wheelWorldPosition: {x: 0, y: 0, z: 0}
     wheelCircumference: 0
     torque: 0
-    maxTorque: 90
+    maxTorque: 100
     parent: {fileID: 0}
     parentRigidbody: {fileID: 0}
     flipX: 1
     wheelObject: {fileID: 0}
     hitPointForce: 0
     maxGrip: 400
+    localVelocity: {x: 0, y: 0, z: 0}
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
@@ -368,18 +368,19 @@ MonoBehaviour:
     suspensionForce: 270
     turnAngle: 0
     lastSuspensionLength: 0
-    rotationsPerSecond: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
     suspensionForceDirection: {x: 0, y: 0, z: 0}
     wheelWorldPosition: {x: 0, y: 0, z: 0}
     wheelCircumference: 0
     torque: 0
-    maxTorque: 90
+    maxTorque: 100
     parent: {fileID: 0}
     parentRigidbody: {fileID: 0}
     flipX: 0
     wheelObject: {fileID: 0}
     hitPointForce: 0
     maxGrip: 400
+    localVelocity: {x: 0, y: 0, z: 0}
   input: {x: 0, y: 0}
+  Forwards: 0

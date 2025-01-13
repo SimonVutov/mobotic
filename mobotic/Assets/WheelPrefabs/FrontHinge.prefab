@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.6}
+  m_LocalScale: {x: 0.6, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 955066546647959921}
@@ -135,14 +135,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8004121884999296322}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.00090000033, y: 0.042999983, z: 0.344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1399452323075071140}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4449704137354906507
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1, y: 0.1, z: 0.6}
+  m_Size: {x: 0.6, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2449070602164495666
 Rigidbody:
@@ -251,7 +251,7 @@ HingeJoint:
   m_ConnectedBody: {fileID: 0}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 1, y: 0, z: 0}
+  m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0.00090000033, y: 0.042999983, z: 0.344}
   serializedVersion: 2
@@ -292,7 +292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0758b88fbe30a4cb4881796a32532cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  massInKg: 100
   poweredWheelPrefab: {fileID: 5154799321757970300, guid: 9b0ef58dee0714e6fb8cdca8e09989f7, type: 3}
   freeWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
   rollingWheelPrefab: {fileID: 3446202179554228044, guid: 7790141e3fade4cccbed34e9cfaf70d5, type: 3}
@@ -300,45 +299,46 @@ MonoBehaviour:
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0, y: -0.05, z: -0.2}
-    power: 4
+    localPosition: {x: -0.2, y: -0.05, z: 0}
     size: 0.1
     suspensionForce: 270
-    grip: 24
     turnAngle: 0
-    maxGrip: 400
     lastSuspensionLength: 0
-    rotationsPerSecond: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
     suspensionForceDirection: {x: 0, y: 0, z: 0}
     wheelWorldPosition: {x: 0, y: 0, z: 0}
     wheelCircumference: 0
     torque: 0
-    maxTorque: 90
+    maxTorque: 100
     parent: {fileID: 0}
     parentRigidbody: {fileID: 0}
     flipX: 0
+    wheelObject: {fileID: 0}
+    hitPointForce: 0
+    maxGrip: 400
+    localVelocity: {x: 0, y: 0, z: 0}
   - wheelState: 0
     biDirectional: 0
     frictionCo: 1
-    localPosition: {x: 0, y: -0.05, z: 0.2}
-    power: 4
+    localPosition: {x: 0.2, y: -0.05, z: 0}
     size: 0.1
     suspensionForce: 270
-    grip: 24
     turnAngle: 0
-    maxGrip: 400
     lastSuspensionLength: 0
-    rotationsPerSecond: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
     suspensionForceDirection: {x: 0, y: 0, z: 0}
     wheelWorldPosition: {x: 0, y: 0, z: 0}
     wheelCircumference: 0
     torque: 0
-    maxTorque: 90
+    maxTorque: 100
     parent: {fileID: 0}
     parentRigidbody: {fileID: 0}
     flipX: 0
-  wheelObjects: []
+    wheelObject: {fileID: 0}
+    hitPointForce: 0
+    maxGrip: 400
+    localVelocity: {x: 0, y: 0, z: 0}
+  input: {x: 0, y: 0}
+  Forwards: 0

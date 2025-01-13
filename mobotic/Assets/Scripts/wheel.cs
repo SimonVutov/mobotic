@@ -115,10 +115,6 @@ public class wheel : MonoBehaviour
     // FixedUpdate is used for physics calculations
     void FixedUpdate()
     {
-        float dragCoefficient = 0.3f;
-        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
-        rb.AddForce(dragForce);
-
         for (int i = 0; i < wheels.Length; i++)
         {
             
