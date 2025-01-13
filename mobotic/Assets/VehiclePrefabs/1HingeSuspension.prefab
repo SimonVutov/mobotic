@@ -152,8 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ad1fb4a8c824a5e9ff3f92dbc1e427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QAandWSControls: 0
-  massInKg: 100
+  maxSpeed: 5
+  QAandWSControl: 0
+  massInKg: 200
   sectionCount: 4
   wheels:
   - {fileID: 8005346514218354776}
@@ -537,11 +538,11 @@ PrefabInstance:
       objectReference: {fileID: 8280108324381842716}
     - target: {fileID: 5791463513287850909, guid: ce193603e4b314f63b80491783b98f92, type: 3}
       propertyPath: wheels.Array.data[0].maxTorque
-      value: 110
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5791463513287850909, guid: ce193603e4b314f63b80491783b98f92, type: 3}
       propertyPath: wheels.Array.data[1].maxTorque
-      value: 110
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6108989095458305495, guid: ce193603e4b314f63b80491783b98f92, type: 3}
       propertyPath: m_ConnectedBody
@@ -639,11 +640,11 @@ PrefabInstance:
       objectReference: {fileID: 7059519877764508961}
     - target: {fileID: 7074436912685175020, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: wheels.Array.data[0].maxTorque
-      value: 110
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7074436912685175020, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: wheels.Array.data[1].maxTorque
-      value: 110
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8004121884999296322, guid: b512ce77396ce4c47a58c7c48661702d, type: 3}
       propertyPath: m_Name
@@ -733,11 +734,11 @@ PrefabInstance:
       objectReference: {fileID: 8835690595210949636}
     - target: {fileID: 5307980558706236656, guid: 2990f9a492c804c63976b52e8f86834a, type: 3}
       propertyPath: wheels.Array.data[0].maxTorque
-      value: 110
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5307980558706236656, guid: 2990f9a492c804c63976b52e8f86834a, type: 3}
       propertyPath: wheels.Array.data[1].maxTorque
-      value: 110
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6547039466487554279, guid: 2990f9a492c804c63976b52e8f86834a, type: 3}
       propertyPath: m_ConnectedBody

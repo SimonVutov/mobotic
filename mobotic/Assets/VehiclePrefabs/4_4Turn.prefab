@@ -256,6 +256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ad1fb4a8c824a5e9ff3f92dbc1e427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  QAandWSControl: 0
+  massInKg: 100
+  sectionCount: 4
   wheels:
   - {fileID: 8798245778994099305}
   - {fileID: 4351120109583285741}
@@ -270,6 +273,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2088183905064144388}
     m_Modifications:
+    - target: {fileID: 891853430963349897, guid: 5f3407163eb2447a9905e23592d2a224, type: 3}
+      propertyPath: wheels.Array.data[0].maxTorque
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 891853430963349897, guid: 5f3407163eb2447a9905e23592d2a224, type: 3}
       propertyPath: wheels.Array.data[0].turnAngle
       value: -45
@@ -347,6 +354,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2088183905064144388}
     m_Modifications:
+    - target: {fileID: 1796409789124251810, guid: a77173f9800684ab1aa003491a9a1daa, type: 3}
+      propertyPath: wheels.Array.data[0].maxTorque
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1796409789124251810, guid: a77173f9800684ab1aa003491a9a1daa, type: 3}
       propertyPath: wheels.Array.data[0].turnAngle
       value: -45
@@ -433,6 +444,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1796409789124251810, guid: a77173f9800684ab1aa003491a9a1daa, type: 3}
+      propertyPath: wheels.Array.data[0].maxTorque
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796409789124251810, guid: a77173f9800684ab1aa003491a9a1daa, type: 3}
       propertyPath: wheels.Array.data[0].wheelState
       value: 1
       objectReference: {fileID: 0}
@@ -513,6 +528,10 @@ PrefabInstance:
       propertyPath: wheels.Array.data[0].parent
       value: 
       objectReference: {fileID: 9169322252303652756}
+    - target: {fileID: 891853430963349897, guid: 5f3407163eb2447a9905e23592d2a224, type: 3}
+      propertyPath: wheels.Array.data[0].maxTorque
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4002213194657861598, guid: 5f3407163eb2447a9905e23592d2a224, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.357

@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class vehicleController : MonoBehaviour
 {
-    public bool QAandWSControls = false; // if true, the vehicle will be controlled by QA and WS keys
+    public float maxSpeed = 15f; // Maximum speed of the vehicle in m/s
+    public bool QAandWSControl = false; // if true, the vehicle will be controlled by QA and WS keys
     public float massInKg = 100.0f;
     public int sectionCount = 4;
     public List<wheel> wheels; // Reference to multiple Wheel scripts
@@ -50,16 +51,14 @@ public class vehicleController : MonoBehaviour
                 }
             }
         }
-
-        //increase moment of inertia
-        rb.inertiaTensor = rb.inertiaTensor * 6f;
     }
 
     private void Update()
     {
+        
         // Process input from the player (e.g., using Unity's Input system)
-        input.x = Input.GetAxis("Horizontal"); // Steering
-        input.y = Input.GetAxis("Vertical");   // Throttle/Brake
+        input.x = Input.GetAxisRaw("Horizontal"); // Steering
+        input.y = Input.GetAxisRaw("Vertical");   // Throttle/Brake
 
         if (Input.GetKeyDown(KeyCode.Space) || breaking || rb.velocity.magnitude > 5f)
         {
@@ -74,7 +73,7 @@ public class vehicleController : MonoBehaviour
             if (wheel == null) continue;
             wheel.input = input;
 
-            if (QAandWSControls){ // change it so it uses qa and ws for controlling the wheels
+            if (QAandWSControl){ // change it so it uses qa and ws for controlling the wheels
                 Vector2 newInput = Vector2.zero;
                 newInput.x += Input.GetKey(KeyCode.Q) ? 1 : 0;
                 newInput.y += Input.GetKey(KeyCode.Q) ? 1 : 0;
@@ -90,10 +89,18 @@ public class vehicleController : MonoBehaviour
                 wheel.input = Vector2.ClampMagnitude(newInput, 1);
             }
 
-            if (breaking) {
+            if (breaking && false) {
                 wheel.input.y = -1;
                 wheel.input.x = 0.5f;
             }
+
+            if (rb.velocity.magnitude > maxSpeed)
+            {
+                if (wheel.Forwards) wheel.input.y = Mathf.Clamp(wheel.input.y, -1, 0);
+                else wheel.input.y = Mathf.Clamp(wheel.input.y, 0, 1);
+            }
         }
+
+        
     }
 }

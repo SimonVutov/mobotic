@@ -16,6 +16,9 @@ public class wheel : MonoBehaviour
     private float suspensionForceClamp = 200f;
     private float dampAmount = 2.5f;
     vehicleController vc;
+    [HideInInspector]
+    public bool Forwards = false;
+    private float wheelGrip = 15f;
 
     private void OnValidate()
     {
@@ -109,46 +112,45 @@ public class wheel : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        //input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-    }
-
     // FixedUpdate is used for physics calculations
     void FixedUpdate()
     {
-        float dragCoefficient = 0.3f; // Adjust based on the vehicle type
+        float dragCoefficient = 0.3f;
         Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
         rb.AddForce(dragForce);
 
         for (int i = 0; i < wheels.Length; i++)
         {
+            
             var wheel = wheels[i];
             GameObject wheelObj = wheels[i].wheelObject; // This is the parent GameObject
             Transform wheelVisual = wheelObj.transform.GetChild(0); // Assuming the visual component is the first child
-            int ws01 = wheel.wheelState == 1 ? 1 : 0;
-
+            
             // Update wheel rotations per second due to input
             wheel.torque = Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * wheel.maxTorque;
-            wheel.hitPointForce = 0.08f * wheel.torque / wheel.size * (vc.sectionCount / vc.massInKg);
-            wheel.rotationsPerSecond += wheel.hitPointForce * Time.fixedDeltaTime / wheel.wheelCircumference;
+            wheel.hitPointForce = wheel.torque / wheel.size * (vc.sectionCount / vc.massInKg);
 
-            //Drag to wheels
-            wheel.rotationsPerSecond -= wheel.frictionCo * Math.Sign(wheel.rotationsPerSecond) * Time.fixedDeltaTime;
-
-            float turnAngle = input.x * wheel.turnAngle;
+            // Apply drag to wheel
+            wheel.torque -= wheel.frictionCo * Mathf.Sign(rb.GetPointVelocity(wheel.wheelWorldPosition).z) * Time.fixedDeltaTime;
 
             // Update wheel world position
             wheel.wheelWorldPosition = wheels[i].parent.transform.TransformPoint(wheel.localPosition);
 
             // Calculate slip direction based on local velocity
-            Vector3 localVelocity = transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
-            wheel.localSlipDirection = 26f * new Vector3(
-                -localVelocity.x * ((wheel.wheelState == 1 || wheel.wheelState == 2) ? 1 : 0) + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Sin(turnAngle * Mathf.Deg2Rad) * ws01,
+            wheel.localVelocity = transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
+            float turnAngleRad = wheel.turnAngle * input.x * Mathf.Deg2Rad;
+            float rollingResistance = 0.015f; // 0.015 is a good value for rolling resistance
+            wheel.localSlipDirection = wheelGrip * new Vector3(
+                -wheel.localVelocity.x * Mathf.Cos(turnAngleRad) + wheel.localVelocity.z * Mathf.Sin(turnAngleRad),
                 0,
-                -localVelocity.z * ws01 + wheel.rotationsPerSecond * wheels[i].wheelCircumference * Mathf.Cos(turnAngle * Mathf.Deg2Rad) * ws01
+                (-wheel.localVelocity.z * Mathf.Cos(turnAngleRad) - wheel.localVelocity.x * Mathf.Sin(turnAngleRad)) * rollingResistance + wheel.hitPointForce / wheelGrip
             );
+            if (wheel.wheelState == 0) wheel.localSlipDirection = Vector3.zero;
+
             wheel.worldSlipDirection = Vector3.ClampMagnitude(transform.rotation * wheel.localSlipDirection, wheel.maxGrip);
+
+            if (wheel.localVelocity.z > 0) Forwards = true;
+            else Forwards = false;
 
             // Raycast to check wheel contact and apply forces
             RaycastHit hit;
@@ -168,8 +170,6 @@ public class wheel : MonoBehaviour
                 wheelObj.transform.position = wheel.wheelWorldPosition - transform.up * wheel.size;
             }
             wheel.lastSuspensionLength = hit.distance;
-
-            Debug.Log(wheel.hitPointForce + " " + wheel.worldSlipDirection + " speed: " + rb.velocity.magnitude);
 
             // Rotate the wheel visual for spinning motion
             Vector3 forwardInWheelSpace = wheelObj.transform.InverseTransformDirection(
@@ -209,20 +209,19 @@ public class wheel : MonoBehaviour
         {
             foreach (var wheel in wheels)
             {
-                Vector3 worldPosition = transform.TransformPoint(wheel.localPosition);
                 Gizmos.color = Color.green;
-                Gizmos.DrawSphere(worldPosition, 0.1f);
+                Gizmos.DrawSphere(wheel.wheelWorldPosition, 0.1f);
 
                 if (wheel.suspensionForceDirection != Vector3.zero)
                 {
                     Gizmos.color = Color.blue;
-                    Gizmos.DrawLine(worldPosition, worldPosition + wheel.suspensionForceDirection);
+                    Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.suspensionForceDirection);
                 }
 
                 if (wheel.worldSlipDirection != Vector3.zero)
                 {
                     Gizmos.color = Color.red;
-                    Gizmos.DrawLine(worldPosition, worldPosition + wheel.worldSlipDirection);
+                    Gizmos.DrawLine(wheel.wheelWorldPosition, wheel.wheelWorldPosition + wheel.worldSlipDirection);
                 }
             }
         }
@@ -243,8 +242,6 @@ public class Wheel
     public float turnAngle = 0.0f;
     [HideInInspector]
     public float lastSuspensionLength = 0.0f;
-    [HideInInspector]
-    public float rotationsPerSecond = 0.0f;
     [HideInInspector]
     public Vector3 localSlipDirection;
     [HideInInspector]
@@ -267,4 +264,6 @@ public class Wheel
     [HideInInspector]
     public float hitPointForce;
     public float maxGrip = 250f;
+    [HideInInspector]
+    public Vector3 localVelocity;
 }
