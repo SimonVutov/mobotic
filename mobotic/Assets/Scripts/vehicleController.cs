@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class vehicleController : MonoBehaviour
 {
-    public float maxSpeed = 15f; // Maximum speed of the vehicle in m/s
+    public float maxSpeed = 35f; // Maximum speed of the vehicle in m/s
     public bool QAandWSControl = false; // if true, the vehicle will be controlled by QA and WS keys
     public float massInKg = 100.0f;
     public int sectionCount = 4;
@@ -11,8 +11,6 @@ public class vehicleController : MonoBehaviour
     public Vector2 input; // Input for the vehicle (e.g., steering and throttle)
 
     private Rigidbody rb;
-    private bool breaking = false;
-
     private void Start()
     {
         // Initialize Rigidbody
@@ -60,8 +58,6 @@ public class vehicleController : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal"); // Steering
         input.y = Input.GetAxisRaw("Vertical");   // Throttle/Brake
 
-        
-
         // Set input for each wheel
         foreach (wheel wheel in wheels)
         {
@@ -83,20 +79,6 @@ public class vehicleController : MonoBehaviour
                 newInput.y -= Input.GetKey(KeyCode.A) ? 1 : 0;
                 wheel.input = Vector2.ClampMagnitude(newInput, 1);
             }
-
-            // Breaking Test ------------------------------
-            rb.constraints = RigidbodyConstraints.FreezeRotationY;
-            if (Input.GetKeyDown(KeyCode.Space) || breaking)
-            {
-                breaking = true;
-                if (rb.velocity.magnitude < 0.1f) breaking = false;
-            }
-            if (breaking && wheel.Forwards) {
-                wheel.input.y = -1;
-                wheel.input.x = 0.5f;
-                rb.constraints = RigidbodyConstraints.None;
-            }
-            // --------------------------------------------
 
             if (rb.velocity.magnitude > maxSpeed)
             {
