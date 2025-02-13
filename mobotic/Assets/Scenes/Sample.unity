@@ -25091,6 +25091,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1HingeSuspension
       objectReference: {fileID: 0}
+    - target: {fileID: 4406694794477620869, guid: d457af4be8b2b4d75abcae992d228e7b, type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584780962333600241, guid: d457af4be8b2b4d75abcae992d228e7b, type: 3}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
