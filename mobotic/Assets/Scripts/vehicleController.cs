@@ -12,6 +12,7 @@ public class vehicleController : MonoBehaviour
     public Vector2 input; // Input for the vehicle (e.g., steering and throttle)
 
     private Rigidbody rb;
+
     private void Start()
     {
         // Initialize Rigidbody
@@ -53,10 +54,9 @@ public class vehicleController : MonoBehaviour
 
         rb.inertiaTensor = inertiaMultiplier * rb.inertiaTensor;
     }
-
     private void Update()
     {
-        
+
         // Process input from the player (e.g., using Unity's Input system)
         input.x = Input.GetAxisRaw("Horizontal"); // Steering
         input.y = Input.GetAxisRaw("Vertical");   // Throttle/Brake
@@ -67,7 +67,8 @@ public class vehicleController : MonoBehaviour
             if (wheel == null) continue;
             wheel.input = input;
 
-            if (QAandWSControl){ // change it so it uses qa and ws for controlling the wheels
+            if (QAandWSControl)
+            { // change it so it uses qa and ws for controlling the wheels
                 Vector2 newInput = Vector2.zero;
                 newInput.x += Input.GetKey(KeyCode.Q) ? 1 : 0;
                 newInput.y += Input.GetKey(KeyCode.Q) ? 1 : 0;
@@ -91,7 +92,8 @@ public class vehicleController : MonoBehaviour
         }
     }
 
-    void FixedUpdate() { //some basic physics
+    void FixedUpdate()
+    { //some basic physics
         float dragCoefficient = 0.3f;
         Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
         rb.AddForce(dragForce);
