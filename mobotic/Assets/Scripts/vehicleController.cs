@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class vehicleController : MonoBehaviour
 {
+    public float inertiaMultiplier = 5.0f; // Multiplier for the vehicle's inertia
     public float maxSpeed = 35f; // Maximum speed of the vehicle in m/s
     public bool QAandWSControl = false; // if true, the vehicle will be controlled by QA and WS keys
     public float massInKg = 100.0f;
@@ -49,6 +50,8 @@ public class vehicleController : MonoBehaviour
                 }
             }
         }
+
+        rb.inertiaTensor = inertiaMultiplier * rb.inertiaTensor;
     }
 
     private void Update()

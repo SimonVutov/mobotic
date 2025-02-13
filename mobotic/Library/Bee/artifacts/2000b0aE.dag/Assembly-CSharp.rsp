@@ -341,6 +341,7 @@
 -analyzer:"/Applications/Unity/Hub/Editor/2022.3.29f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/camera.cs"
 "Assets/Scripts/EscapeKeyListenner.cs"
+"Assets/Scripts/forklift.cs"
 "Assets/Scripts/hinge.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/SpawnVehicle.cs"
