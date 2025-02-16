@@ -23,6 +23,9 @@ public class vehicleController : MonoBehaviour
             return;
         }
 
+        // Add this: Set a lower center of mass for better stability
+        rb.centerOfMass = new Vector3(0, 0, 0); // Adjust Y value as needed
+
         // Ensure all wheels have proper parent Rigidbody setup
         foreach (wheel whee in wheels)
         {
