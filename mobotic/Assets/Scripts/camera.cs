@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public bool ignoreRaycast = true;
     public Transform target; // The target GameObject to follow
     public float zoomSpeed = 10.0f; // Speed of zooming in/out
     public float minFOV = 20.0f; // Minimum field of view
@@ -107,27 +108,30 @@ public class CameraController : MonoBehaviour
         Vector3 desiredPosition = target.position - rotation * Vector3.forward * 5.0f;
 
         // Raycast to detect obstacles between the camera and the target
-        RaycastHit hit;
-        if (Physics.Linecast(target.position, desiredPosition, out hit))
+        if (!ignoreRaycast)
         {
-            // Check if any parent of the hit object has a Vehicle component
-            Transform currentTransform = hit.collider.transform;
-            bool isVehiclePart = false;
-
-            while (currentTransform != null)
+            RaycastHit hit;
+            if (Physics.Linecast(target.position, desiredPosition, out hit))
             {
-                if (currentTransform.GetComponent<wheel>() != null)
+                // Check if any parent of the hit object has a Vehicle component
+                Transform currentTransform = hit.collider.transform;
+                bool isVehiclePart = false;
+
+                while (currentTransform != null)
                 {
-                    isVehiclePart = true;
-                    break;
+                    if (currentTransform.GetComponent<wheel>() != null)
+                    {
+                        isVehiclePart = true;
+                        break;
+                    }
+                    currentTransform = currentTransform.parent;
                 }
-                currentTransform = currentTransform.parent;
-            }
 
-            // Adjust camera position if the hit object is not part of a vehicle
-            if (!isVehiclePart)
-            {
-                desiredPosition = hit.point + hit.normal * 0.05f;
+                // Adjust camera position if the hit object is not part of a vehicle
+                if (!isVehiclePart)
+                {
+                    desiredPosition = hit.point + hit.normal * 0.05f;
+                }
             }
         }
 
