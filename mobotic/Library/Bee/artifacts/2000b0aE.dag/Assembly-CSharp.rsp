@@ -344,6 +344,7 @@
 "Assets/Scripts/forklift.cs"
 "Assets/Scripts/hinge.cs"
 "Assets/Scripts/MainMenu.cs"
+"Assets/Scripts/simpleVehicle.cs"
 "Assets/Scripts/SpawnVehicle.cs"
 "Assets/Scripts/TorqueDisplay.cs"
 "Assets/Scripts/trailerConnection.cs"

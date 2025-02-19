@@ -4,134 +4,70 @@ using UnityEngine;
 
 public class Forklift : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed = 0.7f;
-    [SerializeField]
+    private float moveSpeed = 0.02f;
     private float heightSmoothTime = 0.1f;
     public List<Piece> pieces;
+    [HideInInspector]
+    public List<GameObject> piecesObjects;
+    public GameObject forkPrefab;
+    private float input;
 
-    private float currentHeight = 0f;
-    private float targetHeight = 0f;
-    private float heightVelocity = 0f;
-    private float pieceMass = 0.01f;
-    private BoxCollider forkliftCollider;
+    private float springForce = 20f;
+    private float dampingForce = 0.8f;
+    private float clampForce = 20f;
 
-    // Cache the cube mesh resource
-    private Mesh cubeMesh;
-
-    void Start()
+    private void Start()
     {
-        // Create (or add) a single collider for the forklift
-        forkliftCollider = gameObject.AddComponent<BoxCollider>();
-
-        // Cache the built-in cube mesh (make sure the name matches your project’s asset)
-        cubeMesh = Resources.GetBuiltinResource<Mesh>("Cube.fbx");
-
-        // Create each piece’s GameObject
-        foreach (var piece in pieces)
+        foreach (Piece piece in pieces)
         {
-            GameObject pieceObject = new GameObject($"Piece_{pieces.IndexOf(piece)}");
-            MeshFilter meshFilter = pieceObject.AddComponent<MeshFilter>();
-            MeshRenderer meshRenderer = pieceObject.AddComponent<MeshRenderer>();
+            piece.pieceObject = Instantiate(forkPrefab, piece.position, Quaternion.identity);
+            piecesObjects.Add(piece.pieceObject);
 
-            // Set up the visual using the cube mesh
-            meshFilter.mesh = cubeMesh;
-            pieceObject.transform.localPosition = piece.position;
-            pieceObject.transform.localScale = piece.shape;
-            pieceObject.transform.parent = this.transform;
+            piece.pieceObject.transform.localScale = piece.shape;
 
-            // Add a Rigidbody (set to kinematic so it doesn’t interfere with manual movement)
-            Rigidbody rb = pieceObject.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.mass = pieceMass;
+            piece.pieceObject.transform.position = transform.TransformPoint(piece.position);
+            piece.pieceObject.transform.rotation = transform.rotation;
 
-            piece.pieceObject = pieceObject;
+            // Only freeze rotation on X and Z axes (local), allow Y rotation to follow the vehicle
+            Rigidbody rb = piece.pieceObject.GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
-
-        // Set the initial compound collider size
-        UpdateForkliftCollider();
     }
-
     void Update()
     {
-        HandleMovement();
-        UpdateForkliftCollider();
+        input = Input.GetKey(KeyCode.E) ? 1 : Input.GetKey(KeyCode.Q) ? -1 : 0;
     }
 
-    private void HandleMovement()
+    void FixedUpdate()
     {
-        // Adjust target height based on input
-        if (Input.GetKey(KeyCode.E))
+        foreach (Piece piece in pieces)
         {
-            targetHeight += moveSpeed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            targetHeight -= moveSpeed * Time.deltaTime;
-        }
+            piece.targetHeight += input * moveSpeed;
+            piece.targetHeight = Mathf.Clamp(piece.targetHeight, 0, piece.maxHeight);
+            // Calculate target position in world space, using the piece's position offset
+            Vector3 targetWorldPosition = transform.TransformPoint(new Vector3(
+                piece.position.x,
+                piece.position.y + piece.targetHeight,
+                piece.position.z
+            ));
+            Vector3 currentWorldPosition = piece.pieceObject.transform.position;
 
-        // Determine the overall max allowed height (so none of the pieces exceed their limit)
-        float overallMaxHeight = float.MaxValue;
-        foreach (var piece in pieces)
-        {
-            overallMaxHeight = Mathf.Min(overallMaxHeight, piece.maxHeight);
-        }
-        targetHeight = Mathf.Clamp(targetHeight, 0, overallMaxHeight);
+            // Calculate the force with spring-damper approach
+            Vector3 positionError = targetWorldPosition - currentWorldPosition;
+            Vector3 velocity = piece.pieceObject.GetComponent<Rigidbody>().velocity;
 
-        // Smoothly adjust the current height toward the target height
-        currentHeight = Mathf.SmoothDamp(currentHeight, targetHeight, ref heightVelocity, heightSmoothTime);
+            Vector3 totalForce = (positionError * springForce) - (velocity * dampingForce);
+            totalForce = Vector3.ClampMagnitude(totalForce, clampForce); // Prevent extreme forces
 
-        // Update each piece’s position (based on its original position plus the common height offset)
-        foreach (var piece in pieces)
-        {
-            if (piece.pieceObject != null)
-            {
-                Vector3 basePos = piece.position;
-                piece.pieceObject.transform.localPosition = new Vector3(
-                    basePos.x,
-                    basePos.y + currentHeight,
-                    basePos.z
-                );
-            }
-        }
-    }
+            // Apply equal and opposite forces
+            piece.pieceObject.GetComponent<Rigidbody>().AddForce(totalForce, ForceMode.Force);
+            GetComponent<Rigidbody>().AddForceAtPosition(-totalForce, piece.pieceObject.transform.position, ForceMode.Force);
 
-    private void UpdateForkliftCollider()
-    {
-        if (pieces.Count == 0)
-            return;
+            // Directly set the rotation to match the vehicle
+            piece.pieceObject.transform.rotation = transform.rotation;
 
-        // Start with the bounds of the first piece using its renderer's bounds
-        Bounds bounds = new Bounds(pieces[0].pieceObject.transform.position, Vector3.zero);
-        bounds.Encapsulate(GetPieceWorldBounds(pieces[0]));
-
-        // Expand bounds to include all pieces
-        foreach (var piece in pieces)
-        {
-            if (piece.pieceObject != null)
-            {
-                Bounds pieceBounds = GetPieceWorldBounds(piece);
-                bounds.Encapsulate(pieceBounds);
-            }
-        }
-
-        // Set the BoxCollider's center and size (convert center to local space)
-        forkliftCollider.center = transform.InverseTransformPoint(bounds.center);
-        forkliftCollider.size = bounds.size;
-    }
-
-    // Helper: Get the world-space bounds of a piece (prefers renderer bounds)
-    private Bounds GetPieceWorldBounds(Piece piece)
-    {
-        MeshRenderer renderer = piece.pieceObject.GetComponent<MeshRenderer>();
-        if (renderer != null)
-        {
-            return renderer.bounds;
-        }
-        else
-        {
-            // Fallback: assume unit cube scaled by piece.shape
-            return new Bounds(piece.pieceObject.transform.position, piece.shape);
+            // Remove rigidbody rotation
+            piece.pieceObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
     }
 }
@@ -144,4 +80,8 @@ public class Piece
     public float maxHeight;
     [HideInInspector]
     public GameObject pieceObject;
+    [HideInInspector]
+    public float targetHeight;
+    [HideInInspector]
+    public Vector3 oldForce;
 }
