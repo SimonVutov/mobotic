@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Forklift : MonoBehaviour
 {
-    private float moveSpeed = 0.02f;
+    public float moveSpeed = 0.02f;
     private float heightSmoothTime = 0.1f;
     public List<Piece> pieces;
     [HideInInspector]
