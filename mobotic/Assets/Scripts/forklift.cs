@@ -12,9 +12,9 @@ public class Forklift : MonoBehaviour
     public GameObject forkPrefab;
     private float input;
 
-    private float springForce = 20f;
-    private float dampingForce = 0.8f;
-    private float clampForce = 20f;
+    private float springForce = 200f;
+    private float dampingForce = 8f;
+    private float clampForce = 200f;
 
     private void Start()
     {
@@ -28,9 +28,9 @@ public class Forklift : MonoBehaviour
             piece.pieceObject.transform.position = transform.TransformPoint(piece.position);
             piece.pieceObject.transform.rotation = transform.rotation;
 
-            // Only freeze rotation on X and Z axes (local), allow Y rotation to follow the vehicle
+            // Remove rotation constraints, let physics handle it
             Rigidbody rb = piece.pieceObject.GetComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            rb.constraints = RigidbodyConstraints.None;
         }
     }
     void Update()
@@ -63,11 +63,31 @@ public class Forklift : MonoBehaviour
             piece.pieceObject.GetComponent<Rigidbody>().AddForce(totalForce, ForceMode.Force);
             GetComponent<Rigidbody>().AddForceAtPosition(-totalForce, piece.pieceObject.transform.position, ForceMode.Force);
 
-            // Directly set the rotation to match the vehicle
-            piece.pieceObject.transform.rotation = transform.rotation;
+            // Calculate and apply gentler torque to maintain orientation
+            Quaternion currentRotation = piece.pieceObject.transform.rotation;
+            Quaternion targetRotation = transform.rotation;
 
-            // Remove rigidbody rotation
-            piece.pieceObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            // Calculate rotation difference using FromToRotation
+            Quaternion rotationDiff = targetRotation * Quaternion.Inverse(currentRotation);
+            Vector3 torqueDirection = new Vector3(
+                Mathf.DeltaAngle(0, rotationDiff.eulerAngles.x),
+                Mathf.DeltaAngle(0, rotationDiff.eulerAngles.y),
+                Mathf.DeltaAngle(0, rotationDiff.eulerAngles.z)
+            ) * Mathf.Deg2Rad; // Convert to radians
+
+            float torqueMagnitude = torqueDirection.magnitude * 260f;
+            Vector3 torque = Vector3.ClampMagnitude(torqueDirection * torqueMagnitude, 260f);
+
+            // Add damping based on angular velocity
+            Vector3 angularVel = piece.pieceObject.GetComponent<Rigidbody>().angularVelocity;
+            Vector3 dampingTorque = angularVel * 0.5f; // Adjust damping factor as needed
+            Vector3 totalTorque = torque - dampingTorque;
+
+            totalTorque = Vector3.ClampMagnitude(totalTorque, 2f); // Prevent extreme torques
+
+            // Apply equal and opposite torques
+            piece.pieceObject.GetComponent<Rigidbody>().AddTorque(totalTorque, ForceMode.Force);
+            GetComponent<Rigidbody>().AddTorque(-totalTorque, ForceMode.Force);
         }
     }
 }
