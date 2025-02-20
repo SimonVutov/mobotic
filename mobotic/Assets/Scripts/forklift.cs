@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class Forklift : MonoBehaviour
 {
-    public float moveSpeed = 0.02f;
-    private float heightSmoothTime = 0.1f;
+    public float moveSpeed = 2f;
     public List<Piece> pieces;
     [HideInInspector]
     public List<GameObject> piecesObjects;
     public GameObject forkPrefab;
     private float input;
 
-    private float springForce = 200f;
-    private float dampingForce = 8f;
-    private float clampForce = 200f;
+    private float springForce = 210f;
+    private float dampingForce = 9f;
+    private float clampForce = 210f;
 
     private void Start()
     {
@@ -31,6 +30,8 @@ public class Forklift : MonoBehaviour
             // Remove rotation constraints, let physics handle it
             Rigidbody rb = piece.pieceObject.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.None;
+
+            rb.inertiaTensor = 100 * rb.inertiaTensor; // Increase inertia tensor to prevent spinning
         }
     }
     void Update()
@@ -42,7 +43,7 @@ public class Forklift : MonoBehaviour
     {
         foreach (Piece piece in pieces)
         {
-            piece.targetHeight += input * moveSpeed;
+            piece.targetHeight = piece.targetHeight + input * moveSpeed;
             piece.targetHeight = Mathf.Clamp(piece.targetHeight, 0, piece.maxHeight);
             // Calculate target position in world space, using the piece's position offset
             Vector3 targetWorldPosition = transform.TransformPoint(new Vector3(
@@ -75,19 +76,19 @@ public class Forklift : MonoBehaviour
                 Mathf.DeltaAngle(0, rotationDiff.eulerAngles.z)
             ) * Mathf.Deg2Rad; // Convert to radians
 
-            float torqueMagnitude = torqueDirection.magnitude * 260f;
-            Vector3 torque = Vector3.ClampMagnitude(torqueDirection * torqueMagnitude, 260f);
+            float torqueMagnitude = torqueDirection.magnitude * 10000f;
+            Vector3 torque = Vector3.ClampMagnitude(torqueDirection * torqueMagnitude, 10000f);
 
             // Add damping based on angular velocity
             Vector3 angularVel = piece.pieceObject.GetComponent<Rigidbody>().angularVelocity;
-            Vector3 dampingTorque = angularVel * 0.5f; // Adjust damping factor as needed
+            Vector3 dampingTorque = angularVel * 20f; // Adjust damping factor as needed
             Vector3 totalTorque = torque - dampingTorque;
 
-            totalTorque = Vector3.ClampMagnitude(totalTorque, 2f); // Prevent extreme torques
+            totalTorque = Vector3.ClampMagnitude(totalTorque, 80f); // Prevent extreme torques
 
             // Apply equal and opposite torques
             piece.pieceObject.GetComponent<Rigidbody>().AddTorque(totalTorque, ForceMode.Force);
-            GetComponent<Rigidbody>().AddTorque(-totalTorque, ForceMode.Force);
+            //GetComponent<Rigidbody>().AddTorque(-totalTorque, ForceMode.Force);
         }
     }
 }
