@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Forklift : MonoBehaviour
+public class forklift : MonoBehaviour
 {
     public float moveSpeed = 2f;
     public List<Piece> pieces;
@@ -90,6 +90,19 @@ public class Forklift : MonoBehaviour
             piece.pieceObject.GetComponent<Rigidbody>().AddTorque(totalTorque, ForceMode.Force);
             //GetComponent<Rigidbody>().AddTorque(-totalTorque, ForceMode.Force);
         }
+    }
+
+    public void DestroyForklift()
+    {
+        foreach (Piece piece in pieces)
+        {
+            if (piece.pieceObject != null)
+            {
+                Destroy(piece.pieceObject);
+            }
+        }
+        pieces.Clear();
+        piecesObjects.Clear();
     }
 }
 

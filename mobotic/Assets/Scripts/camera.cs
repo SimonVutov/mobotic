@@ -146,4 +146,20 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        if (target != null)
+        {
+            enabled = true;
+            // Reset camera position and rotation for new target
+            currentX = 0.0f;
+            currentY = 20.0f;
+
+            // Force an immediate update to position camera correctly
+            isFreeCam = false;
+            FollowCamMode();
+        }
+    }
 }
