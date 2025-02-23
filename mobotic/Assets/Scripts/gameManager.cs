@@ -24,6 +24,9 @@ public class gameManager : MonoBehaviour
     private float verticalSpacing = 110f;    // Spacing between rows
     private float horizontalSpacing = 220f;  // Spacing between columns
 
+    private List<GameObject> createdMapButtons = new List<GameObject>();
+    private List<GameObject> createdVehicleButtons = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,11 +39,21 @@ public class gameManager : MonoBehaviour
         {
             CreateMapButton(m);
         }
+
+        // Make sure the text objects are visible
+        foreach (Transform child in mapPanel.transform)
+        {
+            if (child.GetComponent<TextMeshProUGUI>() != null)
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
     }
 
     void CreateMapButton(map m)
     {
         GameObject button = Instantiate(buttonPrefab, mapButtonContainer);
+        createdMapButtons.Add(button);  // Add to our list of created buttons
 
         // Calculate row and column
         int index = maps.IndexOf(m);
@@ -89,11 +102,6 @@ public class gameManager : MonoBehaviour
         {
             btn.onClick.AddListener(() => OnMapSelected(m));
         }
-
-        // Update content height for two columns
-        RectTransform contentRect = mapButtonContainer.GetComponent<RectTransform>();
-        int totalRows = (maps.Count + 1) / 2;
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, verticalSpacing * totalRows);
     }
 
     void OnMapSelected(map m)
@@ -111,13 +119,14 @@ public class gameManager : MonoBehaviour
         m.mapReference.SetActive(true);
         currentMap = m.mapReference;
 
-        // Clear map buttons
-        foreach (Transform child in mapButtonContainer)
+        // Clear only the buttons we created
+        foreach (GameObject button in createdMapButtons)
         {
-            Destroy(child.gameObject);
+            Destroy(button);
         }
+        createdMapButtons.Clear();
 
-        // Switch to vehicle selection
+        // Switch to vehicle selection, but ensure text stays visible
         mapPanel.SetActive(false);
         vehiclePanel.SetActive(true);
 
@@ -147,14 +156,15 @@ public class gameManager : MonoBehaviour
             // If vehicle panel is active, go back to map selection
             else if (vehiclePanel.activeSelf)
             {
+                // Clear only the vehicle buttons we created
+                foreach (GameObject button in createdVehicleButtons)
+                {
+                    Destroy(button);
+                }
+                createdVehicleButtons.Clear();
+
                 // Disable vehicle panel
                 vehiclePanel.SetActive(false);
-
-                // Clear vehicle buttons
-                foreach (Transform child in vehicleButtonContainer)
-                {
-                    Destroy(child.gameObject);
-                }
 
                 // Enable map panel and recreate map buttons
                 mapPanel.SetActive(true);
@@ -194,6 +204,7 @@ public class gameManager : MonoBehaviour
     void CreateVehicleButton(vehicle v)
     {
         GameObject button = Instantiate(buttonPrefab, vehicleButtonContainer);
+        createdVehicleButtons.Add(button);  // Add to our list of created buttons
 
         // Calculate row and column
         int index = vehicles.IndexOf(v);
@@ -242,11 +253,6 @@ public class gameManager : MonoBehaviour
         {
             btn.onClick.AddListener(() => OnVehicleSelected(v));
         }
-
-        // Update content height for two columns
-        RectTransform contentRect = vehicleButtonContainer.GetComponent<RectTransform>();
-        int totalRows = (vehicles.Count + 1) / 2;
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, verticalSpacing * totalRows);
     }
 
     // When a vehicle is selected, spawn it and hide the UI
