@@ -234,6 +234,7 @@ MonoBehaviour:
     biDirectional: 0
     localPosition: {x: 0.29, y: -0.02, z: 0.4}
     turnAngle: 0
+    flipWheel: 1
     lastSuspensionLength: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -249,6 +250,7 @@ MonoBehaviour:
     biDirectional: 0
     localPosition: {x: -0.29, y: -0.02, z: 0.4}
     turnAngle: 0
+    flipWheel: 0
     lastSuspensionLength: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -264,6 +266,7 @@ MonoBehaviour:
     biDirectional: 0
     localPosition: {x: 0.2, y: -0.02, z: -0.4}
     turnAngle: -34
+    flipWheel: 1
     lastSuspensionLength: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -279,6 +282,7 @@ MonoBehaviour:
     biDirectional: 0
     localPosition: {x: -0.2, y: -0.02, z: -0.4}
     turnAngle: -34
+    flipWheel: 0
     lastSuspensionLength: 0
     localSlipDirection: {x: 0, y: 0, z: 0}
     worldSlipDirection: {x: 0, y: 0, z: 0}

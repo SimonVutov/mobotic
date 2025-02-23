@@ -2,73 +2,251 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class gameManager : MonoBehaviour
 {
-    // List of vehicles
+    // Lists
     public List<vehicle> vehicles;
+    public List<map> maps;
 
     // UI elements
     public GameObject buttonPrefab;
-    public Transform buttonContainer; // Parent container where buttons will be instantiated
-    public GameObject uiPanel; // Panel that will be hidden after vehicle spawn
+    public Transform mapButtonContainer;    // Separate container for map buttons
+    public Transform vehicleButtonContainer; // Separate container for vehicle buttons
+    public GameObject vehiclePanel;
+    public GameObject mapPanel;
 
-    // Add this field at the top with other public variables
     public CameraController cameraController;
+    private GameObject currentVehicle;
+    private GameObject currentMap;    // Track current map
 
-    private GameObject currentVehicle; // Add this field at the top with other variables
+    private float verticalSpacing = 110f;    // Spacing between rows
+    private float horizontalSpacing = 220f;  // Spacing between columns
 
     // Start is called before the first frame update
     void Start()
     {
-        // Create UI buttons for each vehicle
+        // Start with map selection, hide vehicle selection
+        vehiclePanel.SetActive(false);
+        mapPanel.SetActive(true);
+
+        // Create UI buttons for each map
+        foreach (var m in maps)
+        {
+            CreateMapButton(m);
+        }
+    }
+
+    void CreateMapButton(map m)
+    {
+        GameObject button = Instantiate(buttonPrefab, mapButtonContainer);
+
+        // Calculate row and column
+        int index = maps.IndexOf(m);
+        int row = index / 2;
+        int column = index % 2;
+
+        // Setup button position using grid layout
+        RectTransform rectTransform = button.GetComponent<RectTransform>();
+        rectTransform.localScale = Vector3.one;
+        float xPos = (column * horizontalSpacing) - (horizontalSpacing / 2);
+        float yPos = -verticalSpacing * row;
+        rectTransform.anchoredPosition = new Vector2(xPos, yPos);
+
+        // Setup button text - get TextMeshProUGUI component
+        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+        if (buttonText != null)
+        {
+            buttonText.text = m.mapReference != null ? m.name : m.name + " (coming soon)";
+        }
+        else
+        {
+            Debug.LogError("No TextMeshProUGUI component found in button prefab!");
+        }
+
+        // Setup button image - get the second Image component (first is usually the button background)
+        Image[] images = button.GetComponentsInChildren<Image>();
+        if (images.Length > 1)
+        {
+            images[1].sprite = m.image;
+            images[1].preserveAspect = true;
+            images[1].type = Image.Type.Filled;
+        }
+        else
+        {
+            Debug.LogError("Not enough Image components found in button prefab!");
+        }
+
+        button.SetActive(true);
+
+        // Get button component and set interactable state
+        Button btn = button.GetComponent<Button>();
+        btn.interactable = m.mapReference != null;
+
+        // Only add click listener if the map reference exists
+        if (m.mapReference != null)
+        {
+            btn.onClick.AddListener(() => OnMapSelected(m));
+        }
+
+        // Update content height for two columns
+        RectTransform contentRect = mapButtonContainer.GetComponent<RectTransform>();
+        int totalRows = (maps.Count + 1) / 2;
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, verticalSpacing * totalRows);
+    }
+
+    void OnMapSelected(map m)
+    {
+        // Disable all maps first
+        foreach (var mapItem in maps)
+        {
+            if (mapItem.mapReference != null)
+            {
+                mapItem.mapReference.SetActive(false);
+            }
+        }
+
+        // Enable selected map
+        m.mapReference.SetActive(true);
+        currentMap = m.mapReference;
+
+        // Clear map buttons
+        foreach (Transform child in mapButtonContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Switch to vehicle selection
+        mapPanel.SetActive(false);
+        vehiclePanel.SetActive(true);
+
+        // Create vehicle buttons
         foreach (var v in vehicles)
         {
             CreateVehicleButton(v);
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.X))
+        {
+            // If we're controlling the vehicle (both panels inactive)
+            if (!vehiclePanel.activeSelf && !mapPanel.activeSelf)
+            {
+                // Show vehicle selection panel
+                vehiclePanel.SetActive(true);
+
+                // Create vehicle buttons
+                foreach (var v in vehicles)
+                {
+                    CreateVehicleButton(v);
+                }
+            }
+            // If vehicle panel is active, go back to map selection
+            else if (vehiclePanel.activeSelf)
+            {
+                // Disable vehicle panel
+                vehiclePanel.SetActive(false);
+
+                // Clear vehicle buttons
+                foreach (Transform child in vehicleButtonContainer)
+                {
+                    Destroy(child.gameObject);
+                }
+
+                // Enable map panel and recreate map buttons
+                mapPanel.SetActive(true);
+                foreach (var m in maps)
+                {
+                    CreateMapButton(m);
+                }
+
+                // Destroy current vehicle if it exists
+                if (currentVehicle != null)
+                {
+                    forklift[] forklifts = currentVehicle.GetComponents<forklift>();
+                    foreach (forklift fork in forklifts)
+                    {
+                        if (fork != null)
+                        {
+                            fork.DestroyForklift();
+                        }
+                    }
+                    Destroy(currentVehicle);
+                }
+
+                // Disable current map if it exists
+                if (currentMap != null)
+                {
+                    currentMap.SetActive(false);
+                    currentMap = null;
+                }
+            }
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
     // Create a UI button for the vehicle
     void CreateVehicleButton(vehicle v)
     {
-        // Instantiate the button prefab
-        GameObject button = Instantiate(buttonPrefab, buttonContainer);
+        GameObject button = Instantiate(buttonPrefab, vehicleButtonContainer);
 
-        // Get the button component and setup position
+        // Calculate row and column
+        int index = vehicles.IndexOf(v);
+        int row = index / 2;
+        int column = index % 2;
+
+        // Setup button position using grid layout
         RectTransform rectTransform = button.GetComponent<RectTransform>();
         rectTransform.localScale = Vector3.one;
-        rectTransform.anchoredPosition = new Vector2(0, -100 * vehicles.IndexOf(v)); // Offset each button by 100 pixels vertically
+        float xPos = (column * horizontalSpacing) - (horizontalSpacing / 2);
+        float yPos = -verticalSpacing * row;
+        rectTransform.anchoredPosition = new Vector2(xPos, yPos);
 
-        // Get the button component
-        Button btn = button.GetComponent<Button>();
-
-        // Find the Text component specifically in children
-        Text buttonText = button.GetComponentInChildren<Text>(true);
+        // Setup button text - get TextMeshProUGUI component
+        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
-            buttonText.text = v.name;
+            buttonText.text = v.vehiclePrefab != null ? v.name : v.name + " (coming soon)";
         }
         else
         {
-            Debug.LogError("No Text component found in button prefab!");
+            Debug.LogError("No TextMeshProUGUI component found in button prefab!");
         }
 
-        // Find the Image component (excluding the button's own image component)
-        Image buttonImage = button.GetComponentsInChildren<Image>()[1]; // Get the second Image component
-        if (buttonImage != null)
+        // Setup button image - get the second Image component (first is usually the button background)
+        Image[] images = button.GetComponentsInChildren<Image>();
+        if (images.Length > 1)
         {
-            buttonImage.sprite = v.image;
+            images[1].sprite = v.image;
+            images[1].preserveAspect = true;
+            images[1].type = Image.Type.Filled;
         }
         else
         {
-            Debug.LogError("No Image component found for vehicle sprite!");
+            Debug.LogError("Not enough Image components found in button prefab!");
         }
 
-        // Make sure the button is active and properly sized
         button.SetActive(true);
 
-        // Add click listener
-        btn.onClick.AddListener(() => OnVehicleSelected(v));
+        // Get button component and set interactable state
+        Button btn = button.GetComponent<Button>();
+        btn.interactable = v.vehiclePrefab != null;
+
+        // Only add click listener if the vehicle prefab exists
+        if (v.vehiclePrefab != null)
+        {
+            btn.onClick.AddListener(() => OnVehicleSelected(v));
+        }
+
+        // Update content height for two columns
+        RectTransform contentRect = vehicleButtonContainer.GetComponent<RectTransform>();
+        int totalRows = (vehicles.Count + 1) / 2;
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, verticalSpacing * totalRows);
     }
 
     // When a vehicle is selected, spawn it and hide the UI
@@ -107,20 +285,7 @@ public class gameManager : MonoBehaviour
         }
 
         // Hide the UI panel
-        uiPanel.SetActive(false);
-    }
-
-    void Update()
-    {
-        // Show selector menu when Escape or X is pressed
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.X))
-        {
-            uiPanel.SetActive(true);
-
-            // Optional: You might want to show the cursor when the menu is open
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        vehiclePanel.SetActive(false);
     }
 }
 
@@ -130,4 +295,12 @@ public class vehicle
     public Sprite image; // The image of the vehicle
     public string name;  // The name of the vehicle
     public GameObject vehiclePrefab; // The vehicle prefab to be spawned
+}
+
+[System.Serializable]
+public class map
+{
+    public Sprite image; // The image of the vehicle
+    public string name;  // The name of the vehicle
+    public GameObject mapReference; // The vehicle prefab to be spawned
 }

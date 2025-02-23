@@ -23,17 +23,18 @@ public class CameraController : MonoBehaviour
     {
         //adjust camera near clipping
         Camera.main.nearClipPlane = 0.01f;
-        if (target == null)
-        {
-            //Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
-            enabled = false;
-            return;
-        }
 
         cam = GetComponent<Camera>();
         if (cam == null)
         {
             Debug.LogError("CameraController requires a Camera component on the same GameObject.");
+            enabled = false;
+            return;
+        }
+
+        if (target == null)
+        {
+            //Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
             enabled = false;
             return;
         }
@@ -45,6 +46,9 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        // Ensure we have a valid camera reference
+        if (cam == null) return;
+
         // Toggle between free cam and follow cam on pressing 'C'
         if (Input.GetKeyDown(KeyCode.C))
         {

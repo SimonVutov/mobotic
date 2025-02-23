@@ -8,6 +8,7 @@ public class WheelProperties
     [HideInInspector] public float biDirectional = 0; // optional advanced usage
     public Vector3 localPosition;        // wheel anchor in the car's local space
     public float turnAngle = 30f;        // max steer angle for this wheel
+    public bool flipWheel = false;  // New toggle to flip the wheel
 
     [HideInInspector] public float lastSuspensionLength = 0.0f;
     [HideInInspector] public Vector3 localSlipDirection;
@@ -74,8 +75,12 @@ public class simpleVehicle : MonoBehaviour
                 // Instantiate the visual wheel
                 w.wheelObject = Instantiate(wheelPrefab, transform);
                 w.wheelObject.transform.localPosition = w.localPosition;
-                w.wheelObject.transform.eulerAngles   = transform.eulerAngles;
-                w.wheelObject.transform.localScale    = 2f * new Vector3(wheelSize, wheelSize, wheelSize);
+                w.wheelObject.transform.eulerAngles = transform.eulerAngles;
+
+                // Apply wheel flip if needed
+                Vector3 wheelScale = 2f * new Vector3(wheelSize, wheelSize, wheelSize);
+                if (w.flipWheel) wheelScale.x *= -1;
+                w.wheelObject.transform.localScale = wheelScale;
 
                 // Calculate wheel circumference for rotation logic
                 w.wheelCircumference = 2f * Mathf.PI * wheelSize;
@@ -91,10 +96,14 @@ public class simpleVehicle : MonoBehaviour
         input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         // if exceed maxSpeed, clamp it
-        if (rb.velocity.magnitude > maxSpeed) {
-            if (Forwards) {
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            if (Forwards)
+            {
                 input.y = Mathf.Clamp(input.y, -1f, 0f);
-            } else {
+            }
+            else
+            {
                 input.y = Mathf.Clamp(input.y, 0f, 1f);
             }
         }
@@ -109,8 +118,8 @@ public class simpleVehicle : MonoBehaviour
             if (!wheel.wheelObject) continue;
 
             // For easy reference
-            Transform wheelObj     = wheel.wheelObject.transform;
-            Transform wheelVisual  = wheelObj.GetChild(0);  // the mesh is presumably a child
+            Transform wheelObj = wheel.wheelObject.transform;
+            Transform wheelVisual = wheelObj.GetChild(0);  // the mesh is presumably a child
 
             // Calculate steer angle if wheelState == 1
             if (wheel.wheelState == 1)
@@ -128,9 +137,9 @@ public class simpleVehicle : MonoBehaviour
             {
                 // For free wheels, optionally align them in direction of motion
                 RaycastHit tmpHit;
-                if (Physics.Raycast(transform.TransformPoint(wheel.localPosition), 
-                                    -transform.up, 
-                                    out tmpHit, 
+                if (Physics.Raycast(transform.TransformPoint(wheel.localPosition),
+                                    -transform.up,
+                                    out tmpHit,
                                     wheelSize * 2f))
                 {
                     Quaternion aim = Quaternion.LookRotation(rb.GetPointVelocity(tmpHit.point), transform.up);
@@ -140,7 +149,7 @@ public class simpleVehicle : MonoBehaviour
 
             // Determine the world position of this wheel and velocity at that point
             wheel.wheelWorldPosition = transform.TransformPoint(wheel.localPosition);
-            Vector3 velocityAtWheel   = rb.GetPointVelocity(wheel.wheelWorldPosition);
+            Vector3 velocityAtWheel = rb.GetPointVelocity(wheel.wheelWorldPosition);
 
             // KEY FIX: Get local velocity in the wheel's *actual* orientation
             // so we do not have to manually rotate by turnAngle again
@@ -182,17 +191,17 @@ public class simpleVehicle : MonoBehaviour
             if (Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheelSize * 2f))
             {
                 // how much the spring is compressed
-                float rayLen        = wheelSize * 2f;
-                float compression   = rayLen - hit.distance; 
+                float rayLen = wheelSize * 2f;
+                float compression = rayLen - hit.distance;
                 // damping is difference from last frame
-                float damping       = (wheel.lastSuspensionLength - hit.distance) * dampAmount;
-                float springForce   = (compression + damping) * suspensionForce;
+                float damping = (wheel.lastSuspensionLength - hit.distance) * dampAmount;
+                float springForce = (compression + damping) * suspensionForce;
 
                 // clamp it
                 springForce = Mathf.Clamp(springForce, 0f, suspensionForceClamp);
 
                 // direction is the surface normal
-                Vector3 springDir   = hit.normal * springForce;
+                Vector3 springDir = hit.normal * springForce;
                 wheel.suspensionForceDirection = springDir;
 
                 // Apply total forces at contact
@@ -217,8 +226,9 @@ public class simpleVehicle : MonoBehaviour
             // Convert that local Z speed into a rotation about X
             float wheelRotationSpeed = forwardInWheelSpace.z * 360f / wheel.wheelCircumference;
 
-            // Rotate the visual child
-            wheelVisual.Rotate(Vector3.right, wheelRotationSpeed * Time.fixedDeltaTime, Space.Self);
+            // Rotate the visual child (modified to respect wheel flip)
+            float rotationDirection = wheel.flipWheel ? -1f : 1f;
+            wheelVisual.Rotate(Vector3.right, wheelRotationSpeed * Time.fixedDeltaTime * rotationDirection, Space.Self);
         }
     }
 
