@@ -27,6 +27,10 @@ public class gameManager : MonoBehaviour
     private List<GameObject> createdMapButtons = new List<GameObject>();
     private List<GameObject> createdVehicleButtons = new List<GameObject>();
 
+    private float scrollPosition = 0f;
+    private float scrollSpeed = 300f;  // Adjust this to control scroll speed
+    private float maxScroll = 0f;      // Will be calculated based on number of buttons
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,13 +82,13 @@ public class gameManager : MonoBehaviour
             Debug.LogError("No TextMeshProUGUI component found in button prefab!");
         }
 
-        // Setup button image - get the second Image component (first is usually the button background)
+        // Setup button image - get the second Image component
         Image[] images = button.GetComponentsInChildren<Image>();
         if (images.Length > 1)
         {
             images[1].sprite = m.image;
             images[1].preserveAspect = true;
-            images[1].type = Image.Type.Filled;
+            images[1].type = Image.Type.Simple;
         }
         else
         {
@@ -139,6 +143,17 @@ public class gameManager : MonoBehaviour
 
     void Update()
     {
+        // Handle scrolling for active panel
+        float scrollInput = -Input.mouseScrollDelta.y;
+        if (mapPanel.activeSelf)
+        {
+            HandleScrolling(scrollInput, mapButtonContainer, maps.Count);
+        }
+        else if (vehiclePanel.activeSelf)
+        {
+            HandleScrolling(scrollInput, vehicleButtonContainer, vehicles.Count);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.X))
         {
             // If we're controlling the vehicle (both panels inactive)
@@ -200,6 +215,23 @@ public class gameManager : MonoBehaviour
         }
     }
 
+    void HandleScrolling(float scrollInput, Transform container, int itemCount)
+    {
+        // Calculate max scroll based on number of rows (itemCount / 2 rounded up)
+        int rows = (itemCount + 1) / 2;
+        maxScroll = Mathf.Max(0, (rows - 2) * 110f);  // 110f is the vertical spacing between rows
+                                                      // Subtract 2 rows to account for visible area
+
+        // Update scroll position
+        scrollPosition += scrollInput * scrollSpeed * Time.deltaTime;
+        scrollPosition = Mathf.Clamp(scrollPosition, 0, maxScroll);
+
+        // Apply scroll position to container
+        Vector3 pos = container.localPosition;
+        pos.y = scrollPosition;
+        container.localPosition = pos;
+    }
+
     // Create a UI button for the vehicle
     void CreateVehicleButton(vehicle v)
     {
@@ -229,13 +261,13 @@ public class gameManager : MonoBehaviour
             Debug.LogError("No TextMeshProUGUI component found in button prefab!");
         }
 
-        // Setup button image - get the second Image component (first is usually the button background)
+        // Setup button image - get the second Image component
         Image[] images = button.GetComponentsInChildren<Image>();
         if (images.Length > 1)
         {
             images[1].sprite = v.image;
             images[1].preserveAspect = true;
-            images[1].type = Image.Type.Filled;
+            images[1].type = Image.Type.Simple;
         }
         else
         {

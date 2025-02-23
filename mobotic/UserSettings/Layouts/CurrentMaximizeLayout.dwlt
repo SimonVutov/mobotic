@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 21385
+  controlID: 25097
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 21386
+  controlID: 25098
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 21478
+  controlID: 25016
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -236,8 +236,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: be730800
-      m_LastClickedID: 553918
+      m_SelectedIDs: 
+      m_LastClickedID: 0
       m_ExpandedIDs: 0614fdffa0b6feff20fbffff62720000a2720000427708008277080096790800
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -671,9 +671,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 379.34576, y: 488.1753, z: -139.26079}
+    m_Target: {x: 513.5465, y: 501.52063, z: 22.224548}
     speed: 2
-    m_Value: {x: 379.34576, y: 488.1753, z: -139.26079}
+    m_Value: {x: 513.5465, y: 501.52063, z: 22.224548}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -719,9 +719,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.11954302, y: -0.05300624, z: 0.006407736, w: 0.9914094}
+    m_Target: {x: 0.06844393, y: 0.23623042, z: -0.016665066, w: 0.9691593}
     speed: 2
-    m_Value: {x: 0.119541, y: -0.05300534, z: 0.0064076274, w: 0.9913926}
+    m_Value: {x: 0.06844267, y: 0.23622608, z: -0.01666476, w: 0.96914154}
   m_Size:
     m_Target: 380.32498
     speed: 2
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 21387
+  controlID: 25099
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -882,7 +882,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/forkliftGame
+    - Assets
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -890,15 +890,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/forkliftGame
+  - Assets
   m_LastFoldersGridSize: 96
   m_LastProjectPath: /Users/simonvutov/Documents/mobotic/mobotic
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d6da0200
-    m_LastClickedID: 187094
+    m_SelectedIDs: 3ebe0100
+    m_LastClickedID: 114238
     m_ExpandedIDs: 000000003ebe010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -952,9 +952,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: be730800
-    m_LastClickedInstanceID: 553918
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1062,8 +1062,8 @@ MonoBehaviour:
     y: 0
     width: 516
     height: 1362
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
