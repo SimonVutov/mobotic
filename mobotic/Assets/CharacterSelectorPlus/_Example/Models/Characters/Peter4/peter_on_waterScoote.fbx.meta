@@ -1,0 +1,225 @@
+fileFormatVersion: 2
+guid: a682c7f6c7cf64699bf55dadc1b12dd7
+timeCreated: 1502221647
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Chest
+    100002: Fingers01.L
+    100004: Fingers01.R
+    100006: Fingers02.L
+    100008: Fingers02.L_end
+    100010: Fingers02.L_end_end
+    100012: Fingers02.R
+    100014: Fingers02.R_end
+    100016: Fingers02.R_end_end
+    100018: Foot Roll.L
+    100020: Foot Roll.R
+    100022: Foot.L
+    100024: Foot.R
+    100026: Hand.L
+    100028: Hand.R
+    100030: Head
+    100032: Head_end
+    100034: Head_end_end
+    100036: Leg Control.L
+    100038: Leg Control.R
+    100040: Leg ik.L
+    100042: Leg ik.L_end
+    100044: Leg ik.L_end_end
+    100046: Leg ik.R
+    100048: Leg ik.R_end
+    100050: Leg ik.R_end_end
+    100052: Leg Pool Target.L
+    100054: Leg Pool Target.L_end
+    100056: Leg Pool Target.L_end_end
+    100058: Leg Pool Target.R
+    100060: Leg Pool Target.R_end
+    100062: Leg Pool Target.R_end_end
+    100064: LowerArm.L
+    100066: LowerArm.R
+    100068: LowerLeg.L
+    100070: LowerLeg.L_end
+    100072: LowerLeg.L_end_end
+    100074: LowerLeg.R
+    100076: LowerLeg.R_end
+    100078: LowerLeg.R_end_end
+    100080: Neck
+    100082: Peter
+    100084: Peter.Object
+    100086: //RootNode
+    100088: Thumb01.L
+    100090: Thumb01.R
+    100092: Thumb02.L
+    100094: Thumb02.L_end
+    100096: Thumb02.L_end_end
+    100098: Thumb02.R
+    100100: Thumb02.R_end
+    100102: Thumb02.R_end_end
+    100104: Toes Control.L
+    100106: Toes Control.L_end
+    100108: Toes Control.L_end_end
+    100110: Toes Control.R
+    100112: Toes Control.R_end
+    100114: Toes Control.R_end_end
+    100116: Toes.L
+    100118: Toes.L_end
+    100120: Toes.L_end_end
+    100122: Toes.R
+    100124: Toes.R_end
+    100126: Toes.R_end_end
+    100128: Torso
+    100130: UpperArm.L
+    100132: UpperArm.R
+    100134: UpperLeg.L
+    100136: UpperLeg.R
+    100138: Water_Scooter
+    400000: Chest
+    400002: Fingers01.L
+    400004: Fingers01.R
+    400006: Fingers02.L
+    400008: Fingers02.L_end
+    400010: Fingers02.L_end_end
+    400012: Fingers02.R
+    400014: Fingers02.R_end
+    400016: Fingers02.R_end_end
+    400018: Foot Roll.L
+    400020: Foot Roll.R
+    400022: Foot.L
+    400024: Foot.R
+    400026: Hand.L
+    400028: Hand.R
+    400030: Head
+    400032: Head_end
+    400034: Head_end_end
+    400036: Leg Control.L
+    400038: Leg Control.R
+    400040: Leg ik.L
+    400042: Leg ik.L_end
+    400044: Leg ik.L_end_end
+    400046: Leg ik.R
+    400048: Leg ik.R_end
+    400050: Leg ik.R_end_end
+    400052: Leg Pool Target.L
+    400054: Leg Pool Target.L_end
+    400056: Leg Pool Target.L_end_end
+    400058: Leg Pool Target.R
+    400060: Leg Pool Target.R_end
+    400062: Leg Pool Target.R_end_end
+    400064: LowerArm.L
+    400066: LowerArm.R
+    400068: LowerLeg.L
+    400070: LowerLeg.L_end
+    400072: LowerLeg.L_end_end
+    400074: LowerLeg.R
+    400076: LowerLeg.R_end
+    400078: LowerLeg.R_end_end
+    400080: Neck
+    400082: Peter
+    400084: Peter.Object
+    400086: //RootNode
+    400088: Thumb01.L
+    400090: Thumb01.R
+    400092: Thumb02.L
+    400094: Thumb02.L_end
+    400096: Thumb02.L_end_end
+    400098: Thumb02.R
+    400100: Thumb02.R_end
+    400102: Thumb02.R_end_end
+    400104: Toes Control.L
+    400106: Toes Control.L_end
+    400108: Toes Control.L_end_end
+    400110: Toes Control.R
+    400112: Toes Control.R_end
+    400114: Toes Control.R_end_end
+    400116: Toes.L
+    400118: Toes.L_end
+    400120: Toes.L_end_end
+    400122: Toes.R
+    400124: Toes.R_end
+    400126: Toes.R_end_end
+    400128: Torso
+    400130: UpperArm.L
+    400132: UpperArm.R
+    400134: UpperLeg.L
+    400136: UpperLeg.R
+    400138: Water_Scooter
+    2300000: Water_Scooter
+    3300000: Water_Scooter
+    4300000: Peter.Object
+    4300002: Water_Scooter
+    7400000: Peter|Peter|Peter|Slide_Down|Peter|Slide_Down
+    7400002: Peter|Peter|Peter|Slide_Left|Peter|Slide_Left
+    7400004: Peter|Peter|Peter|Slide_Right|Peter|Slide_Right
+    7400006: Peter|Peter|Peter|Slide_Up|Peter|Slide_Up
+    9500000: //RootNode
+    13700000: Peter.Object
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

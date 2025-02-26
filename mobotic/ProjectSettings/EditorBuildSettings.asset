@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/ForkliftGame.unity
-    guid: a4785e6077b6b482e9946bf7f0c4353f
+    path: Assets/CharacterSelectorPlus/_Example/sample.unity
+    guid: ec1b3b65126c5441f9334545be83a492
   m_configObjects: {}
