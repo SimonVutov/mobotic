@@ -25,6 +25,7 @@ public class WheelProperties
 
 public class simpleVehicle : MonoBehaviour
 {
+    public float inertia = 1.0f; // not used in this script
     [Header("Wheel Setup")]
     public Vector3 COMAdjustment = Vector3.zero;
     public GameObject wheelPrefab;
@@ -59,7 +60,7 @@ public class simpleVehicle : MonoBehaviour
         rb.centerOfMass = COMAdjustment;
 
         // Slight tweak to inertia if desired
-        rb.inertiaTensor = 1.0f * rb.inertiaTensor;
+        rb.inertiaTensor = rb.inertiaTensor * inertia;
 
         // Create each wheel
         if (wheels != null)

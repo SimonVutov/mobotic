@@ -8,7 +8,6 @@ public class forklift : MonoBehaviour
     public List<Piece> pieces;
     [HideInInspector]
     public List<GameObject> piecesObjects;
-    public GameObject forkPrefab;
     private float input;
 
     private float springForce = 210f;
@@ -19,7 +18,7 @@ public class forklift : MonoBehaviour
     {
         foreach (Piece piece in pieces)
         {
-            piece.pieceObject = Instantiate(forkPrefab, piece.position, Quaternion.identity);
+            piece.pieceObject = Instantiate(piece.forkPrefab, transform.position, transform.rotation);
             piecesObjects.Add(piece.pieceObject);
 
             piece.pieceObject.transform.localScale = piece.shape;
@@ -29,9 +28,11 @@ public class forklift : MonoBehaviour
 
             // Remove rotation constraints, let physics handle it
             Rigidbody rb = piece.pieceObject.GetComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.None;
-
-            rb.inertiaTensor = 100 * rb.inertiaTensor; // Increase inertia tensor to prevent spinning
+            if (rb == null)
+            {
+                continue;
+            }
+            rb.inertiaTensor = rb.inertiaTensor * piece.inertiaTensorMultiplier;
         }
     }
     void Update()
@@ -52,6 +53,15 @@ public class forklift : MonoBehaviour
                 piece.position.z
             ));
             Vector3 currentWorldPosition = piece.pieceObject.transform.position;
+
+            if (piece.pieceObject.GetComponent<Rigidbody>() == null)
+            {
+                // piece is just a visual object, move it directly
+                piece.pieceObject.transform.position = targetWorldPosition;
+                piece.pieceObject.transform.rotation = transform.rotation;
+                
+                continue;
+            }
 
             // Calculate the force with spring-damper approach
             Vector3 positionError = targetWorldPosition - currentWorldPosition;
@@ -109,6 +119,8 @@ public class forklift : MonoBehaviour
 [System.Serializable]
 public class Piece
 {
+    public float inertiaTensorMultiplier = 100f;
+    public GameObject forkPrefab;
     public Vector3 position;
     public Vector3 shape;
     public float maxHeight;

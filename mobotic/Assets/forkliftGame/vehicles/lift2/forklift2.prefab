@@ -121,8 +121,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ebc3b893ddd42339d267daac0a6cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inertia: 1
   COMAdjustment: {x: 0, y: -0.26, z: -0.16}
-  wheelPrefab: {fileID: 8055236365701192538, guid: d11998354e82e47ad8a0814328c0f3b3, type: 3}
+  wheelPrefab: {fileID: 8055236365701192538, guid: d11998354e82e47ad8a0814328c0f3b3,
+    type: 3}
   wheels:
   - wheelState: 1
     biDirectional: 0
@@ -214,14 +216,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.02
   pieces:
-  - position: {x: 0, y: 0.13, z: 0}
+  - forkPrefab: {fileID: 6302293112087250634, guid: 593e27445d78b4eb0b5ba58c142f8a82,
+      type: 3}
+    position: {x: 0, y: 0.13, z: 0}
     shape: {x: 0.7, y: 0.03, z: 0.7}
     maxHeight: 0.1
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
   piecesObjects: []
-  forkPrefab: {fileID: 6302293112087250634, guid: 593e27445d78b4eb0b5ba58c142f8a82, type: 3}
 --- !u!54 &2403348350756816626
 Rigidbody:
   m_ObjectHideFlags: 0

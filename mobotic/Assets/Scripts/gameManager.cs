@@ -6,6 +6,7 @@ using TMPro;
 
 public class gameManager : MonoBehaviour
 {
+    public bool autoSelectFirstMap = false; // skips the map selection screen, and goes to warehouse
     // Lists
     public List<vehicle> vehicles;
     public List<map> maps;
@@ -51,6 +52,11 @@ public class gameManager : MonoBehaviour
             {
                 child.gameObject.SetActive(true);
             }
+        }
+
+        if (maps.Count > 0 && maps[0].mapReference != null && autoSelectFirstMap)
+        {
+            OnMapSelected(maps[0]);
         }
     }
 
