@@ -23,6 +23,24 @@ public class CameraController : MonoBehaviour
 
     private Camera cam; // Reference to the Camera component
 
+    void Awake()
+    {
+        // Initialize angles and lookAts arrays if they're not set
+        if (angles == null || angles.Length == 0)
+        {
+            angles = new Vector3[1];
+            angles[0] = new Vector3(0, 2, -5); // Default position behind and above the target
+            Debug.LogWarning("Camera angles array not set. Using default values.");
+        }
+
+        if (lookAts == null || lookAts.Length == 0)
+        {
+            lookAts = new Vector3[1];
+            lookAts[0] = new Vector3(0, 0, 2); // Default look at point in front of the target
+            Debug.LogWarning("Camera lookAts array not set. Using default values.");
+        }
+    }
+
     void Start()
     {
         //adjust camera near clipping
@@ -38,14 +56,17 @@ public class CameraController : MonoBehaviour
 
         if (target == null)
         {
-            //Debug.LogError("Target not set for CameraController. Please set a target GameObject in the Inspector.");
-            enabled = false;
-            return;
+            Debug.LogWarning("Target not set for CameraController. Camera will not follow any object until a target is set.");
+            // Don't disable the controller, just wait for a target to be set
+            // enabled = false;
+            // return;
         }
-
-        // Hide and lock the cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        else
+        {
+            // Hide and lock the cursor only when we have a target
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     void Update()
@@ -64,31 +85,44 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.C)) {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
             curAngle++;
-            if (curAngle >= angles.Length) {
+            if (curAngle >= angles.Length)
+            {
                 curAngle = 0;
             }
         }
-        StrictCamMode();
-        // FollowCamMode();
+
+        // Only call camera modes if we have a target
+        if (target != null)
+        {
+            StrictCamMode();
+            // FollowCamMode();
+        }
     }
 
     void StrictCamMode()
     {
         if (target == null) return;
 
+        // Check if angles and lookAts arrays are properly initialized
+        if (angles == null || lookAts == null || angles.Length == 0 || lookAts.Length == 0 || curAngle >= angles.Length || curAngle >= lookAts.Length)
+        {
+            Debug.LogWarning("Camera angles or lookAts arrays not properly initialized. Cannot use StrictCamMode.");
+            return;
+        }
+
         // Calculate the desired position and rotation
         Vector3 desiredPos = angles[curAngle].x * target.right + angles[curAngle].y * target.up + angles[curAngle].z * target.forward;
         Vector3 lookAt = lookAts[curAngle].x * target.right + lookAts[curAngle].y * target.up + lookAts[curAngle].z * target.forward;
 
         // Update the camera's position and rotation
-
         Vector3 velocity = Vector3.zero;
         transform.position = target.position + desiredPos;
         transform.LookAt(target.position + lookAt);
     }
-    
+
     void FollowCamMode()
     {
         if (target == null) return;
@@ -154,6 +188,20 @@ public class CameraController : MonoBehaviour
 
             // Force an immediate update to position camera correctly
             FollowCamMode();
+
+            // Hide and lock the cursor when we have a target
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            // If target is null, don't disable the camera controller
+            // Just log a message and show the cursor
+            Debug.Log("Camera target set to null, waiting for new target");
+
+            // Show the cursor when we don't have a target
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

@@ -102,6 +102,14 @@ public class CharacterSelectorClient : MonoBehaviour
         {
             Destroy(currentVehicleInstance);
             currentVehicleInstance = null;
+
+            // Reset the camera target
+            if (cameraController != null)
+            {
+                cameraController.target = null;
+                Debug.Log("Camera target reset when destroying vehicle");
+            }
+
             Debug.Log("Vehicle destroyed when returning to menu");
         }
     }

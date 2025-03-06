@@ -62,7 +62,7 @@ public class forklift : MonoBehaviour
                 // piece is just a visual object, move it directly
                 piece.pieceObject.transform.position = targetWorldPosition;
                 piece.pieceObject.transform.rotation = transform.rotation;
-                
+
                 continue;
             }
 
@@ -112,6 +112,25 @@ public class forklift : MonoBehaviour
             if (piece.pieceObject != null)
             {
                 Destroy(piece.pieceObject);
+            }
+        }
+        pieces.Clear();
+        piecesObjects.Clear();
+    }
+
+    private void OnDestroy()
+    {
+        // Destroy all pieces when the vehicle is destroyed
+        DestroyAllPieces();
+    }
+
+    private void DestroyAllPieces()
+    {
+        foreach (GameObject pieceObject in piecesObjects)
+        {
+            if (pieceObject != null)
+            {
+                Destroy(pieceObject);
             }
         }
         pieces.Clear();

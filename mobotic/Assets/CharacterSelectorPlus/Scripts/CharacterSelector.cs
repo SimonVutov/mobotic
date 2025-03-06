@@ -56,6 +56,19 @@ public class CharacterSelector : MonoBehaviour
 	// Reference to the existing camera controller
 	public CameraController cameraController;
 
+	void Awake()
+	{
+		// Find the camera controller if not assigned
+		if (cameraController == null)
+		{
+			cameraController = FindObjectOfType<CameraController>();
+			if (cameraController == null)
+			{
+				Debug.LogWarning("Camera controller not found in the scene. Camera will not follow spawned vehicles.");
+			}
+		}
+	}
+
 	/*
     * Display the current money amount
     */
@@ -282,11 +295,23 @@ public class CharacterSelector : MonoBehaviour
 				// Store the spawned vehicle reference
 				GameObject spawnedVehicle = null;
 
+				// Check if the camera controller is assigned
+				if (cameraController == null)
+				{
+					// Try to find the camera controller in the scene
+					cameraController = FindObjectOfType<CameraController>();
+					if (cameraController == null)
+					{
+						Debug.LogWarning("Camera controller not found in the scene. Camera will not follow spawned vehicles.");
+					}
+				}
+
 				// Trigger the spawn event
 				if (OnVehicleSpawn != null)
 				{
 					OnVehicleSpawn(vehiclePrefabToSpawn, spawnPosition, Quaternion.identity);
 					// Note: We can't directly get the spawned vehicle reference when using the event
+					// The camera target should be set by the event listeners (VehicleSpawnManager or CharacterSelectorClient)
 				}
 				else
 				{
@@ -430,6 +455,13 @@ public class CharacterSelector : MonoBehaviour
 		if (OnReturnToMenu != null)
 		{
 			OnReturnToMenu();
+		}
+
+		// Reset the camera target
+		if (cameraController != null)
+		{
+			cameraController.target = null;
+			Debug.Log("Camera target reset when returning to menu");
 		}
 
 		// Find and activate the menu canvas
