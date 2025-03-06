@@ -1176,6 +1176,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: loader
       objectReference: {fileID: 0}
+    - target: {fileID: 8321483053163339137, guid: 25c5b4a0e11732640b1eb706c674efed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506937391318023653, guid: 25c5b4a0e11732640b1eb706c674efed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024914181256074614, guid: 25c5b4a0e11732640b1eb706c674efed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

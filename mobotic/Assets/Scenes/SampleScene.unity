@@ -8284,6 +8284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2506d3a175dd14ed9bce79f7418ec5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angles: []
+  lookAts: []
   ignoreRaycast: 1
   target: {fileID: 461817457}
   zoomSpeed: 2
@@ -83713,6 +83715,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: forklift1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913331596354142065, guid: 1d263c3162fce4b12b67fdf6477a30fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3370767087454555364, guid: 1d263c3162fce4b12b67fdf6477a30fc,
         type: 3}

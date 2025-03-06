@@ -2711,6 +2711,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
+        type: 3}
+      propertyPath: vehicleSpawnPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1560416193785243768, guid: 6fb02524b76e74a8280694c296016d30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17229,7 +17234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &333419898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17314,6 +17319,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4723584556590128694, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -146.77904
+      objectReference: {fileID: 0}
     - target: {fileID: 4723584556605961414, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_Color.a
@@ -17334,6 +17344,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 8375361}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: prefab.Array.size
@@ -17374,6 +17389,35 @@ PrefabInstance:
       propertyPath: prefab.Array.data[5]
       value: 
       objectReference: {fileID: 1069384759678360, guid: 8a1d7b337592e4d2d9982fa143fe7cd0,
+        type: 3}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: vehiclePrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: vehiclePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 2913331596354142065, guid: 1d263c3162fce4b12b67fdf6477a30fc,
+        type: 3}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: vehiclePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 2913331596354142065, guid: 1d263c3162fce4b12b67fdf6477a30fc,
+        type: 3}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: vehiclePrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 2710531721192692925, guid: 3227675e345d24c51b1e29baa7109296,
+        type: 3}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: vehiclePrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 7220219661193170396, guid: ab06ddbe804954030a1a6fad7479d2a4,
         type: 3}
     - target: {fileID: 4723584556785507305, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17515,6 +17559,21 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4723584557204666378, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -12.836907
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723584557521936416, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 78.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723584557523618079, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.7000132
+      objectReference: {fileID: 0}
     - target: {fileID: 4723584557903321338, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_Color.a
@@ -17539,6 +17598,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723584558023479601, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 101.64167
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36888,7 +36952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &843165550
 BoxCollider:
   m_ObjectHideFlags: 0

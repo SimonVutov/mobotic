@@ -33,6 +33,9 @@ public class forklift : MonoBehaviour
                 continue;
             }
             rb.inertiaTensor = rb.inertiaTensor * piece.inertiaTensorMultiplier;
+
+            // make forklift a child of the vehicle so that it gets deleted when the vehicle is destroyed
+            piece.pieceObject.transform.parent = transform;
         }
     }
     void Update()
