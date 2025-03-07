@@ -2713,6 +2713,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
         type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 8375361}
+    - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
+        type: 3}
       propertyPath: vehicleSpawnPosition.y
       value: 2
       objectReference: {fileID: 0}
@@ -17322,7 +17327,7 @@ PrefabInstance:
     - target: {fileID: 4723584556590128694, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -146.77904
+      value: -146.77905
       objectReference: {fileID: 0}
     - target: {fileID: 4723584556605961414, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17562,7 +17567,7 @@ PrefabInstance:
     - target: {fileID: 4723584557204666378, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -12.836907
+      value: -12.836906
       objectReference: {fileID: 0}
     - target: {fileID: 4723584557521936416, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17602,7 +17607,7 @@ PrefabInstance:
     - target: {fileID: 4723584558023479601, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 101.64167
+      value: 101.64168
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -72596,6 +72601,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893912630350947616, guid: 3b3c21652af1c4839b7397eb8baf7ccc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

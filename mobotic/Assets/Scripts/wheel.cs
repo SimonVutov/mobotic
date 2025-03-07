@@ -18,7 +18,7 @@ public class wheel : MonoBehaviour
     vehicleController vc;
     [HideInInspector]
     public bool Forwards = false;
-    private float wheelGrip = 5f;
+    private float wheelGrip = 15f;
 
     private void OnValidate()
     {
@@ -116,11 +116,16 @@ public class wheel : MonoBehaviour
     // FixedUpdate is used for physics calculations
     void FixedUpdate()
     {
+        float dragCoefficient = 0.3f;
+        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
+        rb.AddForce(dragForce);
+
         for (int i = 0; i < wheels.Length; i++)
         {
+
             var wheel = wheels[i];
-            GameObject wheelObj = wheels[i].wheelObject;
-            Transform wheelVisual = wheelObj.transform.GetChild(0);
+            GameObject wheelObj = wheels[i].wheelObject; // This is the parent GameObject
+            Transform wheelVisual = wheelObj.transform.GetChild(0); // Assuming the visual component is the first child
 
             // Update wheel rotations per second due to input
             wheel.torque = Mathf.Clamp(input.y + input.x * wheel.biDirectional, -1, 1) * wheel.maxTorque;
@@ -135,45 +140,13 @@ public class wheel : MonoBehaviour
             // Calculate slip direction based on local velocity
             wheel.localVelocity = transform.InverseTransformDirection(rb.GetPointVelocity(wheel.wheelWorldPosition));
             float turnAngleRad = wheel.turnAngle * input.x * Mathf.Deg2Rad;
-            float rollingResistance = 0.005f;
-
-            // Corrected steering vector calculations
-            float cosAngle = Mathf.Cos(turnAngleRad);
-            float sinAngle = Mathf.Sin(turnAngleRad);
-            Vector3 forwardDir = new Vector3(sinAngle, 0, cosAngle);
-            Vector3 sideDir = new Vector3(cosAngle, 0, -sinAngle);
-
-            // Calculate lateral and longitudinal slip separately
-            float lateralSlip = Vector3.Dot(wheel.localVelocity, sideDir);
-            float longitudinalSlip = Vector3.Dot(wheel.localVelocity, forwardDir);
-
-            // Only apply drive force when there's input
-            if (Mathf.Abs(input.y) > 0.01f)
-            {
-                longitudinalSlip -= (wheel.hitPointForce / wheelGrip);
-            }
-
-            // Reduce slip forces when coasting (no input)
-            float slipMultiplier = Mathf.Abs(input.y) > 0.01f || Mathf.Abs(input.x) > 0.01f ? 1.0f : 0.2f;
-
-            wheel.localSlipDirection = wheelGrip * slipMultiplier * (
-                -lateralSlip * sideDir * 0.7f +
-                (-longitudinalSlip * rollingResistance) * forwardDir
+            float rollingResistance = 0.015f; // 0.015 is a good value for rolling resistance
+            wheel.localSlipDirection = wheelGrip * new Vector3(
+                -wheel.localVelocity.x * Mathf.Cos(turnAngleRad) + wheel.localVelocity.z * Mathf.Sin(turnAngleRad),
+                0,
+                (-wheel.localVelocity.z * Mathf.Cos(turnAngleRad) - wheel.localVelocity.x * Mathf.Sin(turnAngleRad)) * rollingResistance + wheel.hitPointForce / wheelGrip
             );
-
             if (wheel.wheelState == 0) wheel.localSlipDirection = Vector3.zero;
-
-            // Clamp the slip force to maintain realistic physics
-            float slipMagnitude = wheel.localSlipDirection.magnitude;
-            if (slipMagnitude > 0)
-            {
-                float normalForce = wheel.suspensionForce * Time.fixedDeltaTime * 50;
-                float maxSlipForce = normalForce * wheel.frictionCo;
-                if (slipMagnitude > maxSlipForce)
-                {
-                    wheel.localSlipDirection = wheel.localSlipDirection.normalized * maxSlipForce;
-                }
-            }
 
             wheel.worldSlipDirection = Vector3.ClampMagnitude(transform.rotation * wheel.localSlipDirection, wheel.maxGrip);
 
@@ -183,24 +156,7 @@ public class wheel : MonoBehaviour
             // Raycast to check wheel contact and apply forces
             RaycastHit hit;
             Physics.Raycast(wheel.wheelWorldPosition, -transform.up, out hit, wheel.size * 2);
-
-            // Check if the hit object has a vehicleController component on its root
-            bool isVehiclePart = false;
             if (hit.collider != null)
-            {
-                Transform currentTransform = hit.collider.transform;
-                while (currentTransform != null)
-                {
-                    if (currentTransform.GetComponent<vehicleController>() != null)
-                    {
-                        isVehiclePart = true;
-                        break;
-                    }
-                    currentTransform = currentTransform.parent;
-                }
-            }
-
-            if (hit.collider != null && !isVehiclePart)
             {
                 wheel.suspensionForceDirection = hit.normal * Mathf.Clamp(wheel.size * 2 - hit.distance + Mathf.Clamp(wheel.lastSuspensionLength - hit.distance, -1, 1) * dampAmount, 0, Mathf.Infinity) * wheel.suspensionForce * Time.fixedDeltaTime * 50;
                 wheel.suspensionForceDirection = Vector3.ClampMagnitude(wheel.suspensionForceDirection, suspensionForceClamp);

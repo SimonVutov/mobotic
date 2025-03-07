@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class vehicleController : MonoBehaviour
 {
-    public float inertiaMultiplier = 5.0f; // Multiplier for the vehicle's inertia
-    public float maxSpeed = 35f; // Maximum speed of the vehicle in m/s
+    public float maxSpeed = 15f; // Maximum speed of the vehicle in m/s
     public bool QAandWSControl = false; // if true, the vehicle will be controlled by QA and WS keys
     public float massInKg = 100.0f;
     public int sectionCount = 4;
@@ -12,6 +11,7 @@ public class vehicleController : MonoBehaviour
     public Vector2 input; // Input for the vehicle (e.g., steering and throttle)
 
     private Rigidbody rb;
+    private bool breaking = false;
 
     private void Start()
     {
@@ -22,9 +22,6 @@ public class vehicleController : MonoBehaviour
             Debug.LogError("No Rigidbody component found on the VehicleController.");
             return;
         }
-
-        // Add this: Set a lower center of mass for better stability
-        rb.centerOfMass = new Vector3(0, 0, 0); // Adjust Y value as needed
 
         // Ensure all wheels have proper parent Rigidbody setup
         foreach (wheel whee in wheels)
@@ -54,15 +51,26 @@ public class vehicleController : MonoBehaviour
                 }
             }
         }
-
-        rb.inertiaTensor = inertiaMultiplier * rb.inertiaTensor;
     }
+
     private void Update()
     {
 
         // Process input from the player (e.g., using Unity's Input system)
         input.x = Input.GetAxisRaw("Horizontal"); // Steering
         input.y = Input.GetAxisRaw("Vertical");   // Throttle/Brake
+
+        if (true) { // reduce fast turning, add anti turn
+            input.x -= rb.angularVelocity.y * (0.4f + (Mathf.Abs(rb.angularVelocity.y) > 2f ? 1 : 0));
+        }
+        Vector2.ClampMagnitude(input, 1);
+
+        if (Input.GetKeyDown(KeyCode.Space) || breaking || rb.velocity.magnitude > 5f)
+        {
+            breaking = true;
+
+            if (rb.velocity.magnitude < 0.1f) breaking = false;
+        }
 
         // Set input for each wheel
         foreach (wheel wheel in wheels)
@@ -87,21 +95,19 @@ public class vehicleController : MonoBehaviour
                 wheel.input = Vector2.ClampMagnitude(newInput, 1);
             }
 
+            if (breaking && false)
+            {
+                wheel.input.y = -1;
+                wheel.input.x = 0.5f;
+            }
+
             if (rb.velocity.magnitude > maxSpeed)
             {
                 if (wheel.Forwards) wheel.input.y = Mathf.Clamp(wheel.input.y, -1, 0);
                 else wheel.input.y = Mathf.Clamp(wheel.input.y, 0, 1);
             }
         }
-    }
 
-    void FixedUpdate()
-    { //some basic physics
-        float dragCoefficient = 0.3f;
-        Vector3 dragForce = -dragCoefficient * rb.velocity.sqrMagnitude * rb.velocity.normalized * Time.fixedDeltaTime;
-        rb.AddForce(dragForce);
 
-        float rotationalDragCoefficient = 0.9f;
-        rb.angularVelocity *= 1 - rotationalDragCoefficient * Time.fixedDeltaTime;
     }
 }
