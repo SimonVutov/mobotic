@@ -17410,19 +17410,19 @@ PrefabInstance:
         type: 3}
       propertyPath: vehiclePrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 2913331596354142065, guid: 1d263c3162fce4b12b67fdf6477a30fc,
+      objectReference: {fileID: 2710531721192692925, guid: 3227675e345d24c51b1e29baa7109296,
         type: 3}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: vehiclePrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 2710531721192692925, guid: 3227675e345d24c51b1e29baa7109296,
+      objectReference: {fileID: 7220219661193170396, guid: ab06ddbe804954030a1a6fad7479d2a4,
         type: 3}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: vehiclePrefabs.Array.data[3]
       value: 
-      objectReference: {fileID: 7220219661193170396, guid: ab06ddbe804954030a1a6fad7479d2a4,
+      objectReference: {fileID: 2816533231887991293, guid: 221c2f2e925c44769a7598a731a3daf1,
         type: 3}
     - target: {fileID: 4723584556785507305, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
