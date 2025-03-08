@@ -11,6 +11,9 @@ public class VehicleSpawnManager : MonoBehaviour
     // Reference to the existing camera controller
     public CameraController cameraController;
 
+    // Reference to the UI camera
+    public Camera uiCamera;
+
     // Reference to the currently spawned vehicle
     private GameObject currentVehicle;
 
@@ -47,6 +50,12 @@ public class VehicleSpawnManager : MonoBehaviour
                 Debug.LogWarning("Camera controller not found in the scene. Camera will not follow spawned vehicles.");
             }
         }
+
+        // If UI camera is not assigned, try to get it from the CharacterSelector
+        if (uiCamera == null && characterSelector != null && characterSelector.uiCamera != null)
+        {
+            uiCamera = characterSelector.uiCamera;
+        }
     }
 
     private void OnEnable()
@@ -72,6 +81,13 @@ public class VehicleSpawnManager : MonoBehaviour
     {
         // Delete the current vehicle
         DestroyCurrentVehicle();
+
+        // Enable the UI camera when returning to menu
+        if (uiCamera != null)
+        {
+            uiCamera.enabled = true;
+            Debug.Log("UI camera enabled for menu in VehicleSpawnManager");
+        }
     }
 
     // Destroy the current vehicle
@@ -135,6 +151,13 @@ public class VehicleSpawnManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Camera controller not assigned. Cannot set camera target.");
+        }
+
+        // Disable the UI camera when driving
+        if (uiCamera != null)
+        {
+            uiCamera.enabled = false;
+            Debug.Log("UI camera disabled for driving in VehicleSpawnManager");
         }
 
         Debug.Log("Vehicle spawned successfully: " + vehiclePrefab.name);

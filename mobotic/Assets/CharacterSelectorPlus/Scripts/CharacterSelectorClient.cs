@@ -9,6 +9,9 @@ public class CharacterSelectorClient : MonoBehaviour
     // Reference to the existing camera controller
     public CameraController cameraController;
 
+    // Reference to the UI camera
+    public Camera uiCamera;
+
     // Reference to the currently spawned vehicle instance
     private GameObject currentVehicleInstance;
 
@@ -32,6 +35,17 @@ public class CharacterSelectorClient : MonoBehaviour
             else if (characterSelector.vehiclePrefabs.Length != characterSelector.prefab.Length)
             {
                 Debug.LogWarning("Vehicle prefabs array length does not match display prefabs array length in CharacterSelector. Vehicle spawning may not work correctly.");
+            }
+
+            // Share the UI camera reference if it's set here but not in CharacterSelector
+            if (uiCamera != null && characterSelector.uiCamera == null)
+            {
+                characterSelector.uiCamera = uiCamera;
+            }
+            // Or get the UI camera from CharacterSelector if it's not set here
+            else if (uiCamera == null && characterSelector.uiCamera != null)
+            {
+                uiCamera = characterSelector.uiCamera;
             }
         }
         else
@@ -63,6 +77,13 @@ public class CharacterSelectorClient : MonoBehaviour
             {
                 DestroyCurrentVehicle();
 
+                // Enable the UI camera when returning to menu
+                if (uiCamera != null)
+                {
+                    uiCamera.enabled = true;
+                    Debug.Log("UI camera enabled for menu in CharacterSelectorClient");
+                }
+
                 // Find and activate the menu canvas
                 ManagerSelector menuManager = FindObjectOfType<ManagerSelector>();
                 if (menuManager != null)
@@ -93,6 +114,13 @@ public class CharacterSelectorClient : MonoBehaviour
     private void HandleReturnToMenu()
     {
         DestroyCurrentVehicle();
+
+        // Enable the UI camera when returning to menu
+        if (uiCamera != null)
+        {
+            uiCamera.enabled = true;
+            Debug.Log("UI camera enabled for menu in HandleReturnToMenu");
+        }
     }
 
     // Destroy the current vehicle instance
@@ -155,6 +183,13 @@ public class CharacterSelectorClient : MonoBehaviour
         else
         {
             Debug.LogWarning("Camera controller not assigned. Cannot set camera target.");
+        }
+
+        // Disable the UI camera when driving
+        if (uiCamera != null)
+        {
+            uiCamera.enabled = false;
+            Debug.Log("UI camera disabled for driving in HandleVehicleSpawn");
         }
 
         Debug.Log("Vehicle spawned in CharacterSelectorClient: " + vehiclePrefab.name);

@@ -1313,7 +1313,7 @@ Transform:
   m_GameObject: {fileID: 2816533231887991293}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.415, z: -3.407}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1461,7 +1461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.02
   pieces:
-  - inertiaTensorMultiplier: 3
+  - inertiaTensorMultiplier: 1
     forkPrefab: {fileID: 7395035326454751476, guid: bfefc25d2c5e84751b5d10ef5bc27958,
       type: 3}
     position: {x: 0.3, y: -0.13, z: 0}
@@ -1471,7 +1471,7 @@ MonoBehaviour:
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
-  - inertiaTensorMultiplier: 3
+  - inertiaTensorMultiplier: 1
     forkPrefab: {fileID: 7395035326454751476, guid: bfefc25d2c5e84751b5d10ef5bc27958,
       type: 3}
     position: {x: -0.05, y: -0.13, z: 0}

@@ -10,6 +10,9 @@ public class SpawnVehicleButton : MonoBehaviour
     // Whether to use the custom spawn position
     public bool useCustomSpawnPosition = false;
 
+    // Reference to the UI camera
+    public Camera uiCamera;
+
     private Button button;
     private CharacterSelector characterSelector;
 
@@ -26,6 +29,17 @@ public class SpawnVehicleButton : MonoBehaviour
         else
         {
             button.onClick.AddListener(SpawnVehicle);
+
+            // Share the UI camera reference if it's set here but not in CharacterSelector
+            if (uiCamera != null && characterSelector.uiCamera == null)
+            {
+                characterSelector.uiCamera = uiCamera;
+            }
+            // Or get the UI camera from CharacterSelector if it's not set here
+            else if (uiCamera == null && characterSelector.uiCamera != null)
+            {
+                uiCamera = characterSelector.uiCamera;
+            }
         }
     }
 
@@ -62,6 +76,13 @@ public class SpawnVehicleButton : MonoBehaviour
             // Spawn the vehicle
             characterSelector.SpawnSelectedVehicle();
 
+            // Disable the UI camera when driving
+            if (uiCamera != null)
+            {
+                uiCamera.enabled = false;
+                Debug.Log("UI camera disabled for driving in SpawnVehicleButton");
+            }
+
             // Hide the menu
             ManagerSelector menuManager = FindObjectOfType<ManagerSelector>();
             if (menuManager != null)
@@ -76,6 +97,13 @@ public class SpawnVehicleButton : MonoBehaviour
     /// </summary>
     public void ReturnToMenu()
     {
+        // Enable the UI camera when returning to menu
+        if (uiCamera != null)
+        {
+            uiCamera.enabled = true;
+            Debug.Log("UI camera enabled for menu in SpawnVehicleButton");
+        }
+
         if (characterSelector != null)
         {
             characterSelector.ReturnToMenuAndDeleteVehicle();

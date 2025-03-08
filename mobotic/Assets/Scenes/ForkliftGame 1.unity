@@ -321,7 +321,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2044273966}
+  - {fileID: 358222609}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 34.54, y: 0, z: 0}
 --- !u!1 &8618042
@@ -2713,9 +2713,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
         type: 3}
+      propertyPath: uiCamera
+      value: 
+      objectReference: {fileID: 2044273964}
+    - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
+        type: 3}
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 8375361}
+    - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
+        type: 3}
+      propertyPath: uiCameraComponent
+      value: 
+      objectReference: {fileID: 2044273964}
     - target: {fileID: 1560416193785243767, guid: 6fb02524b76e74a8280694c296016d30,
         type: 3}
       propertyPath: vehicleSpawnPosition.y
@@ -13453,6 +13463,7 @@ MonoBehaviour:
     position: {x: 0.28, y: 0, z: 0.65}
     shape: {x: 0.1, y: 0.05, z: 0.28}
     maxHeight: 1.3
+    lockRotation: 0
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
@@ -13461,6 +13472,7 @@ MonoBehaviour:
     position: {x: -0.28, y: 0, z: 0.65}
     shape: {x: 0.1, y: 0.05, z: 0.28}
     maxHeight: 1.3
+    lockRotation: 0
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
@@ -17329,6 +17341,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -146.77905
       objectReference: {fileID: 0}
+    - target: {fileID: 4723584556590128694, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -210.35242
+      objectReference: {fileID: 0}
     - target: {fileID: 4723584556605961414, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_Color.a
@@ -17351,6 +17368,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
+      propertyPath: uiCamera
+      value: 
+      objectReference: {fileID: 2044273964}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 8375361}
@@ -17358,6 +17380,16 @@ PrefabInstance:
         type: 3}
       propertyPath: prefab.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: uiCameraComponent
+      value: 
+      objectReference: {fileID: 2044273964}
+    - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: vehicleSpawnPoint.y
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17404,19 +17436,19 @@ PrefabInstance:
         type: 3}
       propertyPath: vehiclePrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 2913331596354142065, guid: 1d263c3162fce4b12b67fdf6477a30fc,
+      objectReference: {fileID: 3123374953077614630, guid: c020063037cd64f53bcf140856b7b34f,
         type: 3}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: vehiclePrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 2710531721192692925, guid: 3227675e345d24c51b1e29baa7109296,
+      objectReference: {fileID: 4729874509846644984, guid: bde29908cbb654e6392d1bb7422f1064,
         type: 3}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: vehiclePrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 7220219661193170396, guid: ab06ddbe804954030a1a6fad7479d2a4,
+      objectReference: {fileID: 4686839938403273779, guid: 8b1135bb95d3d457dabbd697fc854aa8,
         type: 3}
     - target: {fileID: 4723584556637364992, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17569,6 +17601,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -12.836906
       objectReference: {fileID: 0}
+    - target: {fileID: 4723584557219993239, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: uiCamera
+      value: 
+      objectReference: {fileID: 2044273964}
+    - target: {fileID: 4723584557219993239, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: uiCameraComponent
+      value: 
+      objectReference: {fileID: 2044273964}
     - target: {fileID: 4723584557521936416, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -17577,7 +17619,7 @@ PrefabInstance:
     - target: {fileID: 4723584557523618079, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.7000132
+      value: -1.7000122
       objectReference: {fileID: 0}
     - target: {fileID: 4723584557903321338, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17608,6 +17650,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 101.64168
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723584558023479601, guid: 2148cb955eb644de68eff5ea2b396878,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -210.35217
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18702,6 +18749,38 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &358222608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358222609}
+  m_Layer: 0
+  m_Name: UICAM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &358222609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358222608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2044273966}
+  m_Father: {fileID: 8375364}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &362471841
 GameObject:
   m_ObjectHideFlags: 0
@@ -36130,7 +36209,7 @@ PrefabInstance:
     - target: {fileID: 2992496442062433111, guid: af77c032b59524ce7bfa56d1dbc97335,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2992496442062433111, guid: af77c032b59524ce7bfa56d1dbc97335,
         type: 3}
@@ -72545,7 +72624,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8375364}
+    m_TransformParent: {fileID: 358222609}
     m_Modifications:
     - target: {fileID: 8893912629012722488, guid: 3b3c21652af1c4839b7397eb8baf7ccc,
         type: 3}
@@ -72570,17 +72649,17 @@ PrefabInstance:
     - target: {fileID: 8893912629012722488, guid: 3b3c21652af1c4839b7397eb8baf7ccc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8893912629012722488, guid: 3b3c21652af1c4839b7397eb8baf7ccc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8893912629012722488, guid: 3b3c21652af1c4839b7397eb8baf7ccc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8893912629012722488, guid: 3b3c21652af1c4839b7397eb8baf7ccc,
         type: 3}

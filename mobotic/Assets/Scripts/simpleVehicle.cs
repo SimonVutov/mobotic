@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class WheelProperties
 {
+    public bool hideWheelGraphic = false;
     public int wheelState = 1;  // 1 = steerable wheel, 0 = free wheel
     [HideInInspector] public float biDirectional = 0; // optional advanced usage
     public Vector3 localPosition;        // wheel anchor in the car's local space
@@ -87,6 +88,14 @@ public class simpleVehicle : MonoBehaviour
                 w.wheelCircumference = 2f * Mathf.PI * wheelSize;
 
                 w.parentRigidbody = rb;
+
+                if (w.hideWheelGraphic)
+                {
+                    foreach (var renderer in w.wheelObject.GetComponentsInChildren<Renderer>())
+                    {
+                        renderer.enabled = false;
+                    }
+                }
             }
         }
     }
