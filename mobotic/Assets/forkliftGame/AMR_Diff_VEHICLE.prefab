@@ -1461,21 +1461,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.02
   pieces:
-  - inertiaTensorMultiplier: 50
+  - inertiaTensorMultiplier: 3
     forkPrefab: {fileID: 7395035326454751476, guid: bfefc25d2c5e84751b5d10ef5bc27958,
       type: 3}
     position: {x: 0.3, y: -0.13, z: 0}
     shape: {x: 10, y: 10, z: 10}
     maxHeight: 0.1
+    lockRotation: 0
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
-  - inertiaTensorMultiplier: 50
+  - inertiaTensorMultiplier: 3
     forkPrefab: {fileID: 7395035326454751476, guid: bfefc25d2c5e84751b5d10ef5bc27958,
       type: 3}
     position: {x: -0.05, y: -0.13, z: 0}
     shape: {x: 10, y: 10, z: 10}
     maxHeight: 0.1
+    lockRotation: 0
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}

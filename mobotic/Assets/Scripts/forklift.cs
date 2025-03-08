@@ -32,7 +32,7 @@ public class forklift : MonoBehaviour
             {
                 continue;
             }
-            rb.inertiaTensor = rb.inertiaTensor * piece.inertiaTensorMultiplier;
+            rb.inertiaTensor = piece.inertiaTensorMultiplier * Vector3.one;
 
             // If lockRotation is true, constrain the rigidbody rotation
             if (piece.lockRotation)
