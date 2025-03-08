@@ -6,6 +6,7 @@ public class WheelComponent : MonoBehaviour
 {
     [Header("Wheel Visual")]
     public Transform wheelVisual;  // Reference to existing wheel visual component
+    private Transform wheelRim;    // Will be set to the first child of wheelVisual
     
     [Header("Wheel Configuration")]
     public bool freeRoll = false;  // If true, wheel will free roll; if false, wheel is powered
@@ -41,7 +42,6 @@ public class WheelComponent : MonoBehaviour
     private float lastSuspensionLength = 0f;
     private float torque = 0f;
     private float hitPointForce;
-    private Transform wheelObject;
 
     private void OnValidate()
     {
@@ -92,8 +92,16 @@ public class WheelComponent : MonoBehaviour
             return;
         }
 
-        // Set up wheel object for physics
-        wheelObject = wheelVisual;
+        // Get the first child of wheelVisual (the rim/tire that should rotate)
+        if (wheelVisual.childCount > 0)
+        {
+            wheelRim = wheelVisual.GetChild(0);
+        }
+        else
+        {
+            Debug.LogError("Wheel visual has no children. Please add a child object to represent the rotating rim/tire.");
+            return;
+        }
         
         // Initialize wheel properties
         wheelCircumference = 2 * Mathf.PI * wheelSize;
@@ -128,7 +136,7 @@ public class WheelComponent : MonoBehaviour
 
     private void UpdateWheel()
     {
-        if (wheelObject == null || parentRigidbody == null) return;
+        if (wheelVisual == null || parentRigidbody == null) return;
 
         // Update wheel physics
         UpdateWheelForces();
@@ -143,7 +151,7 @@ public class WheelComponent : MonoBehaviour
     private void UpdateWheelForces()
     {
         // Calculate torque from input (only if not free rolling)
-        torque = freeRoll ? 0 : Mathf.Clamp(input.y, -1, 1) * maxTorque;
+        torque = freeRoll ? 0 : input.y;
 
         // Calculate force from torque
         if (vehicleController != null)
@@ -184,7 +192,7 @@ public class WheelComponent : MonoBehaviour
         }
         else
         {
-            float turnAngleRad = turnAngle * input.x * Mathf.Deg2Rad;
+            float turnAngleRad = input.x * Mathf.Deg2Rad;
             
             localSlipDirection = wheelGrip * new Vector3(
                 -localVelocity.x * Mathf.Cos(turnAngleRad) + 
@@ -229,49 +237,64 @@ public class WheelComponent : MonoBehaviour
                 wheelWorldPosition);
 
             // Position wheel at contact point
-            wheelObject.position = hit.point + transform.up * wheelSize;
+            wheelVisual.position = hit.point + transform.up * wheelSize;
             lastSuspensionLength = hit.distance;
         }
         else
         {
             // Position wheel at raycast endpoint when no contact
-            wheelObject.position = wheelWorldPosition - transform.up * wheelSize;
+            wheelVisual.position = wheelWorldPosition - transform.up * wheelSize;
             suspensionForceDirection = Vector3.zero;
         }
     }
 
     private void UpdateWheelRotation()
     {
-        // Spin the wheel based on velocity
-        Vector3 forwardInWheelSpace = wheelObject.InverseTransformDirection(
-            parentRigidbody.GetPointVelocity(wheelWorldPosition)
-        );
-
-        float wheelRotationSpeed = forwardInWheelSpace.z * 360 / wheelCircumference;
-        wheelVisual.Rotate(Vector3.right, wheelRotationSpeed * Time.fixedDeltaTime, Space.Self);
-
-        // Rotate wheel for steering or alignment with velocity
+        // STEP 1: Update the wheelVisual rotation (steering - Y axis only)
         if (!freeRoll)
         {
-            // Steering wheel
-            Quaternion targetRotation = Quaternion.Euler(0, input.x * turnAngle, 0);
-            wheelObject.localRotation = Quaternion.Lerp(
-                wheelObject.localRotation, 
-                targetRotation, 
+            // Only rotate around Y axis for steering
+            Quaternion targetYRotation = Quaternion.Euler(0, input.x, 0);
+            wheelVisual.localRotation = Quaternion.Lerp(
+                wheelVisual.localRotation,
+                targetYRotation,
                 Time.fixedDeltaTime * 10);
         }
         else if (parentRigidbody.velocity.magnitude > 0.04f && 
                 suspensionForceDirection != Vector3.zero)
         {
-            // Free wheel aligns with velocity
-            Quaternion targetRotation = Quaternion.LookRotation(
-                parentRigidbody.GetPointVelocity(wheelWorldPosition), 
-                transform.up);
+            // For free rolling wheels, align with velocity direction but only on Y axis
+            Vector3 velocity = parentRigidbody.GetPointVelocity(wheelWorldPosition);
+            if (velocity.magnitude > 0.1f)
+            {
+                // Project velocity onto XZ plane
+                Vector3 velocityXZ = new Vector3(velocity.x, 0, velocity.z).normalized;
                 
-            wheelObject.rotation = Quaternion.Lerp(
-                wheelObject.rotation, 
-                targetRotation, 
-                Time.fixedDeltaTime * 10);
+                // Convert to local direction relative to parent
+                Vector3 localDir = transform.InverseTransformDirection(velocityXZ);
+                
+                // Calculate target Y rotation only
+                float targetYAngle = Mathf.Atan2(localDir.x, localDir.z) * Mathf.Rad2Deg;
+                Quaternion targetYRotation = Quaternion.Euler(0, targetYAngle, 0);
+                
+                wheelVisual.localRotation = Quaternion.Lerp(
+                    wheelVisual.localRotation,
+                    targetYRotation,
+                    Time.fixedDeltaTime * 10);
+            }
+        }
+
+        // STEP 2: Update the wheelRim rotation (rolling motion)
+        if (wheelRim != null)
+        {
+            // Calculate rotation speed based on forward velocity in local wheel space
+            Vector3 wheelLocalVelocity = wheelVisual.InverseTransformDirection(
+                parentRigidbody.GetPointVelocity(wheelWorldPosition));
+                
+            float wheelRotationSpeed = wheelLocalVelocity.z * 360 / wheelCircumference;
+            
+            // Rotate the rim (first child) around its X axis
+            wheelRim.Rotate(Vector3.right, wheelRotationSpeed * Time.fixedDeltaTime, Space.Self);
         }
     }
 
