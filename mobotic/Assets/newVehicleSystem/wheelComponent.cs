@@ -8,15 +8,13 @@ public class WheelComponent : MonoBehaviour
     public Transform wheelVisual;  // Reference to existing wheel visual component
     
     [Header("Wheel Configuration")]
-    [Range(0, 2)] [Tooltip("0 = fully free, 1 = powered, 2 = free rolling")]
-    public int wheelState = 1;
+    public bool freeRoll = false;  // If true, wheel will free roll; if false, wheel is powered
     public Vector3 wheelPosition;
     [Range(0.1f, 1f)] public float wheelSize = 0.3f;
     [Range(0f, 90f)] public float turnAngle = 0f;
     public bool flipX = false;
     
     [Header("Physics Properties")]
-    [Range(0f, 1f)] public float biDirectional = 0f;
     [Range(0.1f, 5f)] public float frictionCoefficient = 1f;
     [Range(10f, 1000f)] public float suspensionForce = 90f;
     [Range(10f, 1000f)] public float maxTorque = 300f;
@@ -144,10 +142,8 @@ public class WheelComponent : MonoBehaviour
 
     private void UpdateWheelForces()
     {
-        // Calculate torque from input
-        torque = Mathf.Clamp(
-            input.y + input.x * biDirectional, 
-            -1, 1) * maxTorque;
+        // Calculate torque from input (only if not free rolling)
+        torque = freeRoll ? 0 : Mathf.Clamp(input.y, -1, 1) * maxTorque;
 
         // Calculate force from torque
         if (vehicleController != null)
@@ -181,8 +177,8 @@ public class WheelComponent : MonoBehaviour
         // Check forward direction
         isMovingForward = localVelocity.z > 0;
 
-        // Calculate slip for different wheel states
-        if (wheelState == 0)
+        // Calculate slip direction
+        if (freeRoll)
         {
             localSlipDirection = Vector3.zero;
         }
@@ -255,7 +251,7 @@ public class WheelComponent : MonoBehaviour
         wheelVisual.Rotate(Vector3.right, wheelRotationSpeed * Time.fixedDeltaTime, Space.Self);
 
         // Rotate wheel for steering or alignment with velocity
-        if (wheelState == 1)
+        if (!freeRoll)
         {
             // Steering wheel
             Quaternion targetRotation = Quaternion.Euler(0, input.x * turnAngle, 0);
@@ -264,9 +260,8 @@ public class WheelComponent : MonoBehaviour
                 targetRotation, 
                 Time.fixedDeltaTime * 10);
         }
-        else if (wheelState == 0 && 
-                 parentRigidbody.velocity.magnitude > 0.04f && 
-                 suspensionForceDirection != Vector3.zero)
+        else if (parentRigidbody.velocity.magnitude > 0.04f && 
+                suspensionForceDirection != Vector3.zero)
         {
             // Free wheel aligns with velocity
             Quaternion targetRotation = Quaternion.LookRotation(
