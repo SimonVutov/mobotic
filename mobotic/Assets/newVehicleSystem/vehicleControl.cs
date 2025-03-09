@@ -22,6 +22,7 @@ public class WheelReference
 
 public class vehicleControl : MonoBehaviour
 {
+    public Vector3 centerOfMass = new Vector3(0, 0, 0);
     public WheelReference[] wheels;
 
     public int sectionCount = 1;
@@ -34,6 +35,12 @@ public class vehicleControl : MonoBehaviour
             child.wheel.GetComponent<WheelComponent>().parentRigidbody = GetComponent<Rigidbody>();
             child.wheel.GetComponent<WheelComponent>().vehicleController = this;
         }
+    }
+
+    void Start()
+    {
+        // add center of mass offset to current center of mass
+        GetComponent<Rigidbody>().centerOfMass += centerOfMass;
     }
 
     void Update()

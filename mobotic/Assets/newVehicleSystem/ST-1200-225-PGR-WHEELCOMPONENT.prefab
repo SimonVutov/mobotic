@@ -110,7 +110,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.763, y: -0.45, z: -0.809}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7055956960424929879}
@@ -130,11 +130,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wheelVisual: {fileID: 7055956960424929879}
   freeRoll: 0
-  wheelPosition: {x: 0, y: 0, z: 0}
-  wheelSize: 0.3
+  wheelRadius: 0.105
   flipX: 0
+  suspensionLength: 0.1
   frictionCoefficient: 1
-  suspensionForce: 36
+  suspensionForce: 90
   maxGrip: 250
   wheelGrip: 4
   suspensionForceClamp: 200

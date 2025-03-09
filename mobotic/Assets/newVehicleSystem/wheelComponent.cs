@@ -7,6 +7,7 @@ public class WheelComponent : MonoBehaviour
     [Header("Wheel Visual")]
     public Transform wheelVisual;  // Reference to existing wheel visual component
     private Transform wheelRim;    // Will be set to the first child of wheelVisual
+    public bool hideWheelVisual = false;
     
     [Header("Wheel Configuration")]
     public bool freeRoll = false;  // If true, wheel will free roll; if false, wheel is powered
@@ -14,7 +15,7 @@ public class WheelComponent : MonoBehaviour
     public bool flipX = false;
     
     [Header("Suspension")]
-    [Range(0.1f, 2f)] public float suspensionLength = 0.1f;
+    [Range(0.01f, 2f)] public float suspensionLength = 0.1f;
     
     [Header("Physics Properties")]
     [Range(0.1f, 5f)] public float frictionCoefficient = 1f;
@@ -43,6 +44,7 @@ public class WheelComponent : MonoBehaviour
     private float torque = 0f;
     private float hitPointForce;
     private int rollingDirectionMultiplier = 1;
+    private float lerpedInputX = 0f;
 
     private void OnValidate()
     {
@@ -58,12 +60,14 @@ public class WheelComponent : MonoBehaviour
     {
         InitializeComponents();
         InitializeWheel();
+        if (hideWheelVisual) wheelVisual.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
     {
         ApplyAerodynamicDrag();
         UpdateWheel();
+        lerpedInputX = Mathf.Lerp(lerpedInputX, input.x, Time.fixedDeltaTime * 5);
     }
 
     #region Initialization Methods
@@ -199,7 +203,7 @@ public class WheelComponent : MonoBehaviour
         else
         {
             // Get the current steering rotation in wheel space
-            Quaternion steeringRotation = Quaternion.Euler(0, input.x, 0);
+            Quaternion steeringRotation = Quaternion.Euler(0, lerpedInputX, 0);
             
             // Transform the local velocity to wheel-aligned space
             Vector3 wheelAlignedVelocity = steeringRotation * localVelocity;
@@ -267,7 +271,7 @@ public class WheelComponent : MonoBehaviour
         if (!freeRoll)
         {
             // Only rotate around Y axis for steering
-            Quaternion targetYRotation = Quaternion.Euler(0, -input.x, 0);
+            Quaternion targetYRotation = Quaternion.Euler(0, -lerpedInputX, 0);
             wheelVisual.localRotation = Quaternion.Lerp(
                 wheelVisual.localRotation,
                 targetYRotation,

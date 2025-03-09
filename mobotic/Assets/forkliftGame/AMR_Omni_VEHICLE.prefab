@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 2508837532803560300}
   - component: {fileID: 2442607156070224391}
   - component: {fileID: 2239188007690715402}
+  - component: {fileID: 9062010402999463346}
   m_Layer: 0
   m_Name: AMR_Omni_VEHICLE
   m_TagString: Untagged
@@ -388,6 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23fc34e69f0e4556990daf9549142fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerOfMass: {x: 0, y: 0, z: 0}
   wheels:
   - wheel: {fileID: 1896650192178272607}
     forwardsKey: 119
@@ -419,6 +421,18 @@ MonoBehaviour:
     torque: 20
   sectionCount: 1
   massInKg: 100
+--- !u!114 &9062010402999463346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686839938403273779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171fbceda32a94c34ab4665ce771af93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6175882438140704973
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +685,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: suspensionLength
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -770,7 +784,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: suspensionLength
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -869,7 +883,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: suspensionLength
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -968,7 +982,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: suspensionLength
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

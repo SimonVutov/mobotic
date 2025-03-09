@@ -1297,6 +1297,7 @@ GameObject:
   - component: {fileID: 439209691658363238}
   - component: {fileID: 6914150187737186088}
   - component: {fileID: 4759207810592652543}
+  - component: {fileID: 5059563859375945701}
   m_Layer: 0
   m_Name: AMR_Diff_VEHICLE
   m_TagString: Untagged
@@ -1482,6 +1483,18 @@ MonoBehaviour:
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
   piecesObjects: []
+--- !u!114 &5059563859375945701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2816533231887991293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171fbceda32a94c34ab4665ce771af93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3076412097280139932
 GameObject:
   m_ObjectHideFlags: 0
