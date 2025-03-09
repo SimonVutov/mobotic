@@ -11072,14 +11072,14 @@ MonoBehaviour:
     leftKey: 97
     rightKey: 100
     turnAngle: -110
-    torque: 200
+    torque: 50
   - wheel: {fileID: 505672524}
     forwardsKey: 119
     backwardsKey: 115
     leftKey: 97
     rightKey: 100
     turnAngle: -110
-    torque: 200
+    torque: 50
   - wheel: {fileID: 598822198}
     forwardsKey: 119
     backwardsKey: 115

@@ -262,7 +262,7 @@ public class WheelComponent : MonoBehaviour
             wheelVisual.localRotation = Quaternion.Lerp(
                 wheelVisual.localRotation,
                 targetYRotation,
-                Time.fixedDeltaTime * 10);
+                Time.fixedDeltaTime * 15);
         }
         else if (parentRigidbody.velocity.magnitude > 0.04f && 
                 suspensionForceDirection != Vector3.zero)
@@ -284,7 +284,7 @@ public class WheelComponent : MonoBehaviour
                 wheelVisual.localRotation = Quaternion.Lerp(
                     wheelVisual.localRotation,
                     targetYRotation,
-                    Time.fixedDeltaTime * 10);
+                    Time.fixedDeltaTime * 15);
             }
         }
 
