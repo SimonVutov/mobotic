@@ -13,6 +13,7 @@ public class WheelReference
 
     public float turnAngle = 45;
     public float torque = 200;
+    public Rigidbody parentRigidbody;
     
 }
 
@@ -28,8 +29,14 @@ public class vehicleControl : MonoBehaviour
     {
         foreach (WheelReference child in wheels)
         {
-            child.wheel.GetComponent<WheelComponent>().parentRigidbody = GetComponent<Rigidbody>();
             child.wheel.GetComponent<WheelComponent>().vehicleController = this;
+            if (child.parentRigidbody == null)
+            {
+                child.parentRigidbody = GetComponent<Rigidbody>();
+            }
+
+            child.wheel.GetComponent<WheelComponent>().parentRigidbody = GetComponent<Rigidbody>();
+
         }
     }
     // Start is called before the first frame update
