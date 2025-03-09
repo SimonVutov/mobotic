@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class forklift : MonoBehaviour
 {
@@ -8,14 +10,20 @@ public class forklift : MonoBehaviour
     public List<Piece> pieces;
     [HideInInspector]
     public List<GameObject> piecesObjects;
-    private float input;
+    public float input;
 
     private float springForce = 210f;
     private float dampingForce = 9f;
     private float clampForce = 210f;
+    private Gamepad gamepad;
 
     private void Start()
     {
+        gamepad = Gamepad.current;
+        if (gamepad == null)
+        {
+            Debug.LogError("XXXXX No gamepad detected! Make sure your Logitech F710 is connected. XXX");
+        }
         foreach (Piece piece in pieces)
         {
             piece.pieceObject = Instantiate(piece.forkPrefab, transform.position, transform.rotation);
@@ -46,7 +54,11 @@ public class forklift : MonoBehaviour
     }
     void Update()
     {
-        input = Input.GetKey(KeyCode.E) ? 1 : Input.GetKey(KeyCode.Q) ? -1 : 0;
+        if (gamepad == null) return;
+        // input = Input.GetKey(KeyCode.E) ? 1 : Input.GetKey(KeyCode.Q) ? -1 : 0;
+        input = (gamepad.leftTrigger.ReadValue() * (-1)) + gamepad.rightTrigger.ReadValue();
+       
+
     }
 
     void FixedUpdate()

@@ -31,7 +31,7 @@ public class WheelComponent : MonoBehaviour
     public Rigidbody parentRigidbody;
 
     // Hidden Public Variables
-    [HideInInspector] public Vector2 input = Vector2.zero;
+    public Vector2 input = Vector2.zero;
     [HideInInspector] public bool isMovingForward = false;
     [HideInInspector] public vehicleControl vehicleController;
 

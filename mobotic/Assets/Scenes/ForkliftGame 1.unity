@@ -234,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   angles:
   - {x: 0, y: 1, z: -1.8}
-  - {x: 0, y: 2.5, z: -0.1}
+  - {x: 0, y: 3.8, z: -0.1}
   - {x: 1, y: 0.5, z: 1.5}
   lookAts:
   - {x: 0, y: 0, z: 0}
@@ -13477,6 +13477,7 @@ MonoBehaviour:
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
   piecesObjects: []
+  input: 0
 --- !u!1 &252101359
 GameObject:
   m_ObjectHideFlags: 0
@@ -17344,7 +17345,7 @@ PrefabInstance:
     - target: {fileID: 4723584556590128694, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -210.35242
+      value: -210.3524
       objectReference: {fileID: 0}
     - target: {fileID: 4723584556605961414, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17614,7 +17615,7 @@ PrefabInstance:
     - target: {fileID: 4723584557521936416, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 78.5
+      value: 78.50003
       objectReference: {fileID: 0}
     - target: {fileID: 4723584557523618079, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
@@ -17654,7 +17655,7 @@ PrefabInstance:
     - target: {fileID: 4723584558023479601, guid: 2148cb955eb644de68eff5ea2b396878,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -210.35217
+      value: -210.35216
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

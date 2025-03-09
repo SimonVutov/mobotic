@@ -502,6 +502,8 @@ GameObject:
   - component: {fileID: 5059563859375945701}
   - component: {fileID: 1011011470523374435}
   - component: {fileID: 8128013881028585861}
+  - component: {fileID: 155354780362858558}
+  - component: {fileID: 4051136565909648659}
   m_Layer: 0
   m_Name: AMR_Diff_VEHICLE
   m_TagString: Untagged
@@ -670,6 +672,7 @@ MonoBehaviour:
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
   piecesObjects: []
+  input: 0
 --- !u!114 &5059563859375945701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +692,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2816533231887991293}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a23fc34e69f0e4556990daf9549142fb, type: 3}
   m_Name: 
@@ -761,6 +764,34 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5466788, y: 0.24298105, z: 1.2751708}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &155354780362858558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2816533231887991293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a93bb6d750dc4f41811baf61cf29167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftWheel: {fileID: 8844192882068237265}
+  RightWheel: {fileID: 7326222280718955258}
+  MaxTurnAngle: 0
+  MaxTorque: 100
+--- !u!114 &4051136565909648659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2816533231887991293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c067596004fb0f542b70129e1e2897fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3795687346887720794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,7 +1441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9172587113376604017
 Transform:
   m_ObjectHideFlags: 0
@@ -2078,7 +2109,7 @@ PrefabInstance:
     - target: {fileID: 3069755248031533071, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_Name
-      value: ST-1200-225-PGR-WHEELCOMPONENT (1)
+      value: LeftWheel
       objectReference: {fileID: 0}
     - target: {fileID: 3069755248031533071, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2088,7 +2119,7 @@ PrefabInstance:
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.272
+      value: -0.227
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2098,12 +2129,12 @@ PrefabInstance:
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.017200008
+      value: -0.00087349955
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.0032253026
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2113,7 +2144,7 @@ PrefabInstance:
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.9999948
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2128,7 +2159,7 @@ PrefabInstance:
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -180.37
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2166,6 +2197,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2795463472936211974}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8844192882068237265 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
+    type: 3}
+  m_PrefabInstance: {fileID: 2795463472936211974}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f7dbb3ccffbe45168ad21da688b2115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4169315106263945005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2177,12 +2220,12 @@ PrefabInstance:
     - target: {fileID: 3069755248031533071, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_Name
-      value: ST-1200-225-PGR-WHEELCOMPONENT
+      value: RightWheel
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.272
+      value: 0.221
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2231,6 +2274,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
+      propertyPath: input.x
+      value: 2.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
+        type: 3}
+      propertyPath: input.y
+      value: -237.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
+        type: 3}
       propertyPath: wheelRadius
       value: 0.2
       objectReference: {fileID: 0}
@@ -2254,6 +2307,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a5e22635b7e74e7083e9483bf42a508, type: 3}
+--- !u!114 &7326222280718955258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
+    type: 3}
+  m_PrefabInstance: {fileID: 4169315106263945005}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f7dbb3ccffbe45168ad21da688b2115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7707648017355120504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,

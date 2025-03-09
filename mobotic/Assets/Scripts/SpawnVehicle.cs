@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class SpawnVehicle : MonoBehaviour
 {
     public GameObject[] vehiclePrefabs; // Assign 4 vehicle prefabs in the Inspector.

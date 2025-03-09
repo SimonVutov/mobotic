@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
     public Vector3[] angles;
     public Vector3[] lookAts;
     int curAngle = 0;
+    private Gamepad gamepad;
 
 
     public bool ignoreRaycast = true;
@@ -43,6 +45,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        gamepad = Gamepad.current;
         //adjust camera near clipping
         Camera.main.nearClipPlane = 0.01f;
 
@@ -85,7 +88,7 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) || gamepad.dpad.left.wasPressedThisFrame)
         {
             curAngle++;
             if (curAngle >= angles.Length)

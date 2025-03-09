@@ -402,12 +402,13 @@ MonoBehaviour:
       type: 3}
     position: {x: -0.05, y: -0.25, z: 1}
     shape: {x: 10, y: 10, z: 12}
-    maxHeight: 0.4
+    maxHeight: 0.97
     lockRotation: 0
     pieceObject: {fileID: 0}
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
   piecesObjects: []
+  input: 0
 --- !u!114 &8580065165351314854
 MonoBehaviour:
   m_ObjectHideFlags: 0
