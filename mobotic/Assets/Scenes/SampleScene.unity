@@ -11066,10 +11066,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheels:
-  - {fileID: 742093446}
-  - {fileID: 505672524}
-  - {fileID: 598822198}
-  - {fileID: 2009223082}
+  - wheel: {fileID: 742093446}
+    forwardsKey: 119
+    backwardsKey: 115
+    leftKey: 97
+    rightKey: 100
+    turnAngle: -110
+    torque: 200
+  - wheel: {fileID: 505672524}
+    forwardsKey: 119
+    backwardsKey: 115
+    leftKey: 97
+    rightKey: 100
+    turnAngle: -110
+    torque: 200
+  - wheel: {fileID: 598822198}
+    forwardsKey: 119
+    backwardsKey: 115
+    leftKey: 97
+    rightKey: 100
+    turnAngle: 0
+    torque: 0
+  - wheel: {fileID: 2009223082}
+    forwardsKey: 119
+    backwardsKey: 115
+    leftKey: 97
+    rightKey: 100
+    turnAngle: 0
+    torque: 0
   sectionCount: 1
   massInKg: 100
 --- !u!54 &278315734
@@ -19586,11 +19610,9 @@ MonoBehaviour:
   freeRoll: 0
   wheelPosition: {x: 0, y: 0, z: 0}
   wheelSize: 0.3
-  turnAngle: 22.4
   flipX: 0
   frictionCoefficient: 1
   suspensionForce: 36
-  maxTorque: 50
   maxGrip: 250
   wheelGrip: 4
   suspensionForceClamp: 200
@@ -24053,11 +24075,9 @@ MonoBehaviour:
   freeRoll: 0
   wheelPosition: {x: 0, y: 0, z: 0}
   wheelSize: 0.3
-  turnAngle: 0
   flipX: 0
   frictionCoefficient: 1
   suspensionForce: 36
-  maxTorque: 50
   maxGrip: 250
   wheelGrip: 4
   suspensionForceClamp: 200
@@ -29452,11 +29472,9 @@ MonoBehaviour:
   freeRoll: 0
   wheelPosition: {x: 0, y: 0, z: 0}
   wheelSize: 0.3
-  turnAngle: 22.4
   flipX: 0
   frictionCoefficient: 1
   suspensionForce: 36
-  maxTorque: 50
   maxGrip: 250
   wheelGrip: 4
   suspensionForceClamp: 200
@@ -80269,11 +80287,9 @@ MonoBehaviour:
   freeRoll: 0
   wheelPosition: {x: 0, y: 0, z: 0}
   wheelSize: 0.3
-  turnAngle: 0
   flipX: 0
   frictionCoefficient: 1
   suspensionForce: 36
-  maxTorque: 50
   maxGrip: 250
   wheelGrip: 4
   suspensionForceClamp: 200

@@ -12,13 +12,11 @@ public class WheelComponent : MonoBehaviour
     public bool freeRoll = false;  // If true, wheel will free roll; if false, wheel is powered
     public Vector3 wheelPosition;
     [Range(0.1f, 1f)] public float wheelSize = 0.3f;
-    [Range(0f, 90f)] public float turnAngle = 0f;
     public bool flipX = false;
     
     [Header("Physics Properties")]
     [Range(0.1f, 5f)] public float frictionCoefficient = 1f;
     [Range(10f, 1000f)] public float suspensionForce = 90f;
-    [Range(10f, 1000f)] public float maxTorque = 300f;
     [Range(10f, 1000f)] public float maxGrip = 250f;
     [Range(0.1f, 30f)] public float wheelGrip = 15f;
     [Range(0.1f, 400f)] public float suspensionForceClamp = 200f;
@@ -50,7 +48,6 @@ public class WheelComponent : MonoBehaviour
         if (suspensionForce <= 0) suspensionForce = 270.0f;
         if (maxGrip <= 0) maxGrip = 400.0f;
         if (frictionCoefficient <= 0) frictionCoefficient = 1f;
-        if (maxTorque <= 0) maxTorque = 90.0f;
     }
 
     private void Start()
@@ -192,21 +189,28 @@ public class WheelComponent : MonoBehaviour
         }
         else
         {
-            float turnAngleRad = input.x * Mathf.Deg2Rad;
+            // Get the current steering rotation in wheel space
+            Quaternion steeringRotation = Quaternion.Euler(0, input.x, 0);
             
-            localSlipDirection = wheelGrip * new Vector3(
-                -localVelocity.x * Mathf.Cos(turnAngleRad) + 
-                localVelocity.z * Mathf.Sin(turnAngleRad),
-                0,
-                (-localVelocity.z * Mathf.Cos(turnAngleRad) - 
-                localVelocity.x * Mathf.Sin(turnAngleRad)) * 
-                rollingResistance + hitPointForce / wheelGrip
-            );
+            // Transform the local velocity to wheel-aligned space
+            Vector3 wheelAlignedVelocity = steeringRotation * localVelocity;
+            
+            // Calculate lateral grip (sideways resistance)
+            float lateralGrip = -wheelAlignedVelocity.x * wheelGrip;
+            
+            // Calculate longitudinal grip (forward/backward force including drive torque)
+            float longitudinalGrip = -wheelAlignedVelocity.z * rollingResistance * wheelGrip + hitPointForce;
+            
+            // Combine forces in wheel-aligned space
+            Vector3 wheelAlignedForces = new Vector3(lateralGrip, 0, longitudinalGrip);
+            
+            // Transform back to vehicle space
+            localSlipDirection = Quaternion.Inverse(steeringRotation) * wheelAlignedForces;
         }
 
         // Convert to world space and clamp magnitude
         worldSlipDirection = Vector3.ClampMagnitude(
-            transform.rotation * localSlipDirection, 
+            transform.TransformDirection(localSlipDirection), 
             maxGrip);
     }
 
@@ -254,7 +258,7 @@ public class WheelComponent : MonoBehaviour
         if (!freeRoll)
         {
             // Only rotate around Y axis for steering
-            Quaternion targetYRotation = Quaternion.Euler(0, input.x, 0);
+            Quaternion targetYRotation = Quaternion.Euler(0, -input.x, 0);
             wheelVisual.localRotation = Quaternion.Lerp(
                 wheelVisual.localRotation,
                 targetYRotation,
