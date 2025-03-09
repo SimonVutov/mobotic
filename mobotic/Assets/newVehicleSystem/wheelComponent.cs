@@ -10,9 +10,11 @@ public class WheelComponent : MonoBehaviour
     
     [Header("Wheel Configuration")]
     public bool freeRoll = false;  // If true, wheel will free roll; if false, wheel is powered
-    public Vector3 wheelPosition;
-    [Range(0.1f, 1f)] public float wheelSize = 0.3f;
+    [Range(0.1f, 1f)] public float wheelRadius = 0.3f;
     public bool flipX = false;
+    
+    [Header("Suspension")]
+    [Range(0.1f, 2f)] public float suspensionLength = 0.1f;
     
     [Header("Physics Properties")]
     [Range(0.1f, 5f)] public float frictionCoefficient = 1f;
@@ -40,14 +42,16 @@ public class WheelComponent : MonoBehaviour
     private float lastSuspensionLength = 0f;
     private float torque = 0f;
     private float hitPointForce;
+    private int rollingDirectionMultiplier = 1;
 
     private void OnValidate()
     {
         // Set default values if not already set
-        if (wheelSize <= 0) wheelSize = 0.3f;
+        if (wheelRadius <= 0) wheelRadius = 0.3f;
         if (suspensionForce <= 0) suspensionForce = 270.0f;
         if (maxGrip <= 0) maxGrip = 400.0f;
         if (frictionCoefficient <= 0) frictionCoefficient = 1f;
+        if (suspensionLength <= 0) suspensionLength = 0.1f;
     }
 
     private void Start()
@@ -101,18 +105,23 @@ public class WheelComponent : MonoBehaviour
         }
         
         // Initialize wheel properties
-        wheelCircumference = 2 * Mathf.PI * wheelSize;
+        wheelCircumference = 2 * Mathf.PI * wheelRadius;
         
-        // Handle wheel visual flipping
+        // Handle wheel visual flipping and set rolling direction multiplier
         if (flipX)
         {
             Vector3 visualScale = wheelVisual.localScale;
             visualScale.x = -Mathf.Abs(visualScale.x);
             wheelVisual.localScale = visualScale;
+            rollingDirectionMultiplier = -1; // Reverse the rolling direction
+        }
+        else
+        {
+            rollingDirectionMultiplier = 1;
         }
         
-        // Set initial position
-        wheelWorldPosition = transform.TransformPoint(wheelPosition);
+        // Set initial position (now using transform position as base)
+        wheelWorldPosition = transform.position;
     }
 
     #endregion
@@ -153,12 +162,12 @@ public class WheelComponent : MonoBehaviour
         // Calculate force from torque
         if (vehicleController != null)
         {
-            hitPointForce = torque / wheelSize * 
+            hitPointForce = torque / wheelRadius * 
                            (vehicleController.sectionCount / vehicleController.massInKg);
         }
         else
         {
-            hitPointForce = torque / wheelSize;
+            hitPointForce = torque / wheelRadius;
         }
 
         // Apply friction
@@ -166,8 +175,8 @@ public class WheelComponent : MonoBehaviour
                  Mathf.Sign(parentRigidbody.GetPointVelocity(wheelWorldPosition).z) * 
                  Time.fixedDeltaTime;
 
-        // Update world position
-        wheelWorldPosition = transform.TransformPoint(wheelPosition);
+        // Update world position (now using transform position)
+        wheelWorldPosition = transform.position;
 
         // Calculate slip direction
         CalculateSlipDirection();
@@ -218,12 +227,12 @@ public class WheelComponent : MonoBehaviour
     {
         // Raycast to check ground contact
         RaycastHit hit;
-        if (Physics.Raycast(wheelWorldPosition, -transform.up, out hit, wheelSize * 2))
+        if (Physics.Raycast(wheelWorldPosition, -transform.up, out hit, suspensionLength + wheelRadius))
         {
             // Calculate suspension force
             suspensionForceDirection = hit.normal * 
                                      Mathf.Clamp(
-                                         wheelSize * 2 - hit.distance + 
+                                         suspensionLength + wheelRadius - hit.distance + 
                                          Mathf.Clamp(lastSuspensionLength - hit.distance, -1, 1) * 
                                          dampingAmount, 
                                          0, Mathf.Infinity) * 
@@ -241,13 +250,13 @@ public class WheelComponent : MonoBehaviour
                 wheelWorldPosition);
 
             // Position wheel at contact point
-            wheelVisual.position = hit.point + transform.up * wheelSize;
+            wheelVisual.position = hit.point + transform.up * wheelRadius;
             lastSuspensionLength = hit.distance;
         }
         else
         {
-            // Position wheel at raycast endpoint when no contact
-            wheelVisual.position = wheelWorldPosition - transform.up * wheelSize;
+            // Position wheel at maximum extension when no contact
+            wheelVisual.position = wheelWorldPosition - transform.up * suspensionLength;
             suspensionForceDirection = Vector3.zero;
         }
     }
@@ -297,6 +306,9 @@ public class WheelComponent : MonoBehaviour
                 
             float wheelRotationSpeed = wheelLocalVelocity.z * 360 / wheelCircumference;
             
+            // Apply the direction multiplier based on flipX setting
+            wheelRotationSpeed *= rollingDirectionMultiplier;
+            
             // Rotate the rim (first child) around its X axis
             wheelRim.Rotate(Vector3.right, wheelRotationSpeed * Time.fixedDeltaTime, Space.Self);
         }
@@ -310,8 +322,12 @@ public class WheelComponent : MonoBehaviour
     {
         // Draw wheel position
         Gizmos.color = Color.green;
-        Vector3 gizmoPosition = Application.isPlaying ? wheelWorldPosition : transform.TransformPoint(wheelPosition);
+        Vector3 gizmoPosition = Application.isPlaying ? wheelWorldPosition : transform.position;
         Gizmos.DrawSphere(gizmoPosition, 0.1f);
+        
+        // Draw suspension range
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(gizmoPosition, gizmoPosition - transform.up * (suspensionLength + wheelRadius));
 
         if (!Application.isPlaying) return;
 

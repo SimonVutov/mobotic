@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class WheelReference
 {
+    // set defaults button, to setup this wheel
+
     public Transform wheel;
     public KeyCode forwardsKey = KeyCode.W;
     public KeyCode backwardsKey = KeyCode.S;
@@ -32,13 +35,7 @@ public class vehicleControl : MonoBehaviour
             child.wheel.GetComponent<WheelComponent>().vehicleController = this;
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         foreach (WheelReference child in wheels)
