@@ -1,3 +1,5 @@
+// VEHICLECONTROL.CS
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +18,6 @@ public class WheelReference
 
     public float turnAngle = 45;
     public float torque = 200;
-    
 }
 
 

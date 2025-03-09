@@ -212,10 +212,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelVisual: {fileID: 6841638714767013939}
+  hideWheelVisual: 0
   freeRoll: 1
   wheelRadius: 0.5
   flipX: 0
-  suspensionLength: 0.5
+  suspensionLength: 0.01
   frictionCoefficient: 1
   suspensionForce: 36
   maxGrip: 250

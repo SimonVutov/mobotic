@@ -1,3 +1,5 @@
+// WHEELCOMPONENT.CS
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,9 +28,9 @@ public class WheelComponent : MonoBehaviour
     [Range(0.1f, 10f)] public float dampingAmount = 2.5f;
     [Range(0.01f, 1.0f)] public float dragCoefficient = 0.3f;
     [Range(0.001f, 0.1f)] public float rollingResistance = 0.015f;
+    public Rigidbody parentRigidbody;
 
     // Hidden Public Variables
-    [HideInInspector] public Rigidbody parentRigidbody;
     [HideInInspector] public Vector2 input = Vector2.zero;
     [HideInInspector] public bool isMovingForward = false;
     [HideInInspector] public vehicleControl vehicleController;
@@ -81,7 +83,10 @@ public class WheelComponent : MonoBehaviour
         }
         
         // Find rigidbody
-        parentRigidbody = GetComponentInParent<Rigidbody>();
+        if (parentRigidbody == null)
+        {
+            parentRigidbody = GetComponentInParent<Rigidbody>();
+        }
         if (parentRigidbody == null)
         {
             Debug.LogError("No Rigidbody component found on the GameObject or its parent.");
