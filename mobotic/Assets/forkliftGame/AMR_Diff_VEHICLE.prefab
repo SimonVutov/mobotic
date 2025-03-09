@@ -1731,7 +1731,7 @@ PrefabInstance:
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: wheelRadius
-      value: 0.209
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -1741,7 +1741,7 @@ PrefabInstance:
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: suspensionForce
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -1771,7 +1771,7 @@ PrefabInstance:
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.096
+      value: -0.1092
       objectReference: {fileID: 0}
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -1850,7 +1850,7 @@ PrefabInstance:
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: wheelRadius
-      value: 0.209
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -1860,7 +1860,7 @@ PrefabInstance:
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: suspensionForce
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -1890,7 +1890,7 @@ PrefabInstance:
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.096
+      value: -0.1092
       objectReference: {fileID: 0}
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -1979,7 +1979,7 @@ PrefabInstance:
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: suspensionForce
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -2009,7 +2009,7 @@ PrefabInstance:
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.096
+      value: -0.1092
       objectReference: {fileID: 0}
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -2093,7 +2093,7 @@ PrefabInstance:
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0678
+      value: -0.081
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2138,7 +2138,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: wheelRadius
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2148,7 +2148,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: suspensionForce
-      value: 20
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2187,7 +2187,7 @@ PrefabInstance:
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0678
+      value: -0.081
       objectReference: {fileID: 0}
     - target: {fileID: 5993007936274321493, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2232,7 +2232,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: wheelRadius
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2242,7 +2242,7 @@ PrefabInstance:
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
       propertyPath: suspensionForce
-      value: 20
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6662963115757829591, guid: 0a5e22635b7e74e7083e9483bf42a508,
         type: 3}
@@ -2286,7 +2286,7 @@ PrefabInstance:
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: suspensionForce
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 379026018922852829, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
@@ -2316,7 +2316,7 @@ PrefabInstance:
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.096
+      value: -0.1092
       objectReference: {fileID: 0}
     - target: {fileID: 2495845494896574820, guid: 46d52fccc64804155872bc58b09a9773,
         type: 3}
