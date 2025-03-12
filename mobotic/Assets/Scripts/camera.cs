@@ -116,9 +116,17 @@ public class CameraController : MonoBehaviour
             return;
         }
 
+        Vector3 lookAt = Vector3.zero;
+
         // Calculate the desired position and rotation
         Vector3 desiredPos = angles[curAngle].x * target.right + angles[curAngle].y * target.up + angles[curAngle].z * target.forward;
-        Vector3 lookAt = lookAts[curAngle].x * target.right + lookAts[curAngle].y * target.up + lookAts[curAngle].z * target.forward;
+        if (curAngle >= lookAts.Length)
+        {
+            lookAt = Vector3.zero;
+        } else {
+            lookAt = lookAts[curAngle].x * target.right + lookAts[curAngle].y * target.up + lookAts[curAngle].z * target.forward;
+        }
+        
 
         // Update the camera's position and rotation
         Vector3 velocity = Vector3.zero;
