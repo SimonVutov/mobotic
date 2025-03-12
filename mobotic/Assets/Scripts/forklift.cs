@@ -22,7 +22,7 @@ public class forklift : MonoBehaviour
         gamepad = Gamepad.current;
         if (gamepad == null)
         {
-            Debug.LogError("XXXXX No gamepad detected! Make sure your Logitech F710 is connected. XXX");
+            Debug.Log("XXXXX No gamepad detected! Make sure your Logitech F710 is connected. XXX");
         }
         foreach (Piece piece in pieces)
         {

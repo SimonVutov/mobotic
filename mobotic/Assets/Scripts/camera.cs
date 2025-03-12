@@ -88,7 +88,7 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.C) || gamepad.dpad.left.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.C) || (gamepad != null && gamepad.dpad.left.wasPressedThisFrame))
         {
             curAngle++;
             if (curAngle >= angles.Length)
