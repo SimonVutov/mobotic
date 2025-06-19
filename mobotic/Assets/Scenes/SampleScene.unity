@@ -47125,6 +47125,7 @@ MonoBehaviour:
     targetHeight: 0
     oldForce: {x: 0, y: 0, z: 0}
   piecesObjects: []
+  input: 0
 --- !u!43 &1220033057
 Mesh:
   m_ObjectHideFlags: 0

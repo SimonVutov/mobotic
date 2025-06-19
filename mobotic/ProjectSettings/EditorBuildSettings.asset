@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ForkliftGame 1.unity
     guid: 73abe9fce3851754b9c10c4d2cbd629d
+  - enabled: 1
+    path: Assets/Scenes/ForkliftGame.unity
+    guid: a4785e6077b6b482e9946bf7f0c4353f
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 332ad9e6735de43b6bba8bd18681ca77
   m_configObjects: {}

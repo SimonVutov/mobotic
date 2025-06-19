@@ -54,7 +54,11 @@ public class forklift : MonoBehaviour
     }
     void Update()
     {
-        if (gamepad == null) return;
+        if (gamepad == null)
+        {
+            input = Input.GetKey(KeyCode.E) ? 1 : Input.GetKey(KeyCode.Q) ? -1 : 0;
+            return;
+        }
         // input = Input.GetKey(KeyCode.E) ? 1 : Input.GetKey(KeyCode.Q) ? -1 : 0;
         input = (gamepad.leftTrigger.ReadValue() * (-1)) + gamepad.rightTrigger.ReadValue();
        
@@ -77,7 +81,7 @@ public class forklift : MonoBehaviour
 
             if (piece.pieceObject.GetComponent<Rigidbody>() == null)
             {
-                // piece is just a visual object, move it directly
+                // piece is just a visual object, move it directly (no rigidbody)
                 piece.pieceObject.transform.position = targetWorldPosition;
                 piece.pieceObject.transform.rotation = transform.rotation;
 
